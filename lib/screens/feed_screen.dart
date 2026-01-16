@@ -11,58 +11,55 @@ class FeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF111214),
-      body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              /// Collapsible header (disappears on scroll)
-              const SliverToBoxAdapter(child: _TopAppBar()),
-
-              /// Sticky categories
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _CategoryHeaderDelegate(),
-              ),
-            ];
-          },
-          body: const _FeedThreadList(),
-        ),
+      body: NestedScrollView(
+        headerSliverBuilder: (_, __) => const [
+          _CollapsingTopBar(),
+          SliverPersistentHeader(pinned: true, delegate: _CategoryHeaderDelegate()),
+        ],
+        body: const _FeedThreadList(),
       ),
     );
   }
 }
 
-/// ================= CATEGORY HEADER DELEGATE =================
-class _CategoryHeaderDelegate extends SliverPersistentHeaderDelegate {
-  @override
-  double get minExtent => 60;
+/// =============================================================
+/// Collapsing Top AppBar with Profile + Greeting
+/// =============================================================
+class _CollapsingTopBar extends StatelessWidget {
+  const _CollapsingTopBar();
 
   @override
-  double get maxExtent => 60;
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: Colors.transparent,
+      pinned: false,
+      floating: false,
+      elevation: 0,
+      expandedHeight: 92,
+      collapsedHeight: 56, // ❌ must NOT be zero
+      automaticallyImplyLeading: false,
+      flexibleSpace: LayoutBuilder(
+        builder: (context, constraints) {
+          final progress = (constraints.maxHeight - kToolbarHeight) / (92 - kToolbarHeight);
+          final clamped = progress.clamp(0.0, 1.0);
 
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(
-      color: const Color(0xFF111214),
-      padding: const EdgeInsets.only(top: 8),
-      alignment: Alignment.centerLeft,
-      child: const _CategoryChips(),
+          return Opacity(
+            opacity: clamped,
+            child: Transform.translate(
+              offset: Offset(0, (1 - clamped) * -20),
+              child: _TopAppBarContent(),
+            ),
+          );
+        },
+      ),
     );
   }
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
-      false;
 }
 
-/// ================= TOP APP BAR =================
-class _TopAppBar extends StatelessWidget {
-  const _TopAppBar();
-
+/// =============================================================
+/// Top AppBar Content (Profile + Greeting + Notification)
+/// =============================================================
+class _TopAppBarContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRect(
@@ -71,15 +68,13 @@ class _TopAppBar extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
           decoration: BoxDecoration(
-            color: const Color(0xFF111214).withOpacity(0.8),
-            border: Border(
-              bottom: BorderSide(color: Colors.white.withOpacity(0.06)),
-            ),
+            color: const Color(0xFF111214).withOpacity(0.85),
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.06))),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              /// Profile + Greeting
+              // Profile + Greeting
               Row(
                 children: [
                   Container(
@@ -87,14 +82,11 @@ class _TopAppBar extends StatelessWidget {
                     width: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFF1E3B8A).withOpacity(0.3),
-                        width: 2,
-                      ),
+                      border: Border.all(color: const Color(0xFF14B8A6).withOpacity(0.4), width: 2),
                     ),
-                    child: ClipOval(
-                      child: Image.network(
-                        'https://i.pravatar.cc/150?img=12',
+                    child: const ClipOval(
+                      child: Image(
+                        image: NetworkImage('https://i.pravatar.cc/150?img=12'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -102,6 +94,7 @@ class _TopAppBar extends StatelessWidget {
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         'MEMBER PRO',
@@ -125,18 +118,12 @@ class _TopAppBar extends StatelessWidget {
                 ],
               ),
 
-              /// Notification Button
+              // Notification
               Container(
                 height: 40,
                 width: 40,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF171A29),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.notifications_none,
-                  color: Colors.white,
-                ),
+                decoration: const BoxDecoration(color: Color(0xFF171A29), shape: BoxShape.circle),
+                child: const Icon(Icons.notifications_none, color: Colors.white),
               ),
             ],
           ),
@@ -146,41 +133,60 @@ class _TopAppBar extends StatelessWidget {
   }
 }
 
-/// ================= CATEGORY CHIPS =================
+/// =============================================================
+/// Sticky Category Header
+/// =============================================================
+class _CategoryHeaderDelegate extends SliverPersistentHeaderDelegate {
+  const _CategoryHeaderDelegate();
+
+  @override
+  double get minExtent => 48;
+
+  @override
+  double get maxExtent => 48;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: const Color(0xFF111214),
+      padding: const EdgeInsets.only(top: 0, bottom: 8),
+      alignment: Alignment.centerLeft,
+      child: const _CategoryChips(),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => false;
+}
+
+/// =============================================================
+/// Category Chips
+/// =============================================================
 class _CategoryChips extends StatelessWidget {
   const _CategoryChips();
 
+  static const categories = ['Discover', 'Communication', 'Soft Skills', 'Design', 'Leadership'];
+
   @override
   Widget build(BuildContext context) {
-    final categories = [
-      'Discover',
-      'Communication',
-      'Soft Skills',
-      'Design',
-      'Leadership',
-    ];
-
     return SizedBox(
       height: 48,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final isActive = index == 0;
-          return _ChipItem(label: categories[index], active: isActive);
-        },
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: categories.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        itemBuilder: (_, index) => _ChipItem(label: categories[index], active: index == 0),
       ),
     );
   }
 }
 
 class _ChipItem extends StatelessWidget {
+  const _ChipItem({required this.label, this.active = false});
+
   final String label;
   final bool active;
-
-  const _ChipItem({required this.label, this.active = false});
 
   @override
   Widget build(BuildContext context) {
@@ -191,13 +197,8 @@ class _ChipItem extends StatelessWidget {
         color: active ? const Color(0xFF14B8A6) : const Color(0xFF171A29),
         borderRadius: BorderRadius.circular(14),
         boxShadow: active
-            ? [
-                BoxShadow(
-                  color: const Color(0xFF14B8A6).withOpacity(0.2),
-                  blurRadius: 10,
-                ),
-              ]
-            : [],
+            ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.25), blurRadius: 10)]
+            : null,
       ),
       child: Text(
         label,
@@ -211,11 +212,13 @@ class _ChipItem extends StatelessWidget {
   }
 }
 
-/// ================= POSTS LIST =================
+/// =============================================================
+/// Feed Posts List
+/// =============================================================
 class _FeedThreadList extends StatelessWidget {
   const _FeedThreadList({super.key});
 
-  static final List<Map> posts = [
+  static const List<Map<String, dynamic>> posts = [
     {
       'avatarUrl': 'https://i.pravatar.cc/150?img=12',
       'name': 'Sarah J.',
@@ -257,14 +260,12 @@ class _FeedThreadList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      primary: false, // ❌ Must be false inside NestedScrollView
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       itemCount: posts.length,
       separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
+      itemBuilder: (_, index) {
         final post = posts[index];
-
         return CommunityThreadCard(
           avatarUrl: post['avatarUrl'],
           name: post['name'],

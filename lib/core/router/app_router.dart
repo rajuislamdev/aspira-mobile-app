@@ -1,6 +1,7 @@
 import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/screens/core_screen.dart';
 import 'package:aspira/screens/feed_screen.dart';
+import 'package:aspira/screens/login_screen.dart';
 import 'package:aspira/screens/login_with_email_screen.dart';
 import 'package:aspira/screens/onboarding/onboarding_screen.dart';
 import 'package:aspira/screens/splash_screen.dart';
@@ -44,7 +45,7 @@ class AppRouter {
       GoRoute(
         path: '/login',
         name: RouteLocationName.login,
-        builder: (context, state) => LoginWithEmailScreen(),
+        builder: (context, state) => LoginScreen(),
       ),
       // Login With Email
       GoRoute(

@@ -1,5 +1,6 @@
-import 'package:aspira/screens/login_with_email_screen.dart';
+import 'package:aspira/core/router/route_location_name.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -110,9 +111,7 @@ class LoginScreen extends StatelessWidget {
                             background: const Color(0xFF14B8A6),
                             textColor: const Color(0xFF111214),
                             onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (_) => const LoginWithEmailScreen()),
-                              );
+                              context.pushNamed(RouteLocationName.loginWithEmail);
                             },
                           ),
 

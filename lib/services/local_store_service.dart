@@ -52,6 +52,11 @@ class LocalStorageService {
     return _settingsBox.get('is_onboarding_complete');
   }
 
+  Future<void> logout() async {
+    await _authBox.clear();
+    await _settingsBox.clear();
+  }
+
   // Clear all data from boxes
   Future<void> clearAllData() async {
     await _authBox.clear();

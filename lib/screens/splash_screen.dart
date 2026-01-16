@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final String? token = await LocalStorageService().getToken();
       final bool? isOnBoardingCompleted = await LocalStorageService().getIsOnboardingComplete();
       if (token != null && isOnBoardingCompleted != null && isOnBoardingCompleted) {
-        context.pushNamed(RouteLocationName.core);
+        context.pushNamed(RouteLocationName.feed);
         return;
       }
       if (token != null) {
