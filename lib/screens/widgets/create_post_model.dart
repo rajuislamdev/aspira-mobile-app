@@ -16,9 +16,7 @@ class CreatePostModal extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               color: const Color(0xFF111317).withOpacity(0.95),
-              border: const Border(
-                bottom: BorderSide(color: Colors.grey, width: 0.3),
-              ),
+              border: const Border(bottom: BorderSide(color: Colors.grey, width: 0.3)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,10 +25,7 @@ class CreatePostModal extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                   child: const Text(
                     "Cancel",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Text(
@@ -45,19 +40,11 @@ class CreatePostModal extends StatelessWidget {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF13B9A5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     elevation: 4,
                   ),
-                  child: const Text(
-                    "Post",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  child: const Text("Post", style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -71,11 +58,7 @@ class CreatePostModal extends StatelessWidget {
             child: Column(
               children: [
                 // Title Input
-                _InputField(
-                  label: "Post Title",
-                  hint: "Enter a catchy title...",
-                  maxLines: 1,
-                ),
+                _InputField(label: "Post Title", hint: "Enter a catchy title...", maxLines: 1),
                 const SizedBox(height: 16),
                 // Category Dropdown
                 _CategoryDropdown(),
@@ -83,8 +66,7 @@ class CreatePostModal extends StatelessWidget {
                 // Body Text Area
                 _InputField(
                   label: "Content",
-                  hint:
-                      "What is on your mind? Share your insights with the community...",
+                  hint: "What is on your mind? Share your insights with the community...",
                   maxLines: 8,
                 ),
               ],
@@ -123,11 +105,7 @@ class _InputField extends StatelessWidget {
   final String hint;
   final int maxLines;
 
-  const _InputField({
-    required this.label,
-    required this.hint,
-    this.maxLines = 1,
-  });
+  const _InputField({required this.label, required this.hint, this.maxLines = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -156,10 +134,7 @@ class _InputField extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           ),
         ),
       ],
@@ -213,10 +188,7 @@ class _CategoryDropdownState extends State<_CategoryDropdown> {
             dropdownColor: const Color(0xFF1A1E26),
             underline: const SizedBox(),
             isExpanded: true,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
             items: categories.entries
                 .map(
                   (e) => DropdownMenuItem<String>(
@@ -256,11 +228,7 @@ class _MediaButton extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           label.toUpperCase(),
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold),
         ),
       ],
     );

@@ -1,4 +1,4 @@
-import 'package:aspira/screens/splash_screen.dart';
+import 'package:aspira/core/router/app_router.dart';
 import 'package:aspira/services/local_store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: SplashScreen(),
+      routerConfig: AppRouter.router,
     );
   }
 }

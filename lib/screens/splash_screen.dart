@@ -1,8 +1,7 @@
-import 'package:aspira/screens/core_screen.dart';
-import 'package:aspira/screens/onboarding_screen.dart';
-import 'package:aspira/screens/signup_screen.dart';
+import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/services/local_store_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,20 +20,13 @@ class _SplashScreenState extends State<SplashScreen> {
       final String? token = await LocalStorageService().getToken();
       final bool? isOnBoardingCompleted = await LocalStorageService().getIsOnboardingComplete();
       if (token != null && isOnBoardingCompleted != null && isOnBoardingCompleted) {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const CoreScreen()));
-
+        context.pushNamed(RouteLocationName.core);
         return;
       }
       if (token != null) {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const OnboardingScreen()));
+        context.pushNamed(RouteLocationName.onboarding);
       } else {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const SignUpScreen()));
+        context.pushNamed(RouteLocationName.login);
       }
     });
   }
