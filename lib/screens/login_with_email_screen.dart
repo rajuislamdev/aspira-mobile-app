@@ -1,9 +1,10 @@
 import 'package:aspira/core/errors/failure.dart';
+import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/ui_support.dart';
-import 'package:aspira/screens/onboarding/onboarding_screen.dart';
 import 'package:aspira/view_models/auth/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginWithEmailScreen extends StatefulWidget {
@@ -130,12 +131,7 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                                 next.whenOrNull(
                                   data: (data) {
                                     if (data != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const OnboardingScreen(),
-                                        ),
-                                      );
+                                      context.go('/${RouteLocationName.feed}');
                                     }
                                   },
                                   error: (error, s) {

@@ -22,9 +22,7 @@ class DioClient {
                 responseType: ResponseType.json,
               ),
             )
-            ..interceptors.add(
-              LogInterceptor(responseBody: true, requestBody: true),
-            )
+            ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true))
             ..interceptors.add(DioInterceptors());
 
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
@@ -54,6 +52,14 @@ class DioClient {
   Future<Response> delete(String endpoint, {dynamic data}) async {
     try {
       return await _dio.delete(endpoint, data: data);
+    } catch (error) {
+      throw DioErrorHandler.handleError(error);
+    }
+  }
+
+  Future<Response> patch(String endpoint, {dynamic data}) async {
+    try {
+      return await _dio.patch(endpoint, data: data);
     } catch (error) {
       throw DioErrorHandler.handleError(error);
     }

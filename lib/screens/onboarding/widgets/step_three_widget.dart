@@ -2,6 +2,7 @@ import 'package:aspira/core/errors/error_view.dart';
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/models/experience_model/experience_model.dart';
 import 'package:aspira/view_models/profile_option_service_view_model/fetch_profile_option_service_view_model.dart';
+import 'package:aspira/view_models/profile_option_service_view_model/selected_profile_option_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,6 +52,7 @@ class StepThreeWidget extends StatelessWidget {
             child: Consumer(
               builder: (context, ref, child) {
                 final viewModel = ref.watch(fetchProfileOptionViewModel);
+                final selectedProfileOption = ref.watch(selectedProfileOptionViewModel);
                 return viewModel.when(
                   data: (profileOptions) {
                     if (profileOptions == null) {
@@ -59,16 +61,25 @@ class StepThreeWidget extends StatelessWidget {
                       );
                     }
                     return ListView.separated(
-                      itemBuilder: (context, index) => ExperienceCard(
-                        option: ExperienceOption(
-                          title: profileOptions.experienceLevels[index].label,
-                          description:
-                              'Starting fresh or have very limited knowledge in this field.',
-                          icon: Icons.child_care,
-                        ),
-                        selected: false,
-                        onTap: () {},
-                      ),
+                      itemBuilder: (context, index) {
+                        final isSelected =
+                            selectedProfileOption?.experience ==
+                            profileOptions.experienceLevels[index].id;
+                        return ExperienceCard(
+                          option: ExperienceOption(
+                            title: profileOptions.experienceLevels[index].label,
+                            description:
+                                'Starting fresh or have very limited knowledge in this field.',
+                            icon: Icons.child_care,
+                          ),
+                          selected: isSelected,
+                          onTap: () => ref
+                              .read(selectedProfileOptionViewModel.notifier)
+                              .updateExperience(
+                                experienceId: profileOptions.experienceLevels[index].id,
+                              ),
+                        );
+                      },
                       separatorBuilder: (context, index) => const SizedBox(height: 16),
                       itemCount: profileOptions.experienceLevels.length,
                     );

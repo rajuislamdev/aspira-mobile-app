@@ -2,6 +2,7 @@ import 'package:aspira/core/errors/error_view.dart';
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/models/goal/goal_model.dart';
 import 'package:aspira/view_models/profile_option_service_view_model/fetch_profile_option_service_view_model.dart';
+import 'package:aspira/view_models/profile_option_service_view_model/selected_profile_option_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,14 +116,50 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
             child: Consumer(
               builder: (context, ref, child) {
                 final viewModel = ref.watch(fetchProfileOptionViewModel);
+                final selectedProfileOption = ref.watch(selectedProfileOptionViewModel);
+
                 return viewModel.when(
                   data: (profileOptions) {
                     if (profileOptions == null) {
                       return ErrorView(message: 'No profile options found.');
                     }
                     return ListView.separated(
-                      itemCount: 8,
+                      padding: EdgeInsets.only(bottom: 80),
+                      itemCount: profileOptions.goals.length + 1,
                       itemBuilder: (context, index) {
+                        bool isSelected =
+                            selectedProfileOption?.goal ==
+                            profileOptions
+                                .goals[index == profileOptions.goals.length ? index - 1 : index]
+                                .id;
+                        if (index == profileOptions.goals.length) {
+                          return Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF14B8A6).withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: const Color(0xFF14B8A6).withOpacity(0.15)),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    '"Small daily actions lead to massive results over time. 15 minutes a day is perfect for steady progress."',
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 13,
+                                      color: Colors.white70,
+                                      height: 1.5,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                         return GoalCard(
                           goal: GoalOption(
                             title: profileOptions.goals[index].label,
@@ -130,8 +167,10 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
                             icon: Icons.schedule,
                             recommended: true,
                           ),
-                          selected: false,
-                          onTap: () {},
+                          selected: isSelected,
+                          onTap: () => ref
+                              .read(selectedProfileOptionViewModel.notifier)
+                              .updateGoal(goalId: profileOptions.goals[index].id),
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -188,32 +227,6 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
 
             //   ],
             // ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: const Color(0xFF14B8A6).withOpacity(0.05),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFF14B8A6).withOpacity(0.15)),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  '"Small daily actions lead to massive results over time. 15 minutes a day is perfect for steady progress."',
-                  style: GoogleFonts.manrope(
-                    fontSize: 13,
-                    color: Colors.white70,
-                    height: 1.5,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ],

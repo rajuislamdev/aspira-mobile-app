@@ -16,4 +16,8 @@ class AuthService {
   Future<Response> login({required Map<String, dynamic> payload}) async {
     return await dioClient.post(ApiEndpoints.login, data: payload);
   }
+
+  Future<Response> updateProfile({required Map<String, dynamic> payload}) async {
+    return await dioClient.patch(ApiEndpoints.user, data: payload);
+  }
 }

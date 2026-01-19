@@ -1,6 +1,8 @@
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/models/interest/interest_model.dart';
 import 'package:aspira/view_models/profile_option_service_view_model/fetch_profile_option_service_view_model.dart';
+import 'package:aspira/view_models/profile_option_service_view_model/selected_profile_option_view_model.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,8 +18,6 @@ class StepOneWidget extends StatefulWidget {
 
 class _StepOneWidgetState extends State<StepOneWidget> {
   late ScrollController _scrollController;
-
-  final Set<String> selected = {};
 
   bool _hideDescription = false;
   double _lastOffset = 0;
@@ -118,7 +118,6 @@ class _StepOneWidgetState extends State<StepOneWidget> {
             child: Consumer(
               builder: (context, ref, child) {
                 final viewModel = ref.watch(fetchProfileOptionViewModel);
-
                 return viewModel.when(
                   data: (profileOptions) {
                     if (profileOptions == null) {
@@ -135,8 +134,10 @@ class _StepOneWidgetState extends State<StepOneWidget> {
                         return InterestCategorySection(
                           title: title,
                           interests: interests,
-                          selected: selected,
-                          onTap: (value) {},
+
+                          onTap: (value) => ref
+                              .read(selectedProfileOptionViewModel.notifier)
+                              .updateInterest(interestId: value.id),
                         );
                       },
                       separatorBuilder: (_, __) => const SizedBox(height: 12),
@@ -163,14 +164,12 @@ class _StepOneWidgetState extends State<StepOneWidget> {
 class InterestCategorySection extends StatelessWidget {
   final String title;
   final List<InterestModel> interests;
-  final Set<String> selected;
   final Function(InterestModel) onTap;
 
   const InterestCategorySection({
     super.key,
     required this.title,
     required this.interests,
-    required this.selected,
     required this.onTap,
   });
 
@@ -193,33 +192,40 @@ class InterestCategorySection extends StatelessWidget {
         ),
 
         /// Chips
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: interests.map((interest) {
-            final isSelected = selected.contains(interest);
-
-            return GestureDetector(
-              onTap: () => onTap(interest),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFF14B8A6) : const Color(0xFF171A29),
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: isSelected ? const Color(0xFF14B8A6) : Colors.white12),
-                ),
-                child: Text(
-                  interest.name,
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: isSelected ? const Color(0xFF111214) : Colors.white70,
+        Consumer(
+          builder: (context, ref, child) {
+            final selectedOptionViewModel = ref.watch(selectedProfileOptionViewModel);
+            final selectedOptions = selectedOptionViewModel?.interests ?? [];
+            return Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: interests.mapIndexed((index, interest) {
+                final isSelected = selectedOptions.contains(interest.id);
+                return GestureDetector(
+                  onTap: () => onTap(interest),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: isSelected ? const Color(0xFF14B8A6) : const Color(0xFF171A29),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: isSelected ? const Color(0xFF14B8A6) : Colors.white12,
+                      ),
+                    ),
+                    child: Text(
+                      interest.name,
+                      style: GoogleFonts.manrope(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        color: isSelected ? const Color(0xFF111214) : Colors.white70,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              }).toList(),
             );
-          }).toList(),
+          },
         ),
       ],
     );

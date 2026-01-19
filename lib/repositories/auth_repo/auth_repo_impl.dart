@@ -44,4 +44,16 @@ class AuthRepoImpl implements IAuthRepo {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Result<String> updateProfile({required Map<String, dynamic> payload}) async {
+    try {
+      await authService.updateProfile(payload: payload);
+      return Right('Profile updated successfully');
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
