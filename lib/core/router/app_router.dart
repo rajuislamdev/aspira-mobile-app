@@ -4,7 +4,7 @@ import 'package:aspira/screens/feed_screen.dart';
 import 'package:aspira/screens/login_screen.dart';
 import 'package:aspira/screens/login_with_email_screen.dart';
 import 'package:aspira/screens/onboarding/onboarding_screen.dart';
-import 'package:aspira/screens/splash_screen.dart';
+import 'package:aspira/screens/app_launch_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,7 +15,7 @@ class AppRouter {
       GoRoute(
         path: '/splash',
         name: RouteLocationName.splash,
-        builder: (context, state) => SplashScreen(),
+        builder: (context, state) => AppLaunchScreen(),
       ),
 
       GoRoute(

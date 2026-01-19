@@ -32,7 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       } else {
         LocalStorageService().saveIsOnboardingComplete(true);
         // Navigate to core screen after last step
-        context.go(RouteLocationName.feed);
+        context.go('/${RouteLocationName.feed}');
       }
     });
   }

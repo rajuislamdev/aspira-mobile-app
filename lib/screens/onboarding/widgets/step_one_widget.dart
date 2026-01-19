@@ -1,19 +1,9 @@
+import 'package:aspira/core/errors/failure.dart';
+import 'package:aspira/models/interest/interest_model.dart';
+import 'package:aspira/view_models/profile_option_service_view_model/fetch_profile_option_service_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-/// ------------------ SAMPLE DATA ------------------
-
-final Map<String, List<String>> categorizedInterests = {
-  'Communication & Soft Skills': [
-    'Public Speaking',
-    'Storytelling',
-    'Negotiation',
-    'Emotional Intelligence',
-  ],
-  'Technology & Coding': ['Flutter', 'Web Development', 'Backend', 'AI', 'System Design'],
-  'Business & Leadership': ['Leadership', 'Entrepreneurship', 'Startup Building', 'Marketing'],
-  'Personal Growth': ['Self Discipline', 'Confidence', 'Time Management', 'Mindset'],
-};
 
 /// ------------------ STEP ONE ------------------
 
@@ -125,26 +115,41 @@ class _StepOneWidgetState extends State<StepOneWidget> {
 
           /// ------------------ LIST ------------------
           Expanded(
-            child: ListView.separated(
-              controller: _scrollController,
-              padding: const EdgeInsets.only(top: 16, bottom: 100),
-              itemCount: categorizedInterests.length,
-              itemBuilder: (context, index) {
-                final title = categorizedInterests.keys.elementAt(index);
-                final interests = categorizedInterests.values.elementAt(index);
+            child: Consumer(
+              builder: (context, ref, child) {
+                final viewModel = ref.watch(fetchProfileOptionViewModel);
 
-                return InterestCategorySection(
-                  title: title,
-                  interests: interests,
-                  selected: selected,
-                  onTap: (value) {
-                    setState(() {
-                      selected.contains(value) ? selected.remove(value) : selected.add(value);
-                    });
+                return viewModel.when(
+                  data: (profileOptions) {
+                    if (profileOptions == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return ListView.separated(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.only(top: 16, bottom: 100),
+                      itemCount: profileOptions.interests.length,
+                      itemBuilder: (context, index) {
+                        final title = profileOptions.interests[index].name;
+                        final interests = profileOptions.interests[index].interestList;
+
+                        return InterestCategorySection(
+                          title: title,
+                          interests: interests,
+                          selected: selected,
+                          onTap: (value) {},
+                        );
+                      },
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    );
                   },
+                  error: (error, s) {
+                    final message = error is Failure ? error.message : error.toString();
+                    return Text(message);
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator(color: Color(0xFF14B8A6))),
                 );
               },
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
             ),
           ),
         ],
@@ -157,9 +162,9 @@ class _StepOneWidgetState extends State<StepOneWidget> {
 
 class InterestCategorySection extends StatelessWidget {
   final String title;
-  final List<String> interests;
+  final List<InterestModel> interests;
   final Set<String> selected;
-  final Function(String) onTap;
+  final Function(InterestModel) onTap;
 
   const InterestCategorySection({
     super.key,
@@ -205,7 +210,7 @@ class InterestCategorySection extends StatelessWidget {
                   border: Border.all(color: isSelected ? const Color(0xFF14B8A6) : Colors.white12),
                 ),
                 child: Text(
-                  interest,
+                  interest.name,
                   style: GoogleFonts.manrope(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,

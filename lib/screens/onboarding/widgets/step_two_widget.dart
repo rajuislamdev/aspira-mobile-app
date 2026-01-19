@@ -1,6 +1,9 @@
+import 'package:aspira/core/errors/error_view.dart';
+import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/models/goal/goal_model.dart';
-import 'package:aspira/screens/onboarding/onboarding_screen.dart';
+import 'package:aspira/view_models/profile_option_service_view_model/fetch_profile_option_service_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StepTwoWidget extends StatefulWidget {
@@ -109,71 +112,108 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: ListView(
-              controller: _scrollController,
-              padding: const EdgeInsets.only(top: 16, bottom: 140),
-              children: [
-                GoalCard(
-                  goal: GoalOption(title: 'Casual', subtitle: '5 mins / day', icon: Icons.coffee),
-                  selected: selectedGoal == 'Casual',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 16),
-                GoalCard(
-                  goal: GoalOption(
-                    title: 'Regular',
-                    subtitle: '15 mins / day',
-                    icon: Icons.schedule,
-                    recommended: true,
-                  ),
-                  selected: selectedGoal == 'Regular',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 16),
-                GoalCard(
-                  goal: GoalOption(
-                    title: 'Serious',
-                    subtitle: '30 mins / day',
-                    icon: Icons.menu_book,
-                  ),
-                  selected: selectedGoal == 'Serious',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 16),
-                GoalCard(
-                  goal: GoalOption(title: 'Intense', subtitle: '60+ mins / day', icon: Icons.bolt),
-                  selected: selectedGoal == 'Intense',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF14B8A6).withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFF14B8A6).withOpacity(0.15)),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          '"Small daily actions lead to massive results over time. 15 minutes a day is perfect for steady progress."',
-                          style: GoogleFonts.manrope(
-                            fontSize: 13,
-                            color: Colors.white70,
-                            height: 1.5,
-                            fontStyle: FontStyle.italic,
+            child: Consumer(
+              builder: (context, ref, child) {
+                final viewModel = ref.watch(fetchProfileOptionViewModel);
+                return viewModel.when(
+                  data: (profileOptions) {
+                    if (profileOptions == null) {
+                      return ErrorView(message: 'No profile options found.');
+                    }
+                    return ListView.separated(
+                      itemCount: 8,
+                      itemBuilder: (context, index) {
+                        return GoalCard(
+                          goal: GoalOption(
+                            title: profileOptions.goals[index].label,
+                            subtitle: '15 mins / day',
+                            icon: Icons.schedule,
+                            recommended: true,
                           ),
-                        ),
-                      ),
-                    ],
+                          selected: false,
+                          onTap: () {},
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 16);
+                      },
+                    );
+                  },
+                  error: (error, s) {
+                    final message = error is Failure ? error.message : error.toString();
+                    return ErrorView(message: message);
+                  },
+                  loading: () => Center(child: CircularProgressIndicator(color: Colors.white)),
+                );
+              },
+            ),
+
+            // ListView(
+            //   controller: _scrollController,
+            //   padding: const EdgeInsets.only(top: 16, bottom: 140),
+            //   children: [
+            //     GoalCard(
+            //       goal: GoalOption(title: 'Casual', subtitle: '5 mins / day', icon: Icons.coffee),
+            //       selected: selectedGoal == 'Casual',
+            //       onTap: () {},
+            //     ),
+            //     const SizedBox(height: 16),
+            //     GoalCard(
+            //       goal: GoalOption(
+            //         title: 'Regular',
+            //         subtitle: '15 mins / day',
+            //         icon: Icons.schedule,
+            //         recommended: true,
+            //       ),
+            //       selected: selectedGoal == 'Regular',
+            //       onTap: () {},
+            //     ),
+            //     const SizedBox(height: 16),
+            //     GoalCard(
+            //       goal: GoalOption(
+            //         title: 'Serious',
+            //         subtitle: '30 mins / day',
+            //         icon: Icons.menu_book,
+            //       ),
+            //       selected: selectedGoal == 'Serious',
+            //       onTap: () {},
+            //     ),
+            //     const SizedBox(height: 16),
+            //     GoalCard(
+            //       goal: GoalOption(title: 'Intense', subtitle: '60+ mins / day', icon: Icons.bolt),
+            //       selected: selectedGoal == 'Intense',
+            //       onTap: () {},
+            //     ),
+            //     const SizedBox(height: 24),
+
+            //   ],
+            // ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: const Color(0xFF14B8A6).withOpacity(0.05),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: const Color(0xFF14B8A6).withOpacity(0.15)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  '"Small daily actions lead to massive results over time. 15 minutes a day is perfect for steady progress."',
+                  style: GoogleFonts.manrope(
+                    fontSize: 13,
+                    color: Colors.white70,
+                    height: 1.5,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],

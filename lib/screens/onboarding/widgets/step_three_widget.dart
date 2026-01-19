@@ -1,6 +1,9 @@
+import 'package:aspira/core/errors/error_view.dart';
+import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/models/experience_model/experience_model.dart';
-import 'package:aspira/screens/onboarding/onboarding_screen.dart';
+import 'package:aspira/view_models/profile_option_service_view_model/fetch_profile_option_service_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StepThreeWidget extends StatelessWidget {
@@ -45,39 +48,39 @@ class StepThreeWidget extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: ListView(
-              padding: const EdgeInsets.only(top: 16, bottom: 140),
-              children: [
-                ExperienceCard(
-                  option: ExperienceOption(
-                    title: 'Beginner',
-                    description: 'Starting fresh or have very limited knowledge in this field.',
-                    icon: Icons.child_care,
-                  ),
-                  selected: experienceLevel == 'Beginner',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 16),
-                ExperienceCard(
-                  option: ExperienceOption(
-                    title: 'Intermediate',
-                    description: 'Comfortable with the basics and ready for complex challenges.',
-                    icon: Icons.trending_up,
-                  ),
-                  selected: experienceLevel == 'Intermediate',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 16),
-                ExperienceCard(
-                  option: ExperienceOption(
-                    title: 'Expert',
-                    description: 'Highly skilled professional seeking specialized insights.',
-                    icon: Icons.workspace_premium,
-                  ),
-                  selected: experienceLevel == 'Expert',
-                  onTap: () {},
-                ),
-              ],
+            child: Consumer(
+              builder: (context, ref, child) {
+                final viewModel = ref.watch(fetchProfileOptionViewModel);
+                return viewModel.when(
+                  data: (profileOptions) {
+                    if (profileOptions == null) {
+                      return const Center(
+                        child: Text('No data available', style: TextStyle(color: Colors.white54)),
+                      );
+                    }
+                    return ListView.separated(
+                      itemBuilder: (context, index) => ExperienceCard(
+                        option: ExperienceOption(
+                          title: profileOptions.experienceLevels[index].label,
+                          description:
+                              'Starting fresh or have very limited knowledge in this field.',
+                          icon: Icons.child_care,
+                        ),
+                        selected: false,
+                        onTap: () {},
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(height: 16),
+                      itemCount: profileOptions.experienceLevels.length,
+                    );
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator(color: Color(0xFF14B8A6))),
+                  error: (error, stackTrace) {
+                    final message = error is Failure ? error.message : error.toString();
+                    return ErrorView(message: message);
+                  },
+                );
+              },
             ),
           ),
         ),
