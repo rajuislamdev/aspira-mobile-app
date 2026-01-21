@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/services/local_store_service.dart';
+import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -62,8 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.notifications,
                             title: 'Push Notifications',
                             value: pushNotifications,
-                            onChanged: (val) =>
-                                setState(() => pushNotifications = val),
+                            onChanged: (val) => setState(() => pushNotifications = val),
                           ),
                           _buildCustomItem(
                             icon: Icons.dark_mode,
@@ -132,11 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-              size: 24,
-            ),
+            child: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 24),
           ),
           const Expanded(child: SizedBox()),
           Text(
@@ -171,70 +168,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
         padding: const EdgeInsets.all(20),
-        child: Row(
-          children: [
-            /// Profile Image
-            Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuAhmsfnbjP8bVSVrX2XY5N6oWTsKYxJQA7jTSxPVvCcGJcub1ZZuRmGipU_t_QGbvkoCK7LSmJhKDOUjp-PII0jAlKtpziPGdwfYT_f_p2jwaTT85xqGG5ET5lcyzgYYfc2ouuR0AhYtSz6tATHfh9egizT42lW3Kc6KPHvxCRGSl21Ee9xdqPcxwAOXGFeBLzoWKUPogy9R613aWhUWWUTYc4jwPdphqS7iTJ1Btao41sV6oXmwVQWK8fLf4TSna58iKMK1srrRw',
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Consumer(
+          builder: (context, ref, child) {
+            final viewModel = ref.watch(fetchProfileViewModelProvider);
+            return viewModel.when(
+              data: (profile) => Row(
                 children: [
-                  Text(
-                    'Julian Sterling',
-                    style: GoogleFonts.manrope(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'j.sterling@learnspace.edu',
-                    style: GoogleFonts.manrope(
-                      fontSize: 14,
-                      color: Colors.white70,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
+                  /// Profile Image
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
+                    height: 80,
+                    width: 80,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF14b8a6).withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0xFF14b8a6).withOpacity(0.3),
+                      shape: BoxShape.circle,
+                      image: const DecorationImage(
+                        image: NetworkImage(
+                          'https://lh3.googleusercontent.com/aida-public/AB6AXuAhmsfnbjP8bVSVrX2XY5N6oWTsKYxJQA7jTSxPVvCcGJcub1ZZuRmGipU_t_QGbvkoCK7LSmJhKDOUjp-PII0jAlKtpziPGdwfYT_f_p2jwaTT85xqGG5ET5lcyzgYYfc2ouuR0AhYtSz6tATHfh9egizT42lW3Kc6KPHvxCRGSl21Ee9xdqPcxwAOXGFeBLzoWKUPogy9R613aWhUWWUTYc4jwPdphqS7iTJ1Btao41sV6oXmwVQWK8fLf4TSna58iKMK1srrRw',
+                        ),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    child: const Text(
-                      'Pro Scholar',
-                      style: TextStyle(
-                        color: Color(0xFF14b8a6),
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
-                      ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${profile?.firstName} ${profile?.lastName}',
+                          style: GoogleFonts.manrope(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          profile?.email ?? 'No Email',
+                          style: GoogleFonts.manrope(fontSize: 14, color: Colors.white70),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF14b8a6).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: const Color(0xFF14b8a6).withOpacity(0.3)),
+                          ),
+                          child: Text(
+                            profile?.position ?? 'No Position',
+                            style: TextStyle(
+                              color: Color(0xFF14b8a6),
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              loading: () => const SizedBox.shrink(),
+              error: (error, stackTrace) => const SizedBox.shrink(),
+            );
+          },
         ),
       ),
     );
@@ -285,9 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(subtitle != null ? 0.05 : 0),
-            ),
+            bottom: BorderSide(color: Colors.white.withOpacity(subtitle != null ? 0.05 : 0)),
           ),
         ),
         child: Row(
@@ -307,26 +303,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.manrope(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
                   ),
                   if (subtitle != null)
-                    Text(
-                      subtitle,
-                      style: GoogleFonts.manrope(
-                        color: Colors.white38,
-                        fontSize: 12,
-                      ),
-                    ),
+                    Text(subtitle, style: GoogleFonts.manrope(color: Colors.white38, fontSize: 12)),
                 ],
               ),
             ),
-            if (trailingIcon != null)
-              Icon(trailingIcon, color: Colors.white24, size: 20),
-            if (trailingIcon == null)
-              const Icon(Icons.chevron_right, color: Colors.white24),
+            if (trailingIcon != null) Icon(trailingIcon, color: Colors.white24, size: 20),
+            if (trailingIcon == null) const Icon(Icons.chevron_right, color: Colors.white24),
           ],
         ),
       ),
@@ -343,9 +328,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.white.withOpacity(0.05)),
-        ),
+        border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.05))),
       ),
       child: Row(
         children: [
@@ -361,28 +344,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.manrope(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
+              style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
             ),
           ),
-          Switch(
-            value: value,
-            activeThumbColor: const Color(0xFF14b8a6),
-            onChanged: onChanged,
-          ),
+          Switch(value: value, activeThumbColor: const Color(0xFF14b8a6), onChanged: onChanged),
         ],
       ),
     );
   }
 
   /// ===================== Custom Item =====================
-  Widget _buildCustomItem({
-    required IconData icon,
-    required String title,
-    Widget? trailing,
-  }) {
+  Widget _buildCustomItem({required IconData icon, required String title, Widget? trailing}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(
@@ -399,10 +371,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.manrope(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
+              style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
             ),
           ),
           if (trailing != null) trailing,
@@ -420,15 +389,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: Colors.red.withOpacity(0.1),
           foregroundColor: Colors.red,
           minimumSize: const Size.fromHeight(48),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
         icon: const Icon(Icons.logout),
-        label: const Text(
-          'Logout Account',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        label: const Text('Logout Account', style: TextStyle(fontWeight: FontWeight.bold)),
         onPressed: () {
           showLogoutDialog(context, () {
             // Your logout logic here
@@ -460,11 +424,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildTabItem({
-    required IconData icon,
-    required String label,
-    required bool active,
-  }) {
+  Widget _buildTabItem({required IconData icon, required String label, required bool active}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -516,11 +476,7 @@ void showLogoutDialog(BuildContext context, VoidCallback onLogout) {
                           color: const Color(0xFF1A1D23),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
-                          Icons.logout,
-                          size: 32,
-                          color: Colors.redAccent,
-                        ),
+                        child: const Icon(Icons.logout, size: 32, color: Colors.redAccent),
                       ),
                       const SizedBox(height: 16),
 

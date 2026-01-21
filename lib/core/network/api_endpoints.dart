@@ -4,4 +4,7 @@ class ApiEndpoints {
   static final String login = '$baseUrl/auth/loginOrRegister';
   static final String fetchProfileOptions = '$baseUrl/users/profile-options';
   static final String user = '$baseUrl/users/me';
+
+  // Post
+  static final String posts = '$baseUrl/posts';
 }
