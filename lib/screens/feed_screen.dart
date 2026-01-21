@@ -122,7 +122,7 @@ class _TopAppBarContent extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${DateTime.now().timeOfDay}, ${profile?.firstName ?? 'User'}',
+                              '${DateTime.now().compactGreeting}, ${profile?.firstName ?? 'User'}',
                               style: GoogleFonts.manrope(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,

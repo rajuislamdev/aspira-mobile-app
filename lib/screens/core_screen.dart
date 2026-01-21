@@ -1,3 +1,4 @@
+import 'package:aspira/screens/profile/profile_screen.dart';
 import 'package:aspira/screens/widgets/create_post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,7 @@ class _CoreScreenState extends State<CoreScreen> {
   final List<Widget> _pages = [
     const FeedScreen(),
     SizedBox.shrink(), // Placeholder for add button
-    _ProfileScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -27,8 +28,7 @@ class _CoreScreenState extends State<CoreScreen> {
         context: context,
         isScrollControlled: true,
         backgroundColor: Color(0xFF111317),
-        builder: (_) =>
-            const SizedBox(height: double.infinity, child: CreatePostModal()),
+        builder: (_) => const SizedBox(height: double.infinity, child: CreatePostModal()),
       );
     } else {
       setState(() {
@@ -60,9 +60,7 @@ class _CoreScreenState extends State<CoreScreen> {
                     children: [
                       Icon(
                         Icons.home_rounded,
-                        color: _selectedIndex == 0
-                            ? const Color(0xFF14B8A6)
-                            : Colors.white38,
+                        color: _selectedIndex == 0 ? const Color(0xFF14B8A6) : Colors.white38,
                         size: 28,
                       ),
                       const SizedBox(height: 2),
@@ -71,9 +69,7 @@ class _CoreScreenState extends State<CoreScreen> {
                         style: GoogleFonts.manrope(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: _selectedIndex == 0
-                              ? const Color(0xFF14B8A6)
-                              : Colors.white38,
+                          color: _selectedIndex == 0 ? const Color(0xFF14B8A6) : Colors.white38,
                         ),
                       ),
                     ],
@@ -92,9 +88,7 @@ class _CoreScreenState extends State<CoreScreen> {
                     children: [
                       Icon(
                         Icons.person_rounded,
-                        color: _selectedIndex == 2
-                            ? const Color(0xFF14B8A6)
-                            : Colors.white38,
+                        color: _selectedIndex == 2 ? const Color(0xFF14B8A6) : Colors.white38,
                         size: 28,
                       ),
                       const SizedBox(height: 2),
@@ -103,9 +97,7 @@ class _CoreScreenState extends State<CoreScreen> {
                         style: GoogleFonts.manrope(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: _selectedIndex == 2
-                              ? const Color(0xFF14B8A6)
-                              : Colors.white38,
+                          color: _selectedIndex == 2 ? const Color(0xFF14B8A6) : Colors.white38,
                         ),
                       ),
                     ],
@@ -145,11 +137,7 @@ class _ProfileScreen extends StatelessWidget {
     return Center(
       child: Text(
         'Profile',
-        style: GoogleFonts.manrope(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+        style: GoogleFonts.manrope(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
