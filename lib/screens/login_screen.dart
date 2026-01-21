@@ -57,7 +57,9 @@ class LoginScreen extends StatelessWidget {
                                 height: 180,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: const Color(0xFF1E3B8A).withOpacity(0.1),
+                                  color: const Color(
+                                    0xFF1E3B8A,
+                                  ).withOpacity(0.1),
                                 ),
                                 child: const Icon(
                                   Icons.auto_graph_rounded,
@@ -111,7 +113,9 @@ class LoginScreen extends StatelessWidget {
                             background: const Color(0xFF14B8A6),
                             textColor: const Color(0xFF111214),
                             onTap: () {
-                              context.pushNamed(RouteLocationName.loginWithEmail);
+                              context.pushNamed(
+                                RouteLocationName.loginWithEmail,
+                              );
                             },
                           ),
 
@@ -250,10 +254,15 @@ class _PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: background,
           foregroundColor: textColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
-        child: Text(label, style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text(
+          label,
+          style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -264,7 +273,11 @@ class _SocialButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SocialButton({required this.label, required this.icon, required this.onTap});
+  const _SocialButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +297,9 @@ class _SocialButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color(0xFF171A29),
           side: const BorderSide(color: Colors.white10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
       ),
@@ -301,7 +316,10 @@ class _FooterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: GoogleFonts.manrope(fontSize: 11, color: const Color(0xFFB8B9BD).withOpacity(0.6)),
+      style: GoogleFonts.manrope(
+        fontSize: 11,
+        color: const Color(0xFFB8B9BD).withOpacity(0.6),
+      ),
     );
   }
 }

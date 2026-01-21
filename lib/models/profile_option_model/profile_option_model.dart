@@ -15,8 +15,12 @@ class ProfileOptionModel {
 
   factory ProfileOptionModel.fromJson(Map<String, dynamic> json) {
     return ProfileOptionModel(
-      interests: (json['interests'] as List).map((e) => InterestCategoryModel.fromJson(e)).toList(),
-      goals: (json['goals'] as List).map((e) => GoalDataModel.fromJson(e)).toList(),
+      interests: (json['interests'] as List)
+          .map((e) => InterestCategoryModel.fromJson(e))
+          .toList(),
+      goals: (json['goals'] as List)
+          .map((e) => GoalDataModel.fromJson(e))
+          .toList(),
       experienceLevels: (json['experienceLevels'] as List)
           .map((e) => ExperienceDataModel.fromJson(e))
           .toList(),

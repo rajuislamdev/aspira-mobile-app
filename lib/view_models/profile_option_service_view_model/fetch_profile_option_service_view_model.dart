@@ -4,14 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 final fetchProfileOptionViewModel =
-    StateNotifierProvider<FetchProfileOptionServiceViewModel, AsyncValue<ProfileOptionModel?>>(
-      (ref) => FetchProfileOptionServiceViewModel(ref: ref),
-    );
+    StateNotifierProvider<
+      FetchProfileOptionServiceViewModel,
+      AsyncValue<ProfileOptionModel?>
+    >((ref) => FetchProfileOptionServiceViewModel(ref: ref));
 
-class FetchProfileOptionServiceViewModel extends StateNotifier<AsyncValue<ProfileOptionModel?>> {
+class FetchProfileOptionServiceViewModel
+    extends StateNotifier<AsyncValue<ProfileOptionModel?>> {
   final Ref ref;
 
-  FetchProfileOptionServiceViewModel({required this.ref}) : super(const AsyncValue.loading()) {
+  FetchProfileOptionServiceViewModel({required this.ref})
+    : super(const AsyncValue.loading()) {
     fetchInterest();
   }
 

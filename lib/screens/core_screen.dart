@@ -42,7 +42,8 @@ class _CoreScreenState extends State<CoreScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: const Color(0xFF111317),
-      builder: (_) => const SizedBox(height: double.infinity, child: CreatePostModal()),
+      builder: (_) =>
+          const SizedBox(height: double.infinity, child: CreatePostModal()),
     );
   }
 
@@ -60,7 +61,10 @@ class _CoreScreenState extends State<CoreScreen> {
           child: _pages[_selectedIndex],
         ),
       ),
-      bottomNavigationBar: _GlassBottomBar(selectedIndex: _selectedIndex, onTap: _onItemTapped),
+      bottomNavigationBar: _GlassBottomBar(
+        selectedIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _CreatePostFab(onPressed: () => _onItemTapped(1)),
     );

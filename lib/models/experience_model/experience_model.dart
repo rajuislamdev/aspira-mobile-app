@@ -5,5 +5,9 @@ class ExperienceOption {
   final String description;
   final IconData icon;
 
-  const ExperienceOption({required this.title, required this.description, required this.icon});
+  const ExperienceOption({
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
 }

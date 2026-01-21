@@ -2,17 +2,21 @@ import 'package:aspira/models/selected_profile_option_model/selected_profile_opt
 import 'package:flutter_riverpod/legacy.dart';
 
 final selectedProfileOptionViewModel =
-    StateNotifierProvider<SelectedProfileOptionViewModel, SelectedProfileOptionModel?>(
-      (ref) => SelectedProfileOptionViewModel(),
-    );
+    StateNotifierProvider<
+      SelectedProfileOptionViewModel,
+      SelectedProfileOptionModel?
+    >((ref) => SelectedProfileOptionViewModel());
 
-class SelectedProfileOptionViewModel extends StateNotifier<SelectedProfileOptionModel?> {
+class SelectedProfileOptionViewModel
+    extends StateNotifier<SelectedProfileOptionModel?> {
   SelectedProfileOptionViewModel() : super(SelectedProfileOptionModel.empty());
 
   void updateInterest({required String interestId}) {
     if (state?.interests.contains(interestId) ?? false) {
       state = state?.copyWith(
-        interests: state!.interests.where((element) => element != interestId).toList(),
+        interests: state!.interests
+            .where((element) => element != interestId)
+            .toList(),
       );
       return;
     }

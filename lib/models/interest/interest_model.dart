@@ -3,9 +3,17 @@ class InterestModel {
   final String name;
   final String categoryId;
 
-  InterestModel({required this.id, required this.name, required this.categoryId});
+  InterestModel({
+    required this.id,
+    required this.name,
+    required this.categoryId,
+  });
 
   factory InterestModel.fromJson(Map<String, dynamic> json) {
-    return InterestModel(id: json['id'], name: json['name'], categoryId: json['categoryId']);
+    return InterestModel(
+      id: json['id'],
+      name: json['name'],
+      categoryId: json['categoryId'],
+    );
   }
 }

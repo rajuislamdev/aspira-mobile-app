@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Ui {
-  static void showSuccessSnackBar(BuildContext context, {required String message}) {
+  static void showSuccessSnackBar(
+    BuildContext context, {
+    required String message,
+  }) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -21,7 +24,11 @@ class Ui {
     return Theme.of(context).brightness == Brightness.dark;
   }
 
-  static void showErrorSnackBar(BuildContext context, {required String message, Color? color}) {
+  static void showErrorSnackBar(
+    BuildContext context, {
+    required String message,
+    Color? color,
+  }) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(

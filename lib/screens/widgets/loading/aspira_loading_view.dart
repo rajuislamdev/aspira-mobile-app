@@ -10,13 +10,17 @@ class AspiraLoadingView extends StatefulWidget {
   State<AspiraLoadingView> createState() => _AspiraLoadingViewState();
 }
 
-class _AspiraLoadingViewState extends State<AspiraLoadingView> with SingleTickerProviderStateMixin {
+class _AspiraLoadingViewState extends State<AspiraLoadingView>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
   }
 
   @override
@@ -70,7 +74,9 @@ class _AspiraLoadingViewState extends State<AspiraLoadingView> with SingleTicker
                   return Transform.scale(
                     scale: scale,
                     child: Opacity(
-                      opacity: 0.7 + (math.sin(_controller.value * math.pi * 2) * 0.3),
+                      opacity:
+                          0.7 +
+                          (math.sin(_controller.value * math.pi * 2) * 0.3),
                       child: Text(
                         'Aspira',
                         style: GoogleFonts.manrope(
@@ -87,7 +93,10 @@ class _AspiraLoadingViewState extends State<AspiraLoadingView> with SingleTicker
 
               const SizedBox(height: 20),
 
-              const CircularProgressIndicator(strokeWidth: 3, color: Color(0xFF14B8A6)),
+              const CircularProgressIndicator(
+                strokeWidth: 3,
+                color: Color(0xFF14B8A6),
+              ),
             ],
           ),
         ),
@@ -101,7 +110,10 @@ class _AspiraLoadingViewState extends State<AspiraLoadingView> with SingleTicker
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: const Color(0xFF14B8A6).withOpacity(opacity), width: 2),
+        border: Border.all(
+          color: const Color(0xFF14B8A6).withOpacity(opacity),
+          width: 2,
+        ),
       ),
     );
   }
@@ -114,7 +126,10 @@ class _AspiraLoadingViewState extends State<AspiraLoadingView> with SingleTicker
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: const Color(0xFF1E3B8A).withOpacity(0.4), width: 3),
+          border: Border.all(
+            color: const Color(0xFF1E3B8A).withOpacity(0.4),
+            width: 3,
+          ),
         ),
       ),
     );
@@ -128,7 +143,11 @@ class _AspiraLoadingViewState extends State<AspiraLoadingView> with SingleTicker
         shape: BoxShape.circle,
         color: const Color(0xFF1E3B8A).withOpacity(0.25),
       ),
-      child: const Icon(Icons.auto_graph_rounded, size: 34, color: Colors.white70),
+      child: const Icon(
+        Icons.auto_graph_rounded,
+        size: 34,
+        color: Colors.white70,
+      ),
     );
   }
 }

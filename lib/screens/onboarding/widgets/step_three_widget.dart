@@ -41,7 +41,11 @@ class StepThreeWidget extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 "We'll tailor the difficulty and content recommendations based on your level.",
-                style: GoogleFonts.manrope(color: Colors.white54, fontSize: 15, height: 1.5),
+                style: GoogleFonts.manrope(
+                  color: Colors.white54,
+                  fontSize: 15,
+                  height: 1.5,
+                ),
               ),
             ],
           ),
@@ -52,12 +56,17 @@ class StepThreeWidget extends StatelessWidget {
             child: Consumer(
               builder: (context, ref, child) {
                 final viewModel = ref.watch(fetchProfileOptionViewModel);
-                final selectedProfileOption = ref.watch(selectedProfileOptionViewModel);
+                final selectedProfileOption = ref.watch(
+                  selectedProfileOptionViewModel,
+                );
                 return viewModel.when(
                   data: (profileOptions) {
                     if (profileOptions == null) {
                       return const Center(
-                        child: Text('No data available', style: TextStyle(color: Colors.white54)),
+                        child: Text(
+                          'No data available',
+                          style: TextStyle(color: Colors.white54),
+                        ),
                       );
                     }
                     return ListView.separated(
@@ -76,18 +85,23 @@ class StepThreeWidget extends StatelessWidget {
                           onTap: () => ref
                               .read(selectedProfileOptionViewModel.notifier)
                               .updateExperience(
-                                experienceId: profileOptions.experienceLevels[index].id,
+                                experienceId:
+                                    profileOptions.experienceLevels[index].id,
                               ),
                         );
                       },
-                      separatorBuilder: (context, index) => const SizedBox(height: 16),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
                       itemCount: profileOptions.experienceLevels.length,
                     );
                   },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator(color: Color(0xFF14B8A6))),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF14B8A6)),
+                  ),
                   error: (error, stackTrace) {
-                    final message = error is Failure ? error.message : error.toString();
+                    final message = error is Failure
+                        ? error.message
+                        : error.toString();
                     return ErrorView(message: message);
                   },
                 );
@@ -127,7 +141,12 @@ class ExperienceCard extends StatelessWidget {
             width: 2,
           ),
           boxShadow: selected
-              ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.15), blurRadius: 12)]
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF14B8A6).withOpacity(0.15),
+                    blurRadius: 12,
+                  ),
+                ]
               : [],
         ),
         child: Row(
@@ -137,10 +156,15 @@ class ExperienceCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFF14B8A6).withOpacity(0.2) : Colors.white10,
+                color: selected
+                    ? const Color(0xFF14B8A6).withOpacity(0.2)
+                    : Colors.white10,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(option.icon, color: selected ? const Color(0xFF14B8A6) : Colors.white60),
+              child: Icon(
+                option.icon,
+                color: selected ? const Color(0xFF14B8A6) : Colors.white60,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -163,14 +187,20 @@ class ExperienceCard extends StatelessWidget {
                       ),
                       if (selected) ...[
                         const Spacer(),
-                        const Icon(Icons.check_circle, color: Color(0xFF14B8A6)),
+                        const Icon(
+                          Icons.check_circle,
+                          color: Color(0xFF14B8A6),
+                        ),
                       ],
                     ],
                   ),
                   const SizedBox(height: 6),
                   Text(
                     option.description,
-                    style: GoogleFonts.manrope(color: Colors.white38, fontSize: 13),
+                    style: GoogleFonts.manrope(
+                      color: Colors.white38,
+                      fontSize: 13,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

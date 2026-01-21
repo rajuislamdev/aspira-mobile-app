@@ -1,6 +1,7 @@
 import 'package:aspira/models/user_model/user_model.dart';
 import 'package:aspira/repositories/auth_repo/auth_repo_impl.dart';
 import 'package:aspira/services/local_store_service.dart';
+import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
@@ -17,8 +18,9 @@ class LoginViewModel extends StateNotifier<AsyncValue<UserModel?>> {
     state = const AsyncValue.loading();
     final result = await ref.read(authRepoProvider).login(payload: payload);
 
-    result.fold((ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current), (ifRight) {
+    result.fold((ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current), (ifRight) async {
       LocalStorageService().saveToken(ifRight.value1);
+      await ref.read(fetchProfileViewModelProvider.notifier).fetchProfile();
       state = AsyncValue.data(ifRight.value2);
     });
   }

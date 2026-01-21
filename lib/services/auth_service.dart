@@ -3,7 +3,9 @@ import 'package:aspira/core/network/dio_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authServiceProvider = Provider((ref) => AuthService(dioClient: ref.read(dioClientProvider)));
+final authServiceProvider = Provider(
+  (ref) => AuthService(dioClient: ref.read(dioClientProvider)),
+);
 
 class AuthService {
   final DioClient dioClient;
@@ -17,7 +19,9 @@ class AuthService {
     return await dioClient.post(ApiEndpoints.login, data: payload);
   }
 
-  Future<Response> updateProfile({required Map<String, dynamic> payload}) async {
+  Future<Response> updateProfile({
+    required Map<String, dynamic> payload,
+  }) async {
     return await dioClient.patch(ApiEndpoints.user, data: payload);
   }
 }

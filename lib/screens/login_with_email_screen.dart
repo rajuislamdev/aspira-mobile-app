@@ -47,7 +47,11 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.lock_outline_rounded, size: 56, color: Colors.white70),
+                          const Icon(
+                            Icons.lock_outline_rounded,
+                            size: 56,
+                            color: Colors.white70,
+                          ),
                           const SizedBox(height: 12),
                           Text(
                             'Welcome Back',
@@ -95,7 +99,9 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                             obscureText: _obscurePassword,
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.white54,
                                 size: 20,
                               ),
@@ -138,13 +144,20 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                                     final message = error is Failure
                                         ? error.message
                                         : error.toString();
-                                    Ui.showErrorSnackBar(context, message: message);
+                                    Ui.showErrorSnackBar(
+                                      context,
+                                      message: message,
+                                    );
                                   },
                                 );
                               });
 
-                              final notifier = ref.read(loginViewModelProvider.notifier);
-                              final viewModel = ref.watch(loginViewModelProvider);
+                              final notifier = ref.read(
+                                loginViewModelProvider.notifier,
+                              );
+                              final viewModel = ref.watch(
+                                loginViewModelProvider,
+                              );
                               return viewModel.isLoading
                                   ? const CircularProgressIndicator()
                                   : _PrimaryButton(
@@ -167,15 +180,24 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                           /// Divider
                           Row(
                             children: [
-                              const Expanded(child: Divider(color: Colors.white12)),
+                              const Expanded(
+                                child: Divider(color: Colors.white12),
+                              ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
                                 child: Text(
                                   'OR',
-                                  style: GoogleFonts.manrope(fontSize: 12, color: Colors.white38),
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 12,
+                                    color: Colors.white38,
+                                  ),
                                 ),
                               ),
-                              const Expanded(child: Divider(color: Colors.white12)),
+                              const Expanded(
+                                child: Divider(color: Colors.white12),
+                              ),
                             ],
                           ),
 
@@ -324,10 +346,15 @@ class _PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: background,
           foregroundColor: textColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
-        child: Text(label, style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text(
+          label,
+          style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -338,7 +365,11 @@ class _SocialButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SocialButton({required this.label, required this.icon, required this.onTap});
+  const _SocialButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -358,7 +389,9 @@ class _SocialButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color(0xFF171A29),
           side: const BorderSide(color: Colors.white10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
       ),

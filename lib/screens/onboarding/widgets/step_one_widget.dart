@@ -65,7 +65,11 @@ class _StepOneWidgetState extends State<StepOneWidget> {
           /// ------------------ TITLE ------------------
           RichText(
             text: TextSpan(
-              style: GoogleFonts.manrope(fontSize: 30, fontWeight: FontWeight.w800, height: 1.15),
+              style: GoogleFonts.manrope(
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
+                height: 1.15,
+              ),
               children: const [
                 TextSpan(
                   text: 'What are you\n',
@@ -129,7 +133,8 @@ class _StepOneWidgetState extends State<StepOneWidget> {
                       itemCount: profileOptions.interests.length,
                       itemBuilder: (context, index) {
                         final title = profileOptions.interests[index].name;
-                        final interests = profileOptions.interests[index].interestList;
+                        final interests =
+                            profileOptions.interests[index].interestList;
 
                         return InterestCategorySection(
                           title: title,
@@ -144,11 +149,14 @@ class _StepOneWidgetState extends State<StepOneWidget> {
                     );
                   },
                   error: (error, s) {
-                    final message = error is Failure ? error.message : error.toString();
+                    final message = error is Failure
+                        ? error.message
+                        : error.toString();
                     return Text(message);
                   },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator(color: Color(0xFF14B8A6))),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF14B8A6)),
+                  ),
                 );
               },
             ),
@@ -194,7 +202,9 @@ class InterestCategorySection extends StatelessWidget {
         /// Chips
         Consumer(
           builder: (context, ref, child) {
-            final selectedOptionViewModel = ref.watch(selectedProfileOptionViewModel);
+            final selectedOptionViewModel = ref.watch(
+              selectedProfileOptionViewModel,
+            );
             final selectedOptions = selectedOptionViewModel?.interests ?? [];
             return Wrap(
               spacing: 10,
@@ -205,12 +215,19 @@ class InterestCategorySection extends StatelessWidget {
                   onTap: () => onTap(interest),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF14B8A6) : const Color(0xFF171A29),
+                      color: isSelected
+                          ? const Color(0xFF14B8A6)
+                          : const Color(0xFF171A29),
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
-                        color: isSelected ? const Color(0xFF14B8A6) : Colors.white12,
+                        color: isSelected
+                            ? const Color(0xFF14B8A6)
+                            : Colors.white12,
                       ),
                     ),
                     child: Text(
@@ -218,7 +235,9 @@ class InterestCategorySection extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: isSelected ? const Color(0xFF111214) : Colors.white70,
+                        color: isSelected
+                            ? const Color(0xFF111214)
+                            : Colors.white70,
                       ),
                     ),
                   ),

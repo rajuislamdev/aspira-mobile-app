@@ -26,7 +26,9 @@ class DioErrorHandler {
               return ServerException('Unexpected network error occurred.');
           }
         } else if (error is SocketException) {
-          return ServerException('No Internet connection. Please check your network.');
+          return ServerException(
+            'No Internet connection. Please check your network.',
+          );
         } else {
           return ServerException('Unexpected error occurred.');
         }

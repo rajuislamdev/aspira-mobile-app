@@ -27,9 +27,18 @@ class SelectedProfileOptionModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {'interests': interests, 'goal': goal, 'experience': experience, 'position': position};
+    return {
+      'interests': interests,
+      'goal': goal,
+      'experience': experience,
+      'position': position,
+    };
   }
 
   /// empty constructor
-  SelectedProfileOptionModel.empty() : interests = [], goal = 0, experience = 0, position = '';
+  SelectedProfileOptionModel.empty()
+    : interests = [],
+      goal = 0,
+      experience = 0,
+      position = '';
 }

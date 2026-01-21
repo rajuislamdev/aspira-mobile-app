@@ -1,6 +1,7 @@
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/repositories/profile_option_repo/profile_option_impl.dart';
 import 'package:aspira/services/local_store_service.dart';
+import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
@@ -33,6 +34,7 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
       final bool? isOnBoardingCompleted = await LocalStorageService().getIsOnboardingComplete();
 
       if (token != null && isOnBoardingCompleted != null && isOnBoardingCompleted) {
+        await ref.read(fetchProfileViewModelProvider.notifier).fetchProfile();
         state = Authenticated();
         return;
       }
