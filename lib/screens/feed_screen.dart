@@ -1,10 +1,16 @@
 import 'dart:ui';
 
+import 'package:aspira/core/utils/app_constants.dart';
+import 'package:aspira/core/utils/exptensions.dart';
+import 'package:aspira/screens/widgets/community_thread_shimmer_card.dart';
+import 'package:aspira/screens/widgets/create_post_model.dart';
 import 'package:aspira/screens/widgets/post_card.dart';
+import 'package:aspira/view_models/post/fetch_posts_view_model.dart';
 import 'package:aspira/view_models/profile/fetch_profile_view_model.dart'
     show fetchProfileViewModelProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -116,7 +122,7 @@ class _TopAppBarContent extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'Good morning, ${profile?.firstName ?? 'User'}',
+                              '${DateTime.now().timeOfDay}, ${profile?.firstName ?? 'User'}',
                               style: GoogleFonts.manrope(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -180,34 +186,89 @@ class _CategoryHeaderDelegate extends SliverPersistentHeaderDelegate {
 /// =============================================================
 /// Category Chips
 /// =============================================================
-class _CategoryChips extends StatelessWidget {
+class _CategoryChips extends ConsumerStatefulWidget {
   const _CategoryChips();
 
-  static const categories = ['Discover', 'Communication', 'Soft Skills', 'Design', 'Leadership'];
+  @override
+  ConsumerState<_CategoryChips> createState() => _CategoryChipsState();
+}
+
+class _CategoryChipsState extends ConsumerState<_CategoryChips> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToIndex(int index, int itemCount) {
+    // Estimate chip width + spacing
+    const chipWidth = 90.0;
+    const spacing = 12.0;
+    const padding = 16.0;
+    final offset = (chipWidth + spacing) * index - padding;
+    final maxScroll = (chipWidth + spacing) * itemCount - chipWidth;
+    _scrollController.animateTo(
+      offset.clamp(0, maxScroll),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(selectedCategoryIndex);
+    final viewModel = ref.watch(fetchProfileViewModelProvider);
+
     return SizedBox(
       height: 48,
-      child: Consumer(
-        builder: (context, ref, child) {
-          final viewModel = ref.watch(fetchProfileViewModelProvider);
-          return viewModel.when(
-            data: (profile) => ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: profile?.interests?.length ?? 0,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (_, index) => _ChipItem(
-                label: profile?.interests?[index].name ?? '',
-                active: index == 0,
-                onTap: () {},
-              ),
-            ),
-            loading: () => const SizedBox.shrink(),
-            error: (error, stackTrace) => const SizedBox.shrink(),
+      child: viewModel.when(
+        data: (profile) {
+          final interests = profile?.interests ?? [];
+          final itemCount = interests.length + 1; // +1 for "For you"
+
+          // Scroll to selected chip when it changes
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _scrollToIndex(selectedIndex, itemCount);
+          });
+
+          return ListView.separated(
+            controller: _scrollController,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: itemCount,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (_, index) {
+              final isActive = selectedIndex == index;
+              if (index == 0) {
+                return _ChipItem(
+                  label: 'For you',
+                  active: isActive,
+                  onTap: () {
+                    if (ref.read(selectedCategoryIndex.notifier).state == 0) return;
+                    ref.read(selectedCategoryIndex.notifier).state = 0;
+                    ref.read(fetchPostsViewModelProvider.notifier).fetchPosts(interestId: null);
+                  },
+                );
+              }
+              return _ChipItem(
+                label: interests[index - 1].name ?? '',
+                active: isActive,
+                onTap: () {
+                  if (ref.read(selectedCategoryIndex.notifier).state == index) return;
+                  ref.read(selectedCategoryIndex.notifier).state = index;
+                  final interest = interests[index - 1];
+                  ref
+                      .read(fetchPostsViewModelProvider.notifier)
+                      .fetchPosts(interestId: interest.id);
+                },
+              );
+            },
           );
         },
+        loading: () => const SizedBox.shrink(),
+        error: (error, stackTrace) => const SizedBox.shrink(),
       ),
     );
   }
@@ -253,67 +314,128 @@ class _ChipItem extends StatelessWidget {
 /// =============================================================
 class _FeedThreadList extends StatelessWidget {
   const _FeedThreadList({super.key});
-
-  static const List<Map<String, dynamic>> posts = [
-    {
-      'avatarUrl': 'https://i.pravatar.cc/150?img=12',
-      'name': 'Sarah J.',
-      'role': 'Lead Designer',
-      'time': '2h ago',
-      'title': 'How do you handle conflict in remote teams?',
-      'description':
-          'I’ve noticed some tension in Slack lately. Tone is often misinterpreted during code reviews...',
-      'likes': 120,
-      'comments': 45,
-      'liked': true,
-    },
-    {
-      'avatarUrl': 'https://i.pravatar.cc/150?img=32',
-      'name': 'Marcus L.',
-      'role': 'Engineering Manager',
-      'time': '5h ago',
-      'title': 'Best books for first-time managers?',
-      'description':
-          'I just got promoted to Lead and want to start my journey right. Any recommendations?',
-      'likes': 85,
-      'comments': 32,
-      'liked': false,
-    },
-    {
-      'avatarUrl': 'https://i.pravatar.cc/150?img=47',
-      'name': 'Elena R.',
-      'role': 'Product Director',
-      'time': '8h ago',
-      'title': 'Transitioning from IC to Manager: hardest part?',
-      'description':
-          'For those who made the leap, what was the one thing you were not prepared for?',
-      'likes': 214,
-      'comments': 67,
-      'liked': false,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-      physics: const BouncingScrollPhysics(),
-      itemCount: posts.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (_, index) {
-        final post = posts[index];
-        return CommunityThreadCard(
-          avatarUrl: post['avatarUrl'],
-          name: post['name'],
-          role: post['role'],
-          time: post['time'],
-          title: post['title'],
-          description: post['description'],
-          likes: post['likes'],
-          comments: post['comments'],
-          liked: post['liked'],
+    return Consumer(
+      builder: (context, ref, child) {
+        final viewModel = ref.watch(fetchPostsViewModelProvider);
+        return AnimatedSwitcher(
+          duration: AppConstants.switchAnimationDuration,
+          child: viewModel.when(
+            data: (posts) => posts.isEmpty
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.forum_outlined,
+                            size: 64,
+                            color: const Color(0xFF14B8A6).withOpacity(0.18),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            'No Threads Yet',
+                            style: GoogleFonts.manrope(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Be the first to start a discussion or ask a question. Your post will help others learn and grow!',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.manrope(
+                              fontSize: 15,
+                              color: Colors.white54,
+                              height: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF14B8A6),
+                              foregroundColor: const Color(0xFF111214),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 6,
+                              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                            ),
+                            onPressed: () {
+                              // Open create post modal or navigate to create post screen
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => FractionallySizedBox(
+                                  heightFactor: 0.82,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF111317),
+                                      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                                    ),
+                                    child: const CreatePostModal(),
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.add),
+                            label: Text(
+                              'Start a Thread',
+                              style: GoogleFonts.manrope(fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () async {
+                      ref.invalidate(fetchPostsViewModelProvider, asReload: true);
+                    },
+                    child: ListView.separated(
+                      key: const ValueKey('feed-thread-list'),
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: posts.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      itemBuilder: (_, index) {
+                        final post = posts[index];
+                        return CommunityThreadCard(
+                          avatarUrl: 'https://i.pravatar.cc/150?img=47',
+                          name: '${post.author?.firstName} ${post.author?.lastName}',
+                          role: 'Product Director',
+                          time: post.createdAt?.postTime ?? '',
+                          title: 'How do you handle conflict in remote teams?',
+                          description: post.content ?? '',
+                          likes: post.count?.reactions ?? 0,
+                          comments: post.count?.replies ?? 0,
+                          liked: false,
+                        );
+                      },
+                    ),
+                  ),
+            error: (error, s) {
+              return SizedBox.shrink();
+            },
+            loading: () => ListView.separated(
+              key: const ValueKey('feed-thread-list-loading'),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+              physics: const BouncingScrollPhysics(),
+              itemCount: 5,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (_, index) {
+                return CommunityThreadShimmerCard();
+              },
+            ),
+          ),
         );
       },
     );
   }
 }
+
+final selectedCategoryIndex = StateProvider<int>((ref) => 0);

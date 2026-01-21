@@ -33,9 +33,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _step++;
       } else {
         // Navigate to core screen after last step
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const CoreScreen()));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const CoreScreen()),
+        );
       }
     });
   }
@@ -72,7 +72,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                'STEP  OF 3'.replaceFirst('\u0001', (_step + 1).toString()),
+                                'STEP  OF 3'.replaceFirst(
+                                  '\u0001',
+                                  (_step + 1).toString(),
+                                ),
                                 style: GoogleFonts.manrope(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
@@ -144,7 +147,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             hintStyle: const TextStyle(color: Colors.white30),
                             filled: true,
                             fillColor: const Color(0xFF171A29),
-                            prefixIcon: const Icon(Icons.search, color: Colors.white38),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: Colors.white38,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
                               borderSide: BorderSide.none,
@@ -157,12 +163,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: GridView.builder(
                             itemCount: interests.length,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio: 1.15,
-                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 16,
+                                  mainAxisSpacing: 16,
+                                  childAspectRatio: 1.15,
+                                ),
                             itemBuilder: (context, index) {
                               final item = interests[index];
                               final isSelected = selected.contains(item.title);
@@ -174,7 +181,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                         : selected.add(item.title);
                                   });
                                 },
-                                child: _InterestCard(interest: item, selected: isSelected),
+                                child: _InterestCard(
+                                  interest: item,
+                                  selected: isSelected,
+                                ),
                               );
                             },
                           ),
@@ -221,7 +231,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: ListView(
-                            padding: const EdgeInsets.only(top: 16, bottom: 140),
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom: 140,
+                            ),
                             children: [
                               _GoalCard(
                                 goal: _GoalOption(
@@ -283,16 +296,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               Container(
                                 padding: const EdgeInsets.all(20),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF14B8A6).withOpacity(0.05),
+                                  color: const Color(
+                                    0xFF14B8A6,
+                                  ).withOpacity(0.05),
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                    color: const Color(0xFF14B8A6).withOpacity(0.15),
+                                    color: const Color(
+                                      0xFF14B8A6,
+                                    ).withOpacity(0.15),
                                   ),
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
+                                    const Icon(
+                                      Icons.tips_and_updates,
+                                      color: Color(0xFF14B8A6),
+                                    ),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Text(
@@ -353,7 +373,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: ListView(
-                            padding: const EdgeInsets.only(top: 16, bottom: 140),
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom: 140,
+                            ),
                             children: [
                               _ExperienceCard(
                                 option: _ExperienceOption(
@@ -428,7 +451,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF14B8A6),
                           foregroundColor: const Color(0xFF111214),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           elevation: 10,
                         ),
                         onPressed: _goToNextStep,
@@ -437,11 +462,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           children: [
                             Text(
                               'Continue',
-                              style: GoogleFonts.manrope(fontSize: 18, fontWeight: FontWeight.w800),
+                              style: GoogleFonts.manrope(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.black12,
                                 borderRadius: BorderRadius.circular(6),
@@ -449,8 +480,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               child: Text(
                                 _step == 0
                                     ? selected.length.toString()
-                                    : (_step == 1 ? selectedGoal : experienceLevel),
-                                style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
+                                    : (_step == 1
+                                          ? selectedGoal
+                                          : experienceLevel),
+                                style: GoogleFonts.manrope(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -499,7 +534,12 @@ class _InterestCard extends StatelessWidget {
           width: 2,
         ),
         boxShadow: selected
-            ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.15), blurRadius: 12)]
+            ? [
+                BoxShadow(
+                  color: const Color(0xFF14B8A6).withOpacity(0.15),
+                  blurRadius: 12,
+                ),
+              ]
             : [],
       ),
       child: Column(
@@ -509,10 +549,15 @@ class _InterestCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: selected ? const Color(0xFF14B8A6).withOpacity(0.2) : Colors.white10,
+              color: selected
+                  ? const Color(0xFF14B8A6).withOpacity(0.2)
+                  : Colors.white10,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(interest.icon, color: selected ? const Color(0xFF14B8A6) : Colors.white60),
+            child: Icon(
+              interest.icon,
+              color: selected ? const Color(0xFF14B8A6) : Colors.white60,
+            ),
           ),
           const Spacer(),
           Flexible(
@@ -580,7 +625,11 @@ class _GoalCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _GoalCard({required this.goal, required this.selected, required this.onTap});
+  const _GoalCard({
+    required this.goal,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -597,7 +646,12 @@ class _GoalCard extends StatelessWidget {
             width: 2,
           ),
           boxShadow: selected
-              ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.15), blurRadius: 12)]
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF14B8A6).withOpacity(0.15),
+                    blurRadius: 12,
+                  ),
+                ]
               : [],
         ),
         child: Row(
@@ -606,10 +660,15 @@ class _GoalCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFF14B8A6).withOpacity(0.2) : Colors.white10,
+                color: selected
+                    ? const Color(0xFF14B8A6).withOpacity(0.2)
+                    : Colors.white10,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(goal.icon, color: selected ? const Color(0xFF14B8A6) : Colors.white60),
+              child: Icon(
+                goal.icon,
+                color: selected ? const Color(0xFF14B8A6) : Colors.white60,
+              ),
             ),
             const SizedBox(width: 16),
             Column(
@@ -626,7 +685,10 @@ class _GoalCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   goal.subtitle,
-                  style: GoogleFonts.manrope(color: Colors.white38, fontSize: 11),
+                  style: GoogleFonts.manrope(
+                    color: Colors.white38,
+                    fontSize: 11,
+                  ),
                 ),
                 if (goal.recommended)
                   Padding(
@@ -654,7 +716,11 @@ class _ExperienceOption {
   final String description;
   final IconData icon;
 
-  const _ExperienceOption({required this.title, required this.description, required this.icon});
+  const _ExperienceOption({
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
 }
 
 class _ExperienceCard extends StatelessWidget {
@@ -662,7 +728,11 @@ class _ExperienceCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _ExperienceCard({required this.option, required this.selected, required this.onTap});
+  const _ExperienceCard({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -679,7 +749,12 @@ class _ExperienceCard extends StatelessWidget {
             width: 2,
           ),
           boxShadow: selected
-              ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.15), blurRadius: 12)]
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF14B8A6).withOpacity(0.15),
+                    blurRadius: 12,
+                  ),
+                ]
               : [],
         ),
         child: Row(
@@ -689,10 +764,15 @@ class _ExperienceCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFF14B8A6).withOpacity(0.2) : Colors.white10,
+                color: selected
+                    ? const Color(0xFF14B8A6).withOpacity(0.2)
+                    : Colors.white10,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(option.icon, color: selected ? const Color(0xFF14B8A6) : Colors.white60),
+              child: Icon(
+                option.icon,
+                color: selected ? const Color(0xFF14B8A6) : Colors.white60,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -715,14 +795,20 @@ class _ExperienceCard extends StatelessWidget {
                       ),
                       if (selected) ...[
                         const Spacer(),
-                        const Icon(Icons.check_circle, color: Color(0xFF14B8A6)),
+                        const Icon(
+                          Icons.check_circle,
+                          color: Color(0xFF14B8A6),
+                        ),
                       ],
                     ],
                   ),
                   const SizedBox(height: 6),
                   Text(
                     option.description,
-                    style: GoogleFonts.manrope(color: Colors.white38, fontSize: 13),
+                    style: GoogleFonts.manrope(
+                      color: Colors.white38,
+                      fontSize: 13,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

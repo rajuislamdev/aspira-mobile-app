@@ -10,7 +10,8 @@ final fetchProfileViewModelProvider =
 
 class FetchProfileViewModel extends StateNotifier<AsyncValue<ProfileModel?>> {
   final Ref ref;
-  FetchProfileViewModel({required this.ref}) : super(const AsyncValue.loading()) {
+  FetchProfileViewModel({required this.ref})
+    : super(const AsyncValue.loading()) {
     fetchProfile();
   }
 

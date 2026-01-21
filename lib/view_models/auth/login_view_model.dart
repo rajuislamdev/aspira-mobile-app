@@ -5,9 +5,10 @@ import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-final loginViewModelProvider = StateNotifierProvider<LoginViewModel, AsyncValue<UserModel?>>(
-  (ref) => LoginViewModel(ref),
-);
+final loginViewModelProvider =
+    StateNotifierProvider<LoginViewModel, AsyncValue<UserModel?>>(
+      (ref) => LoginViewModel(ref),
+    );
 
 class LoginViewModel extends StateNotifier<AsyncValue<UserModel?>> {
   final Ref ref;
@@ -18,10 +19,13 @@ class LoginViewModel extends StateNotifier<AsyncValue<UserModel?>> {
     state = const AsyncValue.loading();
     final result = await ref.read(authRepoProvider).login(payload: payload);
 
-    result.fold((ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current), (ifRight) async {
-      LocalStorageService().saveToken(ifRight.value1);
-      await ref.read(fetchProfileViewModelProvider.notifier).fetchProfile();
-      state = AsyncValue.data(ifRight.value2);
-    });
+    result.fold(
+      (ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current),
+      (ifRight) async {
+        LocalStorageService().saveToken(ifRight.value1);
+        await ref.read(fetchProfileViewModelProvider.notifier).fetchProfile();
+        state = AsyncValue.data(ifRight.value2);
+      },
+    );
   }
 }

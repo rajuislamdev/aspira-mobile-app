@@ -31,9 +31,12 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
     try {
       state = Loading();
       final String? token = await LocalStorageService().getToken();
-      final bool? isOnBoardingCompleted = await LocalStorageService().getIsOnboardingComplete();
+      final bool? isOnBoardingCompleted = await LocalStorageService()
+          .getIsOnboardingComplete();
 
-      if (token != null && isOnBoardingCompleted != null && isOnBoardingCompleted) {
+      if (token != null &&
+          isOnBoardingCompleted != null &&
+          isOnBoardingCompleted) {
         await ref.read(fetchProfileViewModelProvider.notifier).fetchProfile();
         state = Authenticated();
         return;
@@ -58,6 +61,7 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
   }
 }
 
-final appLaunchViewModelProvider = StateNotifierProvider<AppLaunchViewModel, AppLaunchState>(
-  (ref) => AppLaunchViewModel(ref: ref),
-);
+final appLaunchViewModelProvider =
+    StateNotifierProvider<AppLaunchViewModel, AppLaunchState>(
+      (ref) => AppLaunchViewModel(ref: ref),
+    );

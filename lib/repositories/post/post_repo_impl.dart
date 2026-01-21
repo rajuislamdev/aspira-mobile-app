@@ -1,6 +1,7 @@
 import 'package:aspira/core/errors/exceptions.dart';
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/type_def/type_def.dart';
+import 'package:aspira/models/post_model/post_model.dart';
 import 'package:aspira/repositories/post/i_post_repo.dart';
 import 'package:aspira/services/post_service.dart';
 import 'package:dartz/dartz.dart';
@@ -18,6 +19,20 @@ class PostRepoImpl extends IPostRepo {
     try {
       await postService.createPost(payload: payload);
       return Right("Post created successfully");
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Result<List<PostModel>> fetchPosts({required String? interestId}) async {
+    try {
+      final response = await postService.fetchPosts(interestId: interestId);
+      final data = response.data;
+      final posts = (data as List).map((e) => PostModel.fromJson(e)).toList();
+      return Right(posts);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

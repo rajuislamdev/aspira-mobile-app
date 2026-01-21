@@ -12,4 +12,8 @@ class PostService {
   Future<Response> createPost({required Map<String, dynamic> payload}) async {
     return await dioClient.post(ApiEndpoints.posts, data: payload);
   }
+
+  Future<Response> fetchPosts({required String? interestId}) async {
+    return await dioClient.get(ApiEndpoints.posts, params: {"interestId": interestId});
+  }
 }
