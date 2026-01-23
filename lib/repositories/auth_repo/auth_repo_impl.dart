@@ -16,12 +16,10 @@ class AuthRepoImpl implements IAuthRepo {
 
   AuthRepoImpl({required this.authService});
   @override
-  Result<Tuple2<String, UserModel>> login({
-    required Map<String, dynamic> payload,
-  }) async {
+  Result<Tuple2<String, UserModel>> login({required Map<String, dynamic> payload}) async {
     try {
-      final responsen = await authService.login(payload: payload);
-      final data = responsen.data as Map<String, dynamic>;
+      final response = await authService.login(payload: payload);
+      final data = response.data as Map<String, dynamic>;
       final user = UserModel.fromJson(data['payload']['user']);
       final token = data['payload']['token'];
       return Right(Tuple2(token, user));
@@ -33,12 +31,10 @@ class AuthRepoImpl implements IAuthRepo {
   }
 
   @override
-  Result<Tuple2<String, UserModel>> register({
-    required Map<String, dynamic> payload,
-  }) async {
+  Result<Tuple2<String, UserModel>> register({required Map<String, dynamic> payload}) async {
     try {
-      final responsen = await authService.register(payload: payload);
-      final data = responsen.data as Map<String, dynamic>;
+      final response = await authService.register(payload: payload);
+      final data = response.data as Map<String, dynamic>;
       final user = UserModel.fromJson(data['payload']['user']);
       final token = data['payload']['token'];
       return Right(Tuple2(token, user));
@@ -54,6 +50,33 @@ class AuthRepoImpl implements IAuthRepo {
     try {
       await authService.updateProfile(payload: payload);
       return Right('Profile updated successfully');
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Result<String?> getGoogleIdToken() async {
+    try {
+      final token = await authService.getGoogleIdToken();
+      return Right(token);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Result<Tuple2<String, UserModel>> loginWithGoogle({required String idToken}) async {
+    try {
+      final response = await authService.loginWithGoogle(idToken: idToken);
+      final data = response.data as Map<String, dynamic>;
+      final user = UserModel.fromJson(data['payload']['user']);
+      final token = data['payload']['token'];
+      return Right(Tuple2(token, user));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

@@ -414,6 +414,7 @@ class _FeedThreadList extends StatelessWidget {
                           likes: post.count?.reactions ?? 0,
                           comments: post.count?.replies ?? 0,
                           liked: false,
+                          post:post,
                         );
                       },
                     ),

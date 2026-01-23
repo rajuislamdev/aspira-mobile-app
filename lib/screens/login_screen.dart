@@ -1,5 +1,8 @@
 import 'package:aspira/core/router/route_location_name.dart';
+import 'package:aspira/core/utils/ui_support.dart';
+import 'package:aspira/view_models/auth/login_with_google_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -57,9 +60,7 @@ class LoginScreen extends StatelessWidget {
                                 height: 180,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: const Color(
-                                    0xFF1E3B8A,
-                                  ).withOpacity(0.1),
+                                  color: const Color(0xFF1E3B8A).withOpacity(0.1),
                                 ),
                                 child: const Icon(
                                   Icons.auto_graph_rounded,
@@ -113,30 +114,61 @@ class LoginScreen extends StatelessWidget {
                             background: const Color(0xFF14B8A6),
                             textColor: const Color(0xFF111214),
                             onTap: () {
-                              context.pushNamed(
-                                RouteLocationName.loginWithEmail,
-                              );
+                              context.pushNamed(RouteLocationName.loginWithEmail);
                             },
                           ),
 
                           const SizedBox(height: 12),
 
                           /// Google Button
-                          _SocialButton(
-                            label: 'Continue with Google',
-                            icon: Icons.g_mobiledata_rounded,
-                            onTap: () {},
+                          Consumer(
+                            builder: (context, ref, child) {
+                              ref.listen(loginWithGoogleViewModelProvider, (_, next) {
+                                if (next is Success) {
+                                  context.goNamed(RouteLocationName.onboarding);
+                                } else if (next is ProfileComplete) {
+                                  context.goNamed(RouteLocationName.feed);
+                                }
+
+                                if (next is Error) {
+                                  final failure = next.failure;
+                                  Ui.showErrorSnackBar(context, message: failure.message);
+                                }
+                              });
+                              final viewModel = ref.watch(loginWithGoogleViewModelProvider);
+                              return switch (viewModel) {
+                                Initial() => _SocialButton(
+                                  label: 'Continue with Google',
+                                  icon: Icons.g_mobiledata_rounded,
+                                  onTap: () {
+                                    ref
+                                        .read(loginWithGoogleViewModelProvider.notifier)
+                                        .loginWithGoogle();
+                                  },
+                                ),
+                                Loading() => const CircularProgressIndicator(),
+                                Error(failure: final failure) => _SocialButton(
+                                  label: 'Continue with Google',
+                                  icon: Icons.g_mobiledata_rounded,
+                                  onTap: () {
+                                    ref
+                                        .read(loginWithGoogleViewModelProvider.notifier)
+                                        .loginWithGoogle();
+                                  },
+                                ),
+                                _ => SizedBox.shrink(),
+                              };
+                            },
                           ),
 
-                          const SizedBox(height: 12),
+                          // const SizedBox(height: 12),
 
-                          /// Apple Button
-                          _SocialButton(
-                            label: 'Continue with Apple',
-                            icon: Icons.apple,
-                            onTap: () {},
-                          ),
-
+                          // /// Apple Button
+                          // _SocialButton(
+                          //   label: 'Continue with Apple',
+                          //   icon: Icons.apple,
+                          //   onTap: () {},
+                          // ),
                           const SizedBox(height: 24),
 
                           /// Footer
@@ -254,15 +286,10 @@ class _PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: background,
           foregroundColor: textColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
         onPressed: onTap,
-        child: Text(
-          label,
-          style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
+        child: Text(label, style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -273,11 +300,7 @@ class _SocialButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SocialButton({
-    required this.label,
-    required this.icon,
-    required this.onTap,
-  });
+  const _SocialButton({required this.label, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -297,9 +320,7 @@ class _SocialButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color(0xFF171A29),
           side: const BorderSide(color: Colors.white10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
         onPressed: onTap,
       ),
@@ -316,10 +337,7 @@ class _FooterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: GoogleFonts.manrope(
-        fontSize: 11,
-        color: const Color(0xFFB8B9BD).withOpacity(0.6),
-      ),
+      style: GoogleFonts.manrope(fontSize: 11, color: const Color(0xFFB8B9BD).withOpacity(0.6)),
     );
   }
 }

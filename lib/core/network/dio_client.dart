@@ -1,4 +1,4 @@
-import 'package:aspira/core/network/api_endpoints.dart';
+import 'package:aspira/core/config/environment.dart';
 import 'package:aspira/core/network/dio_interceptors.dart';
 import 'package:aspira/core/utils/app_constants.dart';
 import 'package:dio/dio.dart';
@@ -18,13 +18,11 @@ class DioClient {
                 sendTimeout: AppConstants.sendTimeOut,
                 receiveTimeout: AppConstants.receiveTimeOut,
                 connectTimeout: AppConstants.connectTimeOut,
-                baseUrl: ApiEndpoints.baseUrl,
+                baseUrl: EnvironmentConfig.apiBaseUrl,
                 responseType: ResponseType.json,
               ),
             )
-            ..interceptors.add(
-              LogInterceptor(responseBody: true, requestBody: true),
-            )
+            ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true))
             ..interceptors.add(DioInterceptors());
 
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {

@@ -49,9 +49,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
             ?.id, // Replace with actual selected interest ID
       };
 
-      ref
-          .read(createPostViewModelProvider.notifier)
-          .createPost(payload: payload);
+      ref.read(createPostViewModelProvider.notifier).createPost(payload: payload);
     }
   }
 
@@ -69,9 +67,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: const Color(0xFF111317).withOpacity(0.95),
-                border: const Border(
-                  bottom: BorderSide(color: Colors.grey, width: 0.3),
-                ),
+                border: const Border(bottom: BorderSide(color: Colors.grey, width: 0.3)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,10 +76,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
                     onPressed: () => Navigator.pop(context),
                     child: const Text(
                       "Cancel",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Text(
@@ -100,16 +93,11 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
                         next.whenOrNull(
                           data: (message) {
                             if (message != null) {
-                              ref
-                                  .read(selectedInterestProvider.notifier)
-                                  .update((state) => null);
+                              ref.read(selectedInterestProvider.notifier).update((state) => null);
                               Ui.showSuccessSnackBar(context, message: message);
-                              Future.delayed(
-                                AppConstants.switchAnimationDuration,
-                                () {
-                                  Navigator.of(context).pop();
-                                },
-                              );
+                              Future.delayed(AppConstants.switchAnimationDuration, () {
+                                Navigator.of(context).pop();
+                              });
                             }
                           },
 
@@ -122,9 +110,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
                         );
                       });
 
-                      final createPostViewModel = ref.watch(
-                        createPostViewModelProvider,
-                      );
+                      final createPostViewModel = ref.watch(createPostViewModelProvider);
                       if (createPostViewModel.isLoading) {
                         return const CircularProgressIndicator();
                       }
@@ -132,21 +118,13 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
                         onPressed: _submit,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF13B9A5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           elevation: 4,
                         ),
                         child: const Text(
                           "Post",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       );
                     },
@@ -183,8 +161,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
                     // Body Text Area
                     _InputField(
                       label: "Content",
-                      hint:
-                          "What is on your mind? Share your insights with the community...",
+                      hint: "What is on your mind? Share your insights with the community...",
                       maxLines: 8,
                       controller: _contentController,
                       validator: (value) {
@@ -199,10 +176,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
                         padding: const EdgeInsets.only(top: 12),
                         child: Text(
                           'Please fill in all required fields.',
-                          style: TextStyle(
-                            color: Colors.red.shade300,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(color: Colors.red.shade300, fontWeight: FontWeight.w600),
                         ),
                       ),
                   ],
@@ -211,25 +185,25 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
             ),
           ),
           // Bottom Media Toolbar
-          Container(
-            margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: const Color(0xFF1A1E26),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                _MediaButton(icon: Icons.image, label: "Image"),
-                _MediaButton(icon: Icons.videocam, label: "Video"),
-                _MediaButton(icon: Icons.mic, label: "Audio"),
-                _MediaButton(icon: Icons.link, label: "Link"),
-                VerticalDivider(width: 1, thickness: 1, color: Colors.grey),
-                _MediaButton(icon: Icons.palette, label: "Style"),
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.only(bottom: 70, left: 16, right: 16),
+          //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(16),
+          //     color: const Color(0xFF1A1E26),
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //     children: const [
+          //       _MediaButton(icon: Icons.image, label: "Image"),
+          //       _MediaButton(icon: Icons.videocam, label: "Video"),
+          //       _MediaButton(icon: Icons.mic, label: "Audio"),
+          //       _MediaButton(icon: Icons.link, label: "Link"),
+          //       VerticalDivider(width: 1, thickness: 1, color: Colors.grey),
+          //       _MediaButton(icon: Icons.palette, label: "Style"),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -280,10 +254,7 @@ class _InputField extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           ),
           validator: validator,
         ),
@@ -325,8 +296,7 @@ class _CategoryDropdownState extends State<_CategoryDropdown> {
                   if (selectedInterest == null &&
                       profile?.interests != null &&
                       profile!.interests!.isNotEmpty) {
-                    ref.read(selectedInterestProvider.notifier).state =
-                        profile.interests!.first;
+                    ref.read(selectedInterestProvider.notifier).state = profile.interests!.first;
                   }
                 },
               );
@@ -341,34 +311,22 @@ class _CategoryDropdownState extends State<_CategoryDropdown> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: DropdownButton<Interest>(
                   value: ref.watch(selectedInterestProvider),
-                  icon: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.white,
-                  ),
+                  icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white),
                   dropdownColor: const Color(0xFF1A1E26),
                   underline: const SizedBox(),
                   hint: const Text(
                     "Choose Interest",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
                   ),
                   isExpanded: true,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
                   items: profile?.interests!
                       .map(
                         (e) => DropdownMenuItem<Interest>(
                           value: e,
                           child: Row(
                             children: [
-                              const Icon(
-                                Icons.school,
-                                color: Color(0xFF13B9A5),
-                              ),
+                              const Icon(Icons.school, color: Color(0xFF13B9A5)),
                               const SizedBox(width: 8),
                               Text(e.name ?? ''),
                             ],
@@ -408,11 +366,7 @@ class _MediaButton extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           label.toUpperCase(),
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold),
         ),
       ],
     );

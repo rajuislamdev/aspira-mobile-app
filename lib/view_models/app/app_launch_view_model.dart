@@ -1,7 +1,7 @@
 import 'package:aspira/core/errors/failure.dart';
+import 'package:aspira/repositories/profile/profile_repo_impl.dart';
 import 'package:aspira/repositories/profile_option_repo/profile_option_impl.dart';
 import 'package:aspira/services/local_store_service.dart';
-import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
@@ -31,14 +31,18 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
     try {
       state = Loading();
       final String? token = await LocalStorageService().getToken();
-      final bool? isOnBoardingCompleted = await LocalStorageService()
-          .getIsOnboardingComplete();
+      final bool? isOnBoardingCompleted = await LocalStorageService().getIsOnboardingComplete();
 
-      if (token != null &&
-          isOnBoardingCompleted != null &&
-          isOnBoardingCompleted) {
-        await ref.read(fetchProfileViewModelProvider.notifier).fetchProfile();
-        state = Authenticated();
+      if (token != null && isOnBoardingCompleted != null && isOnBoardingCompleted) {
+        final result = await ref.read(profileRepoProvider).fetchUserProfile();
+        result.fold((ifLeft) => state = ErrorState(ifLeft), (ifRight) {
+          if (ifRight.interests != null && ifRight.interests!.isNotEmpty) {
+            state = Authenticated();
+          } else {
+            state = ProfileIncomplete();
+          }
+        });
+
         return;
       }
 
@@ -61,7 +65,6 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
   }
 }
 
-final appLaunchViewModelProvider =
-    StateNotifierProvider<AppLaunchViewModel, AppLaunchState>(
-      (ref) => AppLaunchViewModel(ref: ref),
-    );
+final appLaunchViewModelProvider = StateNotifierProvider<AppLaunchViewModel, AppLaunchState>(
+  (ref) => AppLaunchViewModel(ref: ref),
+);

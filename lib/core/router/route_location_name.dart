@@ -7,4 +7,5 @@ class RouteLocationName {
   static const String feed = 'feed';
   static const String profile = 'profile';
   static const String loginWithEmail = 'login-with-email';
+  static const String threadDiscussion = 'thread-discussion';
 }

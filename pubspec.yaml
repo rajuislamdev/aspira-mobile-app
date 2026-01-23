@@ -50,6 +50,8 @@ dependencies:
   go_router: ^17.0.1
   collection: ^1.19.1
   shimmer: ^3.0.0
+  google_sign_in: ^7.2.0
+  change_app_package_name: ^1.5.0
 
 dev_dependencies:
   flutter_test:

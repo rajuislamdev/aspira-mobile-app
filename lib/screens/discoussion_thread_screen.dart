@@ -1,8 +1,12 @@
+import 'package:aspira/core/utils/exptensions.dart';
+import 'package:aspira/models/post_model/post_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DiscussionThreadScreen extends StatelessWidget {
-  const DiscussionThreadScreen({super.key});
+  final PostModel post;
+  const DiscussionThreadScreen({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +25,7 @@ class DiscussionThreadScreen extends StatelessWidget {
                   floating: false,
                   expandedHeight: 64,
                   flexibleSpace: FlexibleSpaceBar(
-                    titlePadding: const EdgeInsets.symmetric(
-                      horizontal: 50,
-                      vertical: 16,
-                    ),
+                    titlePadding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                     title: Text(
                       "Discussion Thread",
                       style: GoogleFonts.manrope(
@@ -36,11 +37,8 @@ class DiscussionThreadScreen extends StatelessWidget {
                     ),
                   ),
                   leading: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
+                    icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                    onPressed: () => context.pop(),
                   ),
                   actions: [
                     IconButton(
@@ -88,9 +86,9 @@ class DiscussionThreadScreen extends StatelessWidget {
                             const SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
-                                  "Sarah Jenkins",
+                                  "${post.author?.firstName} ${post.author?.lastName}",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -98,7 +96,7 @@ class DiscussionThreadScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 2),
                                 Text(
-                                  "Lead Instructor • 2 hours ago",
+                                  "Lead Instructor • ${post.createdAt?.postTime}",
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: Colors.grey,
@@ -120,11 +118,11 @@ class DiscussionThreadScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          "Managing a remote workforce presents unique challenges, particularly when it comes to interpersonal friction. Without the benefit of body language or spontaneous water-cooler chats, small misunderstandings can quickly escalate into larger conflicts.\n\nIn my experience, prioritizing asynchronous clarity while maintaining a low threshold for moving difficult conversations to synchronous video calls is key. How are you all navigating the emotional intelligence gap in distributed environments?",
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                            height: 1.5,
+                          post.content ?? '',
+                          style: GoogleFonts.manrope(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -132,14 +130,11 @@ class DiscussionThreadScreen extends StatelessWidget {
                           children: [
                             _PostAction(
                               icon: Icons.favorite,
-                              count: 128,
+                              count: post.count?.reactions ?? 0,
                               active: true,
                             ),
                             const SizedBox(width: 24),
-                            _PostAction(
-                              icon: Icons.chat_bubble_outline,
-                              count: 32,
-                            ),
+                            _PostAction(icon: Icons.chat_bubble_outline, count: 32),
                             const SizedBox(width: 24),
                             _PostAction(icon: Icons.share, count: 12),
                           ],
@@ -179,10 +174,7 @@ class DiscussionThreadScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Icon(
-                                  Icons.expand_more,
-                                  color: Color(0xFF14B8A2),
-                                ),
+                                Icon(Icons.expand_more, color: Color(0xFF14B8A2)),
                               ],
                             ),
                           ],
@@ -223,9 +215,7 @@ class DiscussionThreadScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
                 decoration: BoxDecoration(
                   color: const Color(0xFF121416).withOpacity(0.95),
-                  border: const Border(
-                    top: BorderSide(color: Colors.grey, width: 0.3),
-                  ),
+                  border: const Border(top: BorderSide(color: Colors.grey, width: 0.3)),
                 ),
                 child: Row(
                   children: [
@@ -237,10 +227,7 @@ class DiscussionThreadScreen extends StatelessWidget {
                           hintStyle: const TextStyle(color: Colors.grey),
                           filled: true,
                           fillColor: const Color(0xFF1C1F24),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 14,
-                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25),
                             borderSide: BorderSide.none,
@@ -270,22 +257,13 @@ class _PostAction extends StatelessWidget {
   final IconData icon;
   final int count;
   final bool active;
-  const _PostAction({
-    required this.icon,
-    required this.count,
-    this.active = false,
-    super.key,
-  });
+  const _PostAction({required this.icon, required this.count, this.active = false, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: active ? const Color(0xFF14B8A2) : Colors.grey,
-        ),
+        Icon(icon, size: 20, color: active ? const Color(0xFF14B8A2) : Colors.grey),
         const SizedBox(width: 4),
         Text(
           count.toString(),
@@ -336,15 +314,9 @@ class CommentCard extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    time,
-                    style: const TextStyle(color: Colors.grey, fontSize: 10),
-                  ),
+                  Text(time, style: const TextStyle(color: Colors.grey, fontSize: 10)),
                 ],
               ),
               const Spacer(),
@@ -352,14 +324,7 @@ class CommentCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-              height: 1.4,
-            ),
-          ),
+          Text(text, style: const TextStyle(color: Colors.grey, fontSize: 14, height: 1.4)),
           const SizedBox(height: 8),
           Row(
             children: [
