@@ -1,6 +1,10 @@
+import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/router/route_location_name.dart';
+import 'package:aspira/core/utils/ui_support.dart';
 import 'package:aspira/models/post_model/post_model.dart';
+import 'package:aspira/view_models/post/react_post_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -123,7 +127,31 @@ class CommunityThreadCard extends StatelessWidget {
               onTap: () => context.pushNamed(RouteLocationName.threadDiscussion, extra: post),
               child: Row(
                 children: [
-                  _Reaction(icon: Icons.favorite, count: likes, active: liked),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      ref.listen(reactPostViewModelProvider, (_, next) {
+                        next.whenOrNull(
+                          error: (error, s) {
+                            final message = error is Failure
+                                ? error.message
+                                : 'Something went wrong';
+                            Ui.showErrorSnackBar(context, message: message);
+                          },
+                        );
+                      });
+                      return _Reaction(
+                        icon: Icons.favorite,
+                        count: likes,
+                        active: liked,
+                        onTap: () {
+                          if (post.id == null) return;
+                          ref
+                              .read(reactPostViewModelProvider.notifier)
+                              .reactPost(postId: post.id ?? '');
+                        },
+                      );
+                    },
+                  ),
                   const SizedBox(width: 16),
                   _Reaction(icon: Icons.chat_bubble_outline, count: comments),
                   const Spacer(),
@@ -150,17 +178,21 @@ class _Reaction extends StatelessWidget {
   final IconData icon;
   final int count;
   final bool active;
+  final Function()? onTap;
 
-  const _Reaction({required this.icon, required this.count, this.active = false});
+  const _Reaction({required this.icon, required this.count, this.active = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: active ? const Color(0xFF13B49F) : Colors.grey),
-        const SizedBox(width: 4),
-        Text('$count', style: GoogleFonts.manrope(fontWeight: FontWeight.w600)),
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: active ? const Color(0xFF13B49F) : Colors.grey),
+          const SizedBox(width: 4),
+          Text('$count', style: GoogleFonts.manrope(fontWeight: FontWeight.w600)),
+        ],
+      ),
     );
   }
 }

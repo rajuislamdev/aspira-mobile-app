@@ -39,4 +39,16 @@ class PostRepoImpl extends IPostRepo {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Result<String> reactPost({required String postId}) async {
+    try {
+      await postService.reactPost(postId: postId);
+      return Right("Post reacted successfully");
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

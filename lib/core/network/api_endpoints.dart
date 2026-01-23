@@ -8,4 +8,5 @@ class ApiEndpoints {
 
   // Post
   static final String posts = '$baseUrl/posts';
+  static final String reactPost = '$baseUrl/posts/:postId/reaction';
 }

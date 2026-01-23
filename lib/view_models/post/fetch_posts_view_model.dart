@@ -23,4 +23,14 @@ class FetchPostsViewModel extends StateNotifier<AsyncValue<List<PostModel>>> {
       (ifRight) => state = AsyncValue.data(ifRight),
     );
   }
+
+  void reactPost({required String postId}) {
+    final posts = state.value;
+    final index = posts!.indexWhere((element) => element.id == postId);
+    posts[index].hasReacted = !posts[index].hasReacted;
+    posts[index].count!.reactions = posts[index].hasReacted
+        ? posts[index].count!.reactions! + 1
+        : posts[index].count!.reactions! - 1;
+    state = AsyncValue.data(posts);
+  }
 }

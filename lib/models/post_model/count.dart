@@ -5,10 +5,10 @@ part 'count.g.dart';
 
 @JsonSerializable()
 class Count extends Equatable {
-  final int? reactions;
+   int? reactions;
   final int? replies;
 
-  const Count({this.reactions, this.replies});
+   Count({this.reactions, this.replies});
 
   factory Count.fromJson(Map<String, dynamic> json) => _$CountFromJson(json);
 

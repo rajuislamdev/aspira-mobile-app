@@ -18,9 +18,10 @@ class PostModel extends Equatable {
   final DateTime? updatedAt;
   final Author? author;
   @JsonKey(name: '_count')
-  final Count? count;
+  Count? count;
+  bool hasReacted;
 
-  const PostModel({
+  PostModel({
     this.id,
     this.content,
     this.mediaUrl,
@@ -31,6 +32,7 @@ class PostModel extends Equatable {
     this.updatedAt,
     this.author,
     this.count,
+    this.hasReacted = false,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class PostModel extends Equatable {
     DateTime? updatedAt,
     Author? author,
     Count? count,
+    bool? hasReacted,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -62,6 +65,7 @@ class PostModel extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
       author: author ?? this.author,
       count: count ?? this.count,
+      hasReacted: hasReacted ?? this.hasReacted,
     );
   }
 
@@ -78,6 +82,7 @@ class PostModel extends Equatable {
       updatedAt,
       author,
       count,
+      hasReacted,
     ];
   }
 }

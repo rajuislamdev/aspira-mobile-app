@@ -25,6 +25,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
   count: json['_count'] == null
       ? null
       : Count.fromJson(json['_count'] as Map<String, dynamic>),
+  hasReacted: json['hasReacted'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -38,4 +39,5 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
   'updatedAt': instance.updatedAt?.toIso8601String(),
   'author': instance.author,
   '_count': instance.count,
+  'hasReacted': instance.hasReacted,
 };
