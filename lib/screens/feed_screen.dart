@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:aspira/core/utils/app_constants.dart';
 import 'package:aspira/core/utils/exptensions.dart';
-import 'package:aspira/screens/widgets/community_thread_shimmer_card.dart';
 import 'package:aspira/screens/widgets/create_post_model.dart';
+import 'package:aspira/screens/widgets/loading/chip_item_shimmer.dart';
+import 'package:aspira/screens/widgets/loading/cummunity_thread_card_shimmer.dart';
+import 'package:aspira/screens/widgets/loading/top_appbar_shimmer_feed.dart';
 import 'package:aspira/screens/widgets/post_card.dart';
 import 'package:aspira/view_models/post/fetch_posts_view_model.dart';
 import 'package:aspira/view_models/profile/fetch_profile_view_model.dart'
@@ -83,71 +85,74 @@ class _TopAppBarContent extends StatelessWidget {
           child: Consumer(
             builder: (context, ref, child) {
               final viewModel = ref.watch(fetchProfileViewModelProvider);
-              return viewModel.when(
-                data: (profile) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Profile + Greeting
-                    Row(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: const Color(0xFF14B8A6).withOpacity(0.4),
-                              width: 2,
-                            ),
-                          ),
-                          child: const ClipOval(
-                            child: Image(
-                              image: NetworkImage('https://i.pravatar.cc/150?img=12'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'MEMBER PRO',
-                              style: GoogleFonts.manrope(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1.2,
-                                color: const Color(0xFF14B8A6),
+              return AnimatedSwitcher(
+                duration: AppConstants.switchAnimationDuration,
+                child: viewModel.when(
+                  data: (profile) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Profile + Greeting
+                      Row(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: const Color(0xFF14B8A6).withOpacity(0.4),
+                                width: 2,
                               ),
                             ),
-                            Text(
-                              '${DateTime.now().compactGreeting}, ${profile?.firstName ?? 'User'}',
-                              style: GoogleFonts.manrope(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
+                            child: const ClipOval(
+                              child: Image(
+                                image: NetworkImage('https://i.pravatar.cc/150?img=12'),
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    // Notification
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF171A29),
-                        shape: BoxShape.circle,
+                          ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'MEMBER PRO',
+                                style: GoogleFonts.manrope(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.2,
+                                  color: const Color(0xFF14B8A6),
+                                ),
+                              ),
+                              Text(
+                                '${DateTime.now().compactGreeting}, ${profile?.firstName ?? 'User'}',
+                                style: GoogleFonts.manrope(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      child: const Icon(Icons.notifications_none, color: Colors.white),
-                    ),
-                  ],
+
+                      // Notification
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF171A29),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.notifications_none, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  loading: () => TopAppBarShimmer(),
+                  error: (error, stackTrace) => const SizedBox.shrink(),
                 ),
-                loading: () => const SizedBox.shrink(),
-                error: (error, stackTrace) => const SizedBox.shrink(),
               );
             },
           ),
@@ -223,52 +228,64 @@ class _CategoryChipsState extends ConsumerState<_CategoryChips> {
 
     return SizedBox(
       height: 48,
-      child: viewModel.when(
-        data: (profile) {
-          final interests = profile?.interests ?? [];
-          final itemCount = interests.length + 1; // +1 for "For you"
+      child: AnimatedSwitcher(
+        duration: AppConstants.switchAnimationDuration,
+        child: viewModel.when(
+          data: (profile) {
+            final interests = profile?.interests ?? [];
+            final itemCount = interests.length + 1; // +1 for "For you"
 
-          // Scroll to selected chip when it changes
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _scrollToIndex(selectedIndex, itemCount);
-          });
+            // Scroll to selected chip when it changes
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _scrollToIndex(selectedIndex, itemCount);
+            });
 
-          return ListView.separated(
-            controller: _scrollController,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: itemCount,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (_, index) {
-              final isActive = selectedIndex == index;
-              if (index == 0) {
+            return ListView.separated(
+              controller: _scrollController,
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: itemCount,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              itemBuilder: (_, index) {
+                final isActive = selectedIndex == index;
+                if (index == 0) {
+                  return _ChipItem(
+                    label: 'For you',
+                    active: isActive,
+                    onTap: () {
+                      if (ref.read(selectedCategoryIndex.notifier).state == 0) return;
+                      ref.read(selectedCategoryIndex.notifier).state = 0;
+                      ref.read(fetchPostsViewModelProvider.notifier).fetchPosts(interestId: null);
+                    },
+                  );
+                }
                 return _ChipItem(
-                  label: 'For you',
+                  label: interests[index - 1].name ?? '',
                   active: isActive,
                   onTap: () {
-                    if (ref.read(selectedCategoryIndex.notifier).state == 0) return;
-                    ref.read(selectedCategoryIndex.notifier).state = 0;
-                    ref.read(fetchPostsViewModelProvider.notifier).fetchPosts(interestId: null);
+                    if (ref.read(selectedCategoryIndex.notifier).state == index) return;
+                    ref.read(selectedCategoryIndex.notifier).state = index;
+                    final interest = interests[index - 1];
+                    ref
+                        .read(fetchPostsViewModelProvider.notifier)
+                        .fetchPosts(interestId: interest.id);
                   },
                 );
-              }
-              return _ChipItem(
-                label: interests[index - 1].name ?? '',
-                active: isActive,
-                onTap: () {
-                  if (ref.read(selectedCategoryIndex.notifier).state == index) return;
-                  ref.read(selectedCategoryIndex.notifier).state = index;
-                  final interest = interests[index - 1];
-                  ref
-                      .read(fetchPostsViewModelProvider.notifier)
-                      .fetchPosts(interestId: interest.id);
-                },
-              );
-            },
-          );
-        },
-        loading: () => const SizedBox.shrink(),
-        error: (error, stackTrace) => const SizedBox.shrink(),
+              },
+            );
+          },
+          loading: () => SizedBox(
+            height: 48,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: 3,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              itemBuilder: (_, index) => const ChipItemShimmer(),
+            ),
+          ),
+          error: (error, stackTrace) => const SizedBox.shrink(),
+        ),
       ),
     );
   }
@@ -429,7 +446,7 @@ class _FeedThreadList extends StatelessWidget {
               itemCount: 5,
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (_, index) {
-                return CommunityThreadShimmerCard();
+                return CommunityThreadCardShimmer();
               },
             ),
           ),

@@ -7,6 +7,9 @@ import 'package:aspira/screens/feed_screen.dart';
 import 'package:aspira/screens/login_screen.dart';
 import 'package:aspira/screens/login_with_email_screen.dart';
 import 'package:aspira/screens/onboarding/onboarding_screen.dart';
+import 'package:aspira/screens/profile/profile_information_screen.dart';
+import 'package:aspira/screens/support/help_center_screen.dart';
+import 'package:aspira/screens/support/terms_of_service_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,6 +63,21 @@ class AppRouter {
         path: '/thread_discussion',
         name: RouteLocationName.threadDiscussion,
         builder: (context, state) => DiscussionThreadScreen(post: state.extra as PostModel),
+      ),
+      GoRoute(
+        path: '/profile-information',
+        name: RouteLocationName.profileInformation,
+        builder: (context, state) => ProfileInformationScreen(),
+      ),
+      GoRoute(
+        path: '/help-center-screen',
+        name: RouteLocationName.helpCenterScreen,
+        builder: (context, state) => HelpCenterScreen(),
+      ),
+      GoRoute(
+        path: '/terms-of-service-scree',
+        name: RouteLocationName.termsOfServiceScreen,
+        builder: (context, state) => TermsOfServiceScreen(),
       ),
     ],
   );

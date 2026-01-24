@@ -43,7 +43,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.person,
                             title: 'Profile Information',
                             subtitle: 'Name, email, and bio',
-                            onTap: () {},
+                            onTap: () => context.pushNamed(RouteLocationName.profileInformation),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
                           ),
 
                           _buildListItem(
@@ -57,6 +61,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             title: 'Subscription Plan',
                             subtitle: 'Manage billing and renewals',
                             onTap: () {},
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
                           ),
                         ]),
                         const SizedBox(height: 24),
@@ -90,12 +98,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.help,
                             title: 'Help Center',
                             trailingIcon: Icons.open_in_new,
-                            onTap: () {},
+                            onTap: () => context.pushNamed(RouteLocationName.helpCenterScreen),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
                           ),
                           _buildListItem(
                             icon: Icons.description,
                             title: 'Terms of Service',
-                            onTap: () {},
+                            onTap: () => context.pushNamed(RouteLocationName.termsOfServiceScreen),
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
                           ),
                         ]),
                         const SizedBox(height: 24),
@@ -251,43 +267,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String? subtitle,
     IconData? trailingIcon,
     VoidCallback? onTap,
+    BorderRadius? borderRadius,
   }) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Colors.white.withOpacity(subtitle != null ? 0.05 : 0)),
+    return Material(
+      color: const Color(0xFF171a29),
+      borderRadius: borderRadius,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.white.withOpacity(subtitle != null ? 0.05 : 0)),
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF14b8a6).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF14b8a6).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Icon(icon, color: const Color(0xFF14b8a6)),
               ),
-              padding: const EdgeInsets.all(8),
-              child: Icon(icon, color: const Color(0xFF14b8a6)),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
-                  ),
-                  if (subtitle != null)
-                    Text(subtitle, style: GoogleFonts.manrope(color: Colors.white38, fontSize: 12)),
-                ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
+                    ),
+                    if (subtitle != null)
+                      Text(
+                        subtitle,
+                        style: GoogleFonts.manrope(color: Colors.white38, fontSize: 12),
+                      ),
+                  ],
+                ),
               ),
-            ),
-            if (trailingIcon != null) Icon(trailingIcon, color: Colors.white24, size: 20),
-            if (trailingIcon == null) const Icon(Icons.chevron_right, color: Colors.white24),
-          ],
+              if (trailingIcon != null) Icon(trailingIcon, color: Colors.white24, size: 20),
+              if (trailingIcon == null) const Icon(Icons.chevron_right, color: Colors.white24),
+            ],
+          ),
         ),
       ),
     );

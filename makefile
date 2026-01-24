@@ -41,3 +41,5 @@ run_release:
 
 build_aab:
 	flutter build appbundle --release --dart-define-from-file=config/config.prod.json
+build_apk_install:
+	flutter build apk --release --dart-define-from-file=config/config.dev.json && flutter install

@@ -8,4 +8,7 @@ class RouteLocationName {
   static const String profile = 'profile';
   static const String loginWithEmail = 'login-with-email';
   static const String threadDiscussion = 'thread-discussion';
+  static const String profileInformation = 'profile-information';
+  static const String helpCenterScreen = 'help-center-screen';
+  static const String termsOfServiceScreen = 'terms-of-service-screen';
 }
