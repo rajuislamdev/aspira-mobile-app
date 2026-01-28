@@ -2,7 +2,7 @@ import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/models/post_model/post_model.dart';
 import 'package:aspira/screens/app_launch_screen.dart';
 import 'package:aspira/screens/core_screen.dart';
-import 'package:aspira/screens/discoussion_thread_screen.dart';
+import 'package:aspira/screens/thread/discoussion_thread_screen.dart';
 import 'package:aspira/screens/feed_screen.dart';
 import 'package:aspira/screens/login_screen.dart';
 import 'package:aspira/screens/login_with_email_screen.dart';

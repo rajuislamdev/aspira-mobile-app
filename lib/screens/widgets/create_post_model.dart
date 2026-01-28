@@ -42,8 +42,8 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
         Ui.showErrorSnackBar(context, message: "Please select an interest");
       }
       final payload = {
-        'content': _contentController.text.trim(),
         'title': _titleController.text.trim(),
+        'content': _contentController.text.trim(),
         'interestId': ref
             .read(selectedInterestProvider)
             ?.id, // Replace with actual selected interest ID

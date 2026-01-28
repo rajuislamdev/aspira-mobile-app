@@ -24,6 +24,7 @@ class ProfileRepoImpl extends IProfileRepo {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
+      rethrow;
       return Left(ServerFailure(e.toString()));
     }
   }

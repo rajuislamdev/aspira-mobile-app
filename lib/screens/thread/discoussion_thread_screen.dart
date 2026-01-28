@@ -1,6 +1,8 @@
 import 'package:aspira/core/utils/exptensions.dart';
 import 'package:aspira/models/post_model/post_model.dart';
+import 'package:aspira/view_models/post/react_post_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -109,7 +111,7 @@ class DiscussionThreadScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          "How do you handle conflict in remote teams?",
+                          post.title ?? '',
                           style: GoogleFonts.manrope(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
@@ -128,15 +130,36 @@ class DiscussionThreadScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            _PostAction(
-                              icon: Icons.favorite,
-                              count: post.count?.reactions ?? 0,
-                              active: true,
+                            Consumer(
+                              builder: (context, ref, child) {
+                                final reactPostViewModel = ref.watch(reactPostViewModelProvider);
+                                if (reactPostViewModel.isLoading) {
+                                  return _PostAction(
+                                    icon: Icons.favorite,
+                                    count: post.count?.reactions ?? 0,
+                                    active: post.hasReacted,
+                                    onTap: () {},
+                                  );
+                                }
+                                return _PostAction(
+                                  icon: Icons.favorite,
+                                  count: post.count?.reactions ?? 0,
+                                  active: post.hasReacted,
+                                  onTap: () {
+                                    ref
+                                        .read(reactPostViewModelProvider.notifier)
+                                        .reactPost(postId: post.id!);
+                                  },
+                                );
+                              },
                             ),
                             const SizedBox(width: 24),
-                            _PostAction(icon: Icons.chat_bubble_outline, count: 32),
+                            _PostAction(
+                              icon: Icons.chat_bubble_outline,
+                              count: post.count?.replies ?? 0,
+                            ),
                             const SizedBox(width: 24),
-                            _PostAction(icon: Icons.share, count: 12),
+                            _PostAction(icon: Icons.share, count: 0),
                           ],
                         ),
                       ],
@@ -257,22 +280,26 @@ class _PostAction extends StatelessWidget {
   final IconData icon;
   final int count;
   final bool active;
-  const _PostAction({required this.icon, required this.count, this.active = false, super.key});
+  final Function? onTap;
+  const _PostAction({required this.icon, required this.count, this.active = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: active ? const Color(0xFF14B8A2) : Colors.grey),
-        const SizedBox(width: 4),
-        Text(
-          count.toString(),
-          style: TextStyle(
-            color: active ? const Color(0xFF14B8A2) : Colors.grey,
-            fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () => onTap?.call(),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: active ? const Color(0xFF14B8A2) : Colors.grey),
+          const SizedBox(width: 4),
+          Text(
+            count.toString(),
+            style: TextStyle(
+              color: active ? const Color(0xFF14B8A2) : Colors.grey,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,10 +1,11 @@
 class GoalDataModel {
-  final int id;
-  final String label;
+  final String id;
+  final String name;
+  final String duration;
 
-  GoalDataModel({required this.id, required this.label});
+  GoalDataModel({required this.id, required this.name, required this.duration});
 
   factory GoalDataModel.fromJson(Map<String, dynamic> json) {
-    return GoalDataModel(id: json['id'], label: json['label']);
+    return GoalDataModel(id: json['id'], name: json['name'], duration: json['duration']);
   }
 }

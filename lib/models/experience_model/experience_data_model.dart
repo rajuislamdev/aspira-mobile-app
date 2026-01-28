@@ -1,9 +1,14 @@
 class ExperienceDataModel {
-  final int id;
-  final String label;
+  final String id;
+  final String name;
+  final String shortDescription;
 
-  ExperienceDataModel({required this.id, required this.label});
+  ExperienceDataModel({required this.id, required this.name, required this.shortDescription});
   factory ExperienceDataModel.fromJson(Map<String, dynamic> json) {
-    return ExperienceDataModel(id: json['id'], label: json['label']);
+    return ExperienceDataModel(
+      id: json['id'],
+      name: json['name'],
+      shortDescription: json['shortDescription'],
+    );
   }
 }

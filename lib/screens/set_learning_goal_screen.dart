@@ -19,11 +19,7 @@ class _SetLearningGoalScreenState extends State<SetLearningGoalScreen> {
       icon: Icons.schedule,
       recommended: true,
     ),
-    _GoalOption(
-      title: 'Serious',
-      subtitle: '30 mins / day',
-      icon: Icons.menu_book,
-    ),
+    _GoalOption(title: 'Serious', subtitle: '30 mins / day', icon: Icons.menu_book),
     _GoalOption(title: 'Intense', subtitle: '60+ mins / day', icon: Icons.bolt),
   ];
 
@@ -143,23 +139,16 @@ class _SetLearningGoalScreenState extends State<SetLearningGoalScreen> {
                             Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: const Color(
-                                  0xFF14B8A6,
-                                ).withOpacity(0.05),
+                                color: const Color(0xFF14B8A6).withOpacity(0.05),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: const Color(
-                                    0xFF14B8A6,
-                                  ).withOpacity(0.15),
+                                  color: const Color(0xFF14B8A6).withOpacity(0.15),
                                 ),
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Icon(
-                                    Icons.tips_and_updates,
-                                    color: Color(0xFF14B8A6),
-                                  ),
+                                  const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Text(
@@ -203,9 +192,7 @@ class _SetLearningGoalScreenState extends State<SetLearningGoalScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF14B8A6),
                           foregroundColor: const Color(0xFF111214),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                           elevation: 10,
                         ),
                         onPressed: () {},
@@ -214,17 +201,11 @@ class _SetLearningGoalScreenState extends State<SetLearningGoalScreen> {
                           children: [
                             Text(
                               'Continue',
-                              style: GoogleFonts.manrope(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                              ),
+                              style: GoogleFonts.manrope(fontSize: 18, fontWeight: FontWeight.w800),
                             ),
                             const SizedBox(width: 8),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 2,
-                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
                                 color: Colors.black12,
                                 borderRadius: BorderRadius.circular(6),
@@ -277,11 +258,7 @@ class _GoalCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _GoalCard({
-    required this.goal,
-    required this.selected,
-    required this.onTap,
-  });
+  const _GoalCard({required this.goal, required this.selected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -298,12 +275,7 @@ class _GoalCard extends StatelessWidget {
             width: 2,
           ),
           boxShadow: selected
-              ? [
-                  BoxShadow(
-                    color: const Color(0xFF14B8A6).withOpacity(0.15),
-                    blurRadius: 12,
-                  ),
-                ]
+              ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.15), blurRadius: 12)]
               : [],
         ),
         child: Row(
@@ -312,15 +284,10 @@ class _GoalCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: selected
-                    ? const Color(0xFF14B8A6).withOpacity(0.2)
-                    : Colors.white10,
+                color: selected ? const Color(0xFF14B8A6).withOpacity(0.2) : Colors.white10,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(
-                goal.icon,
-                color: selected ? const Color(0xFF14B8A6) : Colors.white60,
-              ),
+              child: Icon(goal.icon, color: selected ? const Color(0xFF14B8A6) : Colors.white60),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -340,10 +307,7 @@ class _GoalCard extends StatelessWidget {
                       if (goal.recommended)
                         Container(
                           margin: const EdgeInsets.only(left: 8),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
                             color: const Color(0xFF14B8A6).withOpacity(0.15),
                             borderRadius: BorderRadius.circular(6),
@@ -359,20 +323,14 @@ class _GoalCard extends StatelessWidget {
                         ),
                       if (selected) ...[
                         const Spacer(),
-                        const Icon(
-                          Icons.check_circle,
-                          color: Color(0xFF14B8A6),
-                        ),
+                        const Icon(Icons.check_circle, color: Color(0xFF14B8A6)),
                       ],
                     ],
                   ),
                   const SizedBox(height: 6),
                   Text(
                     goal.subtitle,
-                    style: GoogleFonts.manrope(
-                      color: Colors.white38,
-                      fontSize: 13,
-                    ),
+                    style: GoogleFonts.manrope(color: Colors.white38, fontSize: 13),
                   ),
                 ],
               ),

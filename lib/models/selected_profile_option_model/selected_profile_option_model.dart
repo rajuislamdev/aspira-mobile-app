@@ -1,7 +1,7 @@
 class SelectedProfileOptionModel {
   final List<String> interests;
-  final int goal;
-  final int experience;
+  final String goal;
+  final String experience;
   final String position;
 
   SelectedProfileOptionModel({
@@ -14,8 +14,8 @@ class SelectedProfileOptionModel {
   // copy with method
   SelectedProfileOptionModel copyWith({
     List<String>? interests,
-    int? goal,
-    int? experience,
+    String? goal,
+    String? experience,
     String? position,
   }) {
     return SelectedProfileOptionModel(
@@ -27,18 +27,9 @@ class SelectedProfileOptionModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'interests': interests,
-      'goal': goal,
-      'experience': experience,
-      'position': position,
-    };
+    return {'interests': interests, 'goal': goal, 'experience': experience, 'position': position};
   }
 
   /// empty constructor
-  SelectedProfileOptionModel.empty()
-    : interests = [],
-      goal = 0,
-      experience = 0,
-      position = '';
+  SelectedProfileOptionModel.empty() : interests = [], goal = '', experience = '', position = '';
 }

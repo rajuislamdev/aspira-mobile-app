@@ -23,11 +23,11 @@ class SelectedProfileOptionViewModel
     state = state?.copyWith(interests: [...?state?.interests, interestId]);
   }
 
-  void updateGoal({required int goalId}) {
+  void updateGoal({required String goalId}) {
     state = state?.copyWith(goal: goalId);
   }
 
-  void updateExperience({required int experienceId}) {
+  void updateExperience({required String experienceId}) {
     state = state?.copyWith(experience: experienceId);
   }
 }

@@ -30,7 +30,7 @@ class PostRepoImpl extends IPostRepo {
   Result<List<PostModel>> fetchPosts({required String? interestId}) async {
     try {
       final response = await postService.fetchPosts(interestId: interestId);
-      final data = response.data;
+      final data = response.data['payload'];
       final posts = (data as List).map((e) => PostModel.fromJson(e)).toList();
       return Right(posts);
     } on ServerException catch (e) {

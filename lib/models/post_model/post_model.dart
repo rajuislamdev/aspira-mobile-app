@@ -9,6 +9,7 @@ part 'post_model.g.dart';
 @JsonSerializable()
 class PostModel extends Equatable {
   final String? id;
+  final String? title;
   final String? content;
   final dynamic mediaUrl;
   final int? shareCount;
@@ -23,6 +24,7 @@ class PostModel extends Equatable {
 
   PostModel({
     this.id,
+    this.title,
     this.content,
     this.mediaUrl,
     this.shareCount,
@@ -43,6 +45,7 @@ class PostModel extends Equatable {
 
   PostModel copyWith({
     String? id,
+    String? title,
     String? content,
     dynamic mediaUrl,
     int? shareCount,
@@ -56,6 +59,7 @@ class PostModel extends Equatable {
   }) {
     return PostModel(
       id: id ?? this.id,
+      title: title ?? this.title,
       content: content ?? this.content,
       mediaUrl: mediaUrl ?? this.mediaUrl,
       shareCount: shareCount ?? this.shareCount,
@@ -73,6 +77,7 @@ class PostModel extends Equatable {
   List<Object?> get props {
     return [
       id,
+      title,
       content,
       mediaUrl,
       shareCount,

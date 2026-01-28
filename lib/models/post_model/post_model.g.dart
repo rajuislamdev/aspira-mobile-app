@@ -8,6 +8,7 @@ part of 'post_model.dart';
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
   id: json['id'] as String?,
+  title: json['title'] as String?,
   content: json['content'] as String?,
   mediaUrl: json['mediaUrl'],
   shareCount: (json['shareCount'] as num?)?.toInt(),
@@ -30,6 +31,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
   'id': instance.id,
+  'title': instance.title,
   'content': instance.content,
   'mediaUrl': instance.mediaUrl,
   'shareCount': instance.shareCount,

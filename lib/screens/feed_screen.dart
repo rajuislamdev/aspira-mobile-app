@@ -426,7 +426,7 @@ class _FeedThreadList extends StatelessWidget {
                           name: '${post.author?.firstName} ${post.author?.lastName}',
                           role: 'Product Director',
                           time: post.createdAt?.postTime ?? '',
-                          title: 'How do you handle conflict in remote teams?',
+                          title: post.title ?? '',
                           description: post.content ?? '',
                           likes: post.count?.reactions ?? 0,
                           comments: post.count?.replies ?? 0,
