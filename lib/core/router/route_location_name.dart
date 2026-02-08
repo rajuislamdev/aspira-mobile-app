@@ -12,4 +12,5 @@ class RouteLocationName {
   static const String helpCenterScreen = 'help-center-screen';
   static const String termsOfServiceScreen = 'terms-of-service-screen';
   static const String bookmarkedPosts = 'bookmarked-posts';
+  static const String notifications = 'notifications';
 }

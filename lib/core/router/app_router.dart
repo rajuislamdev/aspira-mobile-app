@@ -5,6 +5,7 @@ import 'package:aspira/screens/core_screen.dart';
 import 'package:aspira/screens/feed_screen.dart';
 import 'package:aspira/screens/login_screen.dart';
 import 'package:aspira/screens/login_with_email_screen.dart';
+import 'package:aspira/screens/notifications/notifications_screen.dart';
 import 'package:aspira/screens/onboarding/onboarding_screen.dart';
 import 'package:aspira/screens/profile/bookmarked_posts_screen.dart';
 import 'package:aspira/screens/profile/profile_information_screen.dart';
@@ -85,6 +86,11 @@ class AppRouter {
         path: '/bookmarked-posts',
         name: RouteLocationName.bookmarkedPosts,
         builder: (context, state) => const BookmarkedPostsScreen(),
+      ),
+      GoRoute(
+        path: '/notifications',
+        name: RouteLocationName.notifications,
+        builder: (context, state) => const NotificationsScreen(),
       ),
     ],
   );

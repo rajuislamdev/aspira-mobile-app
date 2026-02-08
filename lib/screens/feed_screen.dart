@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/app_constants.dart';
 import 'package:aspira/core/utils/exptensions.dart';
 import 'package:aspira/screens/widgets/create_post_model.dart';
@@ -13,6 +14,7 @@ import 'package:aspira/view_models/profile/fetch_profile_view_model.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -147,16 +149,37 @@ class _TopAppBarContent extends StatelessWidget {
                       ),
 
                       // Notification
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF171A29),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.notifications_none,
-                          color: Colors.white,
+                      GestureDetector(
+                        onTap: () =>
+                            context.pushNamed(RouteLocationName.notifications),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF171A29),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const Icon(
+                                Icons.notifications_none,
+                                color: Colors.white,
+                              ),
+                              Positioned(
+                                top: 8,
+                                right: 10,
+                                child: Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFF14B8A6),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
