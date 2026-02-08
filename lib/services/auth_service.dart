@@ -6,7 +6,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-final authServiceProvider = Provider((ref) => AuthService(dioClient: ref.read(dioClientProvider)));
+final authServiceProvider = Provider(
+  (ref) => AuthService(dioClient: ref.read(dioClientProvider)),
+);
 
 class AuthService {
   final DioClient dioClient;
@@ -26,7 +28,9 @@ class AuthService {
     return await dioClient.post(ApiEndpoints.login, data: payload);
   }
 
-  Future<Response> updateProfile({required Map<String, dynamic> payload}) async {
+  Future<Response> updateProfile({
+    required Map<String, dynamic> payload,
+  }) async {
     return await dioClient.patch(ApiEndpoints.user, data: payload);
   }
 
@@ -45,6 +49,9 @@ class AuthService {
   }
 
   Future<Response> loginWithGoogle({required String idToken}) async {
-    return await dioClient.post(ApiEndpoints.loginWithGoogle, data: {"idToken": idToken});
+    return await dioClient.post(
+      ApiEndpoints.loginWithGoogle,
+      data: {"idToken": idToken},
+    );
   }
 }

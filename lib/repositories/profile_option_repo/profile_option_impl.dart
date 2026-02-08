@@ -8,7 +8,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final profileOptionProvider = Provider(
-  (ref) => ProfileOptionImpl(profileOptionService: ref.read(profileOptionServiceProvider)),
+  (ref) => ProfileOptionImpl(
+    profileOptionService: ref.read(profileOptionServiceProvider),
+  ),
 );
 
 class ProfileOptionImpl implements IProfileOption {
@@ -18,7 +20,9 @@ class ProfileOptionImpl implements IProfileOption {
   Result<ProfileOptionModel> fetchInterest() async {
     try {
       final response = await profileOptionService.fetchProfileOptions();
-      final profileOption = ProfileOptionModel.fromJson((response.data['payload']));
+      final profileOption = ProfileOptionModel.fromJson(
+        (response.data['payload']),
+      );
 
       return Right(profileOption);
     } on ServerException catch (e) {

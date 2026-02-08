@@ -12,12 +12,18 @@ class HelpCenterScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF111214),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Help Center',
-          style: GoogleFonts.manrope(fontWeight: FontWeight.bold, color: Colors.white),
+          style: GoogleFonts.manrope(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
@@ -38,7 +44,10 @@ class HelpCenterScreen extends StatelessWidget {
                       hintStyle: GoogleFonts.manrope(color: Colors.white38),
                       filled: true,
                       fillColor: const Color(0xFF171A29),
-                      prefixIcon: const Icon(Icons.search, color: Colors.white54),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Colors.white54,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
@@ -95,15 +104,18 @@ class HelpCenterScreen extends StatelessWidget {
 
                   _FaqTile(
                     question: 'How do I update my profile?',
-                    answer: 'Go to Profile → Profile Information and update your details.',
+                    answer:
+                        'Go to Profile → Profile Information and update your details.',
                   ),
                   _FaqTile(
                     question: 'How do interests work?',
-                    answer: 'Interests help personalize your feed and learning experience.',
+                    answer:
+                        'Interests help personalize your feed and learning experience.',
                   ),
                   _FaqTile(
                     question: 'Is my data secure?',
-                    answer: 'Yes. We follow best practices to protect your data.',
+                    answer:
+                        'Yes. We follow best practices to protect your data.',
                   ),
 
                   const SizedBox(height: 32),
@@ -117,12 +129,18 @@ class HelpCenterScreen extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.support_agent, color: Color(0xFF14B8A6)),
+                        const Icon(
+                          Icons.support_agent,
+                          color: Color(0xFF14B8A6),
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Still need help?\nContact our support team.',
-                            style: GoogleFonts.manrope(fontSize: 14, color: Colors.white),
+                            style: GoogleFonts.manrope(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         TextButton(
@@ -155,7 +173,11 @@ class _HelpTile extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const _HelpTile({required this.icon, required this.title, required this.subtitle});
+  const _HelpTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +189,15 @@ class _HelpTile extends StatelessWidget {
         leading: Icon(icon, color: const Color(0xFF14B8A6)),
         title: Text(
           title,
-          style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w600),
+          style: GoogleFonts.manrope(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        subtitle: Text(subtitle, style: GoogleFonts.manrope(color: Colors.white54, fontSize: 13)),
+        subtitle: Text(
+          subtitle,
+          style: GoogleFonts.manrope(color: Colors.white54, fontSize: 13),
+        ),
         trailing: const Icon(Icons.chevron_right, color: Colors.white38),
         onTap: () {
           // TODO: navigate to detail page
@@ -193,12 +221,18 @@ class _FaqTile extends StatelessWidget {
       iconColor: const Color(0xFF14B8A6),
       title: Text(
         question,
-        style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w600),
+        style: GoogleFonts.manrope(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: Text(answer, style: GoogleFonts.manrope(color: Colors.white54, fontSize: 13)),
+          child: Text(
+            answer,
+            style: GoogleFonts.manrope(color: Colors.white54, fontSize: 13),
+          ),
         ),
       ],
     );

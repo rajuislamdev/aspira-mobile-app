@@ -45,20 +45,25 @@ class LoginWithGoogleViewModel extends StateNotifier<LoginWithGoogleState> {
           state = Error(ServerFailure('Something went wrong'));
           return;
         }
-        final result = await ref.read(authRepoProvider).loginWithGoogle(idToken: token);
+        final result = await ref
+            .read(authRepoProvider)
+            .loginWithGoogle(idToken: token);
         result.fold(
           (ifLeft) {
             state = Error(ifLeft);
           },
           (profile) async {
             LocalStorageService().saveToken(profile.value1);
-            final result = await ref.read(profileRepoProvider).fetchUserProfile();
+            final result = await ref
+                .read(profileRepoProvider)
+                .fetchUserProfile();
             result.fold(
               (ifLeft) {
                 state = Error(ifLeft);
               },
               (ifRight) {
-                if (ifRight.interests != null && ifRight.interests!.isNotEmpty) {
+                if (ifRight.interests != null &&
+                    ifRight.interests!.isNotEmpty) {
                   state = ProfileComplete(ifRight);
                 } else {
                   state = Success(profile.value2);

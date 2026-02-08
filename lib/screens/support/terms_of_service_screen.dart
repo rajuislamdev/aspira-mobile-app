@@ -35,7 +35,9 @@ class TermsOfServiceScreen extends StatelessWidget {
               _SectionTitle('3. Your Account'),
               _BulletPoint('Keep your login details secure'),
               _BulletPoint('Provide accurate information'),
-              _BulletPoint('You are responsible for all activity under your account'),
+              _BulletPoint(
+                'You are responsible for all activity under your account',
+              ),
 
               SizedBox(height: 16),
               _SectionTitle('4. User Content'),
@@ -79,7 +81,9 @@ class TermsOfServiceScreen extends StatelessWidget {
 
               SizedBox(height: 16),
               _SectionTitle('10. Termination'),
-              _BodyText('We may suspend or terminate your account if these terms are violated.'),
+              _BodyText(
+                'We may suspend or terminate your account if these terms are violated.',
+              ),
 
               SizedBox(height: 16),
               _SectionTitle('11. Changes to Terms'),
@@ -114,7 +118,9 @@ class _TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(
+        context,
+      ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
     );
   }
 }
@@ -127,7 +133,9 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(
+        context,
+      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }

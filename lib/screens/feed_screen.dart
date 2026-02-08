@@ -25,7 +25,10 @@ class FeedScreen extends StatelessWidget {
       body: NestedScrollView(
         headerSliverBuilder: (_, __) => const [
           _CollapsingTopBar(),
-          SliverPersistentHeader(pinned: true, delegate: _CategoryHeaderDelegate()),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _CategoryHeaderDelegate(),
+          ),
         ],
         body: const _FeedThreadList(),
       ),
@@ -51,7 +54,8 @@ class _CollapsingTopBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
-          final progress = (constraints.maxHeight - kToolbarHeight) / (92 - kToolbarHeight);
+          final progress =
+              (constraints.maxHeight - kToolbarHeight) / (92 - kToolbarHeight);
           final clamped = progress.clamp(0.0, 1.0);
 
           return Opacity(
@@ -80,7 +84,9 @@ class _TopAppBarContent extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
           decoration: BoxDecoration(
             color: const Color(0xFF111214).withOpacity(0.85),
-            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.06))),
+            border: Border(
+              bottom: BorderSide(color: Colors.white.withOpacity(0.06)),
+            ),
           ),
           child: Consumer(
             builder: (context, ref, child) {
@@ -106,7 +112,9 @@ class _TopAppBarContent extends StatelessWidget {
                             ),
                             child: const ClipOval(
                               child: Image(
-                                image: NetworkImage('https://i.pravatar.cc/150?img=12'),
+                                image: NetworkImage(
+                                  'https://i.pravatar.cc/150?img=12',
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -146,7 +154,10 @@ class _TopAppBarContent extends StatelessWidget {
                           color: Color(0xFF171A29),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.notifications_none, color: Colors.white),
+                        child: const Icon(
+                          Icons.notifications_none,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -175,7 +186,11 @@ class _CategoryHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => 48;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       color: const Color(0xFF111214),
       padding: const EdgeInsets.only(top: 0, bottom: 8),
@@ -185,7 +200,8 @@ class _CategoryHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => false;
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      false;
 }
 
 /// =============================================================
@@ -253,9 +269,12 @@ class _CategoryChipsState extends ConsumerState<_CategoryChips> {
                     label: 'For you',
                     active: isActive,
                     onTap: () {
-                      if (ref.read(selectedCategoryIndex.notifier).state == 0) return;
+                      if (ref.read(selectedCategoryIndex.notifier).state == 0)
+                        return;
                       ref.read(selectedCategoryIndex.notifier).state = 0;
-                      ref.read(fetchPostsViewModelProvider.notifier).fetchPosts(interestId: null);
+                      ref
+                          .read(fetchPostsViewModelProvider.notifier)
+                          .fetchPosts(interestId: null);
                     },
                   );
                 }
@@ -263,7 +282,8 @@ class _CategoryChipsState extends ConsumerState<_CategoryChips> {
                   label: interests[index - 1].name ?? '',
                   active: isActive,
                   onTap: () {
-                    if (ref.read(selectedCategoryIndex.notifier).state == index) return;
+                    if (ref.read(selectedCategoryIndex.notifier).state == index)
+                      return;
                     ref.read(selectedCategoryIndex.notifier).state = index;
                     final interest = interests[index - 1];
                     ref
@@ -310,7 +330,12 @@ class _ChipItem extends StatelessWidget {
           color: active ? const Color(0xFF14B8A6) : const Color(0xFF171A29),
           borderRadius: BorderRadius.circular(14),
           boxShadow: active
-              ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.25), blurRadius: 10)]
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF14B8A6).withOpacity(0.25),
+                    blurRadius: 10,
+                  ),
+                ]
               : null,
         ),
         child: Text(
@@ -342,7 +367,10 @@ class _FeedThreadList extends StatelessWidget {
             data: (posts) => posts.isEmpty
                 ? Center(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 64,
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -379,7 +407,10 @@ class _FeedThreadList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               elevation: 6,
-                              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 10,
+                              ),
                             ),
                             onPressed: () {
                               // Open create post modal or navigate to create post screen
@@ -392,7 +423,9 @@ class _FeedThreadList extends StatelessWidget {
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       color: Color(0xFF111317),
-                                      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(28),
+                                      ),
                                     ),
                                     child: const CreatePostModal(),
                                   ),
@@ -402,7 +435,10 @@ class _FeedThreadList extends StatelessWidget {
                             icon: const Icon(Icons.add),
                             label: Text(
                               'Start a Thread',
-                              style: GoogleFonts.manrope(fontWeight: FontWeight.bold, fontSize: 16),
+                              style: GoogleFonts.manrope(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],
@@ -411,7 +447,10 @@ class _FeedThreadList extends StatelessWidget {
                   )
                 : RefreshIndicator(
                     onRefresh: () async {
-                      ref.invalidate(fetchPostsViewModelProvider, asReload: true);
+                      ref.invalidate(
+                        fetchPostsViewModelProvider,
+                        asReload: true,
+                      );
                     },
                     child: ListView.separated(
                       key: const ValueKey('feed-thread-list'),
@@ -423,7 +462,8 @@ class _FeedThreadList extends StatelessWidget {
                         final post = posts[index];
                         return CommunityThreadCard(
                           avatarUrl: 'https://i.pravatar.cc/150?img=47',
-                          name: '${post.author?.firstName} ${post.author?.lastName}',
+                          name:
+                              '${post.author?.firstName} ${post.author?.lastName}',
                           role: 'Product Director',
                           time: post.createdAt?.postTime ?? '',
                           title: post.title ?? '',

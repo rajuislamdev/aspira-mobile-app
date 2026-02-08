@@ -16,7 +16,9 @@ class AuthRepoImpl implements IAuthRepo {
 
   AuthRepoImpl({required this.authService});
   @override
-  Result<Tuple2<String, UserModel>> login({required Map<String, dynamic> payload}) async {
+  Result<Tuple2<String, UserModel>> login({
+    required Map<String, dynamic> payload,
+  }) async {
     try {
       final response = await authService.login(payload: payload);
       final data = response.data as Map<String, dynamic>;
@@ -31,7 +33,9 @@ class AuthRepoImpl implements IAuthRepo {
   }
 
   @override
-  Result<Tuple2<String, UserModel>> register({required Map<String, dynamic> payload}) async {
+  Result<Tuple2<String, UserModel>> register({
+    required Map<String, dynamic> payload,
+  }) async {
     try {
       final response = await authService.register(payload: payload);
       final data = response.data as Map<String, dynamic>;
@@ -70,7 +74,9 @@ class AuthRepoImpl implements IAuthRepo {
   }
 
   @override
-  Result<Tuple2<String, UserModel>> loginWithGoogle({required String idToken}) async {
+  Result<Tuple2<String, UserModel>> loginWithGoogle({
+    required String idToken,
+  }) async {
     try {
       final response = await authService.loginWithGoogle(idToken: idToken);
       final data = response.data as Map<String, dynamic>;

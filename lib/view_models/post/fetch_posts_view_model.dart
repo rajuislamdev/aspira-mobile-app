@@ -17,7 +17,9 @@ class FetchPostsViewModel extends StateNotifier<AsyncValue<List<PostModel>>> {
 
   Future<void> fetchPosts({required String? interestId}) async {
     state = const AsyncValue.loading();
-    final result = await ref.read(postRepoProvider).fetchPosts(interestId: interestId);
+    final result = await ref
+        .read(postRepoProvider)
+        .fetchPosts(interestId: interestId);
     result.fold(
       (ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current),
       (ifRight) => state = AsyncValue.data(ifRight),

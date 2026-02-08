@@ -60,7 +60,9 @@ class LoginScreen extends StatelessWidget {
                                 height: 180,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: const Color(0xFF1E3B8A).withOpacity(0.1),
+                                  color: const Color(
+                                    0xFF1E3B8A,
+                                  ).withOpacity(0.1),
                                 ),
                                 child: const Icon(
                                   Icons.auto_graph_rounded,
@@ -114,7 +116,9 @@ class LoginScreen extends StatelessWidget {
                             background: const Color(0xFF14B8A6),
                             textColor: const Color(0xFF111214),
                             onTap: () {
-                              context.pushNamed(RouteLocationName.loginWithEmail);
+                              context.pushNamed(
+                                RouteLocationName.loginWithEmail,
+                              );
                             },
                           ),
 
@@ -123,7 +127,10 @@ class LoginScreen extends StatelessWidget {
                           /// Google Button
                           Consumer(
                             builder: (context, ref, child) {
-                              ref.listen(loginWithGoogleViewModelProvider, (_, next) {
+                              ref.listen(loginWithGoogleViewModelProvider, (
+                                _,
+                                next,
+                              ) {
                                 if (next is Success) {
                                   context.goNamed(RouteLocationName.onboarding);
                                 } else if (next is ProfileComplete) {
@@ -132,17 +139,25 @@ class LoginScreen extends StatelessWidget {
 
                                 if (next is Error) {
                                   final failure = next.failure;
-                                  Ui.showErrorSnackBar(context, message: failure.message);
+                                  Ui.showErrorSnackBar(
+                                    context,
+                                    message: failure.message,
+                                  );
                                 }
                               });
-                              final viewModel = ref.watch(loginWithGoogleViewModelProvider);
+                              final viewModel = ref.watch(
+                                loginWithGoogleViewModelProvider,
+                              );
                               return switch (viewModel) {
                                 Initial() => _SocialButton(
                                   label: 'Continue with Google',
                                   icon: Icons.g_mobiledata_rounded,
                                   onTap: () {
                                     ref
-                                        .read(loginWithGoogleViewModelProvider.notifier)
+                                        .read(
+                                          loginWithGoogleViewModelProvider
+                                              .notifier,
+                                        )
                                         .loginWithGoogle();
                                   },
                                 ),
@@ -152,7 +167,10 @@ class LoginScreen extends StatelessWidget {
                                   icon: Icons.g_mobiledata_rounded,
                                   onTap: () {
                                     ref
-                                        .read(loginWithGoogleViewModelProvider.notifier)
+                                        .read(
+                                          loginWithGoogleViewModelProvider
+                                              .notifier,
+                                        )
                                         .loginWithGoogle();
                                   },
                                 ),
@@ -172,31 +190,30 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(height: 24),
 
                           /// Footer
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Already have an account?',
-                                style: GoogleFonts.manrope(
-                                  color: const Color(0xFFB8B9BD),
-                                  fontSize: 13,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  'Log In',
-                                  style: GoogleFonts.manrope(
-                                    color: const Color(0xFF14B8A6),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     Text(
+                          //       'Already have an account?',
+                          //       style: GoogleFonts.manrope(
+                          //         color: const Color(0xFFB8B9BD),
+                          //         fontSize: 13,
+                          //       ),
+                          //     ),
+                          //     const SizedBox(width: 6),
+                          //     GestureDetector(
+                          //       onTap: () {},
+                          //       child: Text(
+                          //         'Log In',
+                          //         style: GoogleFonts.manrope(
+                          //           color: const Color(0xFF14B8A6),
+                          //           fontWeight: FontWeight.w600,
+                          //           fontSize: 13,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           const SizedBox(height: 12),
 
                           Row(
@@ -280,16 +297,21 @@ class _PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: 52,
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: background,
           foregroundColor: textColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
-        child: Text(label, style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text(
+          label,
+          style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -300,12 +322,16 @@ class _SocialButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SocialButton({required this.label, required this.icon, required this.onTap});
+  const _SocialButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: 52,
       width: double.infinity,
       child: OutlinedButton.icon(
         icon: Icon(icon, size: 22, color: Colors.white),
@@ -320,7 +346,9 @@ class _SocialButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color(0xFF171A29),
           side: const BorderSide(color: Colors.white10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
       ),
@@ -337,7 +365,10 @@ class _FooterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: GoogleFonts.manrope(fontSize: 11, color: const Color(0xFFB8B9BD).withOpacity(0.6)),
+      style: GoogleFonts.manrope(
+        fontSize: 11,
+        color: const Color(0xFFB8B9BD).withOpacity(0.6),
+      ),
     );
   }
 }

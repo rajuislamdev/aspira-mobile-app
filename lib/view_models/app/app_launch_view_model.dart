@@ -31,9 +31,12 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
     try {
       state = Loading();
       final String? token = await LocalStorageService().getToken();
-      final bool? isOnBoardingCompleted = await LocalStorageService().getIsOnboardingComplete();
+      final bool? isOnBoardingCompleted = await LocalStorageService()
+          .getIsOnboardingComplete();
 
-      if (token != null && isOnBoardingCompleted != null && isOnBoardingCompleted) {
+      if (token != null &&
+          isOnBoardingCompleted != null &&
+          isOnBoardingCompleted) {
         final result = await ref.read(profileRepoProvider).fetchUserProfile();
         result.fold((ifLeft) => state = ErrorState(ifLeft), (ifRight) {
           if (ifRight.interests != null && ifRight.interests!.isNotEmpty) {
@@ -65,6 +68,7 @@ class AppLaunchViewModel extends StateNotifier<AppLaunchState> {
   }
 }
 
-final appLaunchViewModelProvider = StateNotifierProvider<AppLaunchViewModel, AppLaunchState>(
-  (ref) => AppLaunchViewModel(ref: ref),
-);
+final appLaunchViewModelProvider =
+    StateNotifierProvider<AppLaunchViewModel, AppLaunchState>(
+      (ref) => AppLaunchViewModel(ref: ref),
+    );

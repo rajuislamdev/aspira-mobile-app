@@ -43,7 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.person,
                             title: 'Profile Information',
                             subtitle: 'Name, email, and bio',
-                            onTap: () => context.pushNamed(RouteLocationName.profileInformation),
+                            onTap: () => context.pushNamed(
+                              RouteLocationName.profileInformation,
+                            ),
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20),
@@ -56,11 +58,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             subtitle: '2FA and login history',
                             onTap: () {},
                           ),
+                          // _buildListItem(
+                          //   icon: Icons.payments,
+                          //   title: 'Subscription Plan',
+                          //   subtitle: 'Manage billing and renewals',
+                          //   onTap: () {},
+                          // ),
                           _buildListItem(
-                            icon: Icons.payments,
-                            title: 'Subscription Plan',
-                            subtitle: 'Manage billing and renewals',
-                            onTap: () {},
+                            icon: Icons.bookmark,
+                            title: 'Bookmarked Posts',
+                            subtitle: 'Saved threads and posts',
+                            onTap: () => context.pushNamed(
+                              RouteLocationName.bookmarkedPosts,
+                            ),
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -75,7 +85,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.notifications,
                             title: 'Push Notifications',
                             value: pushNotifications,
-                            onChanged: (val) => setState(() => pushNotifications = val),
+                            onChanged: (val) =>
+                                setState(() => pushNotifications = val),
                           ),
                           _buildCustomItem(
                             icon: Icons.dark_mode,
@@ -98,7 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.help,
                             title: 'Help Center',
                             trailingIcon: Icons.open_in_new,
-                            onTap: () => context.pushNamed(RouteLocationName.helpCenterScreen),
+                            onTap: () => context.pushNamed(
+                              RouteLocationName.helpCenterScreen,
+                            ),
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20),
@@ -107,7 +120,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           _buildListItem(
                             icon: Icons.description,
                             title: 'Terms of Service',
-                            onTap: () => context.pushNamed(RouteLocationName.termsOfServiceScreen),
+                            onTap: () => context.pushNamed(
+                              RouteLocationName.termsOfServiceScreen,
+                            ),
                             borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
@@ -195,15 +210,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 4),
                         Text(
                           profile?.email ?? 'No Email',
-                          style: GoogleFonts.manrope(fontSize: 14, color: Colors.white70),
+                          style: GoogleFonts.manrope(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF14b8a6).withOpacity(0.2),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: const Color(0xFF14b8a6).withOpacity(0.3)),
+                            border: Border.all(
+                              color: const Color(0xFF14b8a6).withOpacity(0.3),
+                            ),
                           ),
                           child: Text(
                             profile?.position ?? 'No Position',
@@ -279,7 +302,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Colors.white.withOpacity(subtitle != null ? 0.05 : 0)),
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(subtitle != null ? 0.05 : 0),
+              ),
             ),
           ),
           child: Row(
@@ -299,18 +324,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       title,
-                      style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
+                      style: GoogleFonts.manrope(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     if (subtitle != null)
                       Text(
                         subtitle,
-                        style: GoogleFonts.manrope(color: Colors.white38, fontSize: 12),
+                        style: GoogleFonts.manrope(
+                          color: Colors.white38,
+                          fontSize: 12,
+                        ),
                       ),
                   ],
                 ),
               ),
-              if (trailingIcon != null) Icon(trailingIcon, color: Colors.white24, size: 20),
-              if (trailingIcon == null) const Icon(Icons.chevron_right, color: Colors.white24),
+              if (trailingIcon != null)
+                Icon(trailingIcon, color: Colors.white24, size: 20),
+              if (trailingIcon == null)
+                const Icon(Icons.chevron_right, color: Colors.white24),
             ],
           ),
         ),
@@ -328,7 +361,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.05))),
+        border: Border(
+          bottom: BorderSide(color: Colors.white.withOpacity(0.05)),
+        ),
       ),
       child: Row(
         children: [
@@ -344,17 +379,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
+              style: GoogleFonts.manrope(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          Switch(value: value, activeThumbColor: const Color(0xFF14b8a6), onChanged: onChanged),
+          Switch(
+            value: value,
+            activeThumbColor: const Color(0xFF14b8a6),
+            onChanged: onChanged,
+          ),
         ],
       ),
     );
   }
 
   /// ===================== Custom Item =====================
-  Widget _buildCustomItem({required IconData icon, required String title, Widget? trailing}) {
+  Widget _buildCustomItem({
+    required IconData icon,
+    required String title,
+    Widget? trailing,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(
@@ -371,7 +417,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w500),
+              style: GoogleFonts.manrope(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           if (trailing != null) trailing,
@@ -389,10 +438,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: Colors.red.withOpacity(0.1),
           foregroundColor: Colors.red,
           minimumSize: const Size.fromHeight(48),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         icon: const Icon(Icons.logout),
-        label: const Text('Logout Account', style: TextStyle(fontWeight: FontWeight.bold)),
+        label: const Text(
+          'Logout Account',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         onPressed: () {
           showLogoutDialog(context, () {
             // Your logout logic here
@@ -424,7 +478,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildTabItem({required IconData icon, required String label, required bool active}) {
+  Widget _buildTabItem({
+    required IconData icon,
+    required String label,
+    required bool active,
+  }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -476,7 +534,11 @@ void showLogoutDialog(BuildContext context, VoidCallback onLogout) {
                           color: const Color(0xFF1A1D23),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.logout, size: 32, color: Colors.redAccent),
+                        child: const Icon(
+                          Icons.logout,
+                          size: 32,
+                          color: Colors.redAccent,
+                        ),
                       ),
                       const SizedBox(height: 16),
 

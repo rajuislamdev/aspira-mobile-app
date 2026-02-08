@@ -90,7 +90,9 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
                 child: AnimatedSlide(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOut,
-                  offset: _hideDescription ? const Offset(0.35, 0) : Offset.zero,
+                  offset: _hideDescription
+                      ? const Offset(0.35, 0)
+                      : Offset.zero,
                   child: AnimatedOpacity(
                     duration: const Duration(milliseconds: 200),
                     opacity: _hideDescription ? 0 : 1,
@@ -116,7 +118,9 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
             child: Consumer(
               builder: (context, ref, child) {
                 final viewModel = ref.watch(fetchProfileOptionViewModel);
-                final selectedProfileOption = ref.watch(selectedProfileOptionViewModel);
+                final selectedProfileOption = ref.watch(
+                  selectedProfileOptionViewModel,
+                );
 
                 return viewModel.when(
                   data: (profileOptions) {
@@ -130,7 +134,9 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
                         bool isSelected =
                             selectedProfileOption?.goal ==
                             profileOptions
-                                .goals[index == profileOptions.goals.length ? index - 1 : index]
+                                .goals[index == profileOptions.goals.length
+                                    ? index - 1
+                                    : index]
                                 .id;
                         if (index == profileOptions.goals.length) {
                           return Container(
@@ -138,12 +144,19 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
                             decoration: BoxDecoration(
                               color: const Color(0xFF14B8A6).withOpacity(0.05),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: const Color(0xFF14B8A6).withOpacity(0.15)),
+                              border: Border.all(
+                                color: const Color(
+                                  0xFF14B8A6,
+                                ).withOpacity(0.15),
+                              ),
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.tips_and_updates, color: Color(0xFF14B8A6)),
+                                const Icon(
+                                  Icons.tips_and_updates,
+                                  color: Color(0xFF14B8A6),
+                                ),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
@@ -166,12 +179,16 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
                             subtitle: profileOptions.goals[index].duration,
                             icon: Icons.schedule,
                             recommended:
-                                profileOptions.goals[index].name.toLowerCase() == 'regular',
+                                profileOptions.goals[index].name
+                                    .toLowerCase() ==
+                                'regular',
                           ),
                           selected: isSelected,
                           onTap: () => ref
                               .read(selectedProfileOptionViewModel.notifier)
-                              .updateGoal(goalId: profileOptions.goals[index].id),
+                              .updateGoal(
+                                goalId: profileOptions.goals[index].id,
+                              ),
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -180,10 +197,14 @@ class _StepTwoWidgetState extends State<StepTwoWidget> {
                     );
                   },
                   error: (error, s) {
-                    final message = error is Failure ? error.message : error.toString();
+                    final message = error is Failure
+                        ? error.message
+                        : error.toString();
                     return ErrorView(message: message);
                   },
-                  loading: () => Center(child: CircularProgressIndicator(color: Colors.white)),
+                  loading: () => Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
                 );
               },
             ),
@@ -240,7 +261,12 @@ class GoalCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const GoalCard({super.key, required this.goal, required this.selected, required this.onTap});
+  const GoalCard({
+    super.key,
+    required this.goal,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +283,12 @@ class GoalCard extends StatelessWidget {
             width: 2,
           ),
           boxShadow: selected
-              ? [BoxShadow(color: const Color(0xFF14B8A6).withOpacity(0.15), blurRadius: 12)]
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF14B8A6).withOpacity(0.15),
+                    blurRadius: 12,
+                  ),
+                ]
               : [],
         ),
         child: Row(
@@ -266,10 +297,15 @@ class GoalCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: selected ? const Color(0xFF14B8A6).withOpacity(0.2) : Colors.white10,
+                color: selected
+                    ? const Color(0xFF14B8A6).withOpacity(0.2)
+                    : Colors.white10,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(goal.icon, color: selected ? const Color(0xFF14B8A6) : Colors.white60),
+              child: Icon(
+                goal.icon,
+                color: selected ? const Color(0xFF14B8A6) : Colors.white60,
+              ),
             ),
             const SizedBox(width: 16),
             Column(
@@ -286,7 +322,10 @@ class GoalCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   goal.subtitle,
-                  style: GoogleFonts.manrope(color: Colors.white38, fontSize: 11),
+                  style: GoogleFonts.manrope(
+                    color: Colors.white38,
+                    fontSize: 11,
+                  ),
                 ),
                 if (goal.recommended)
                   Padding(

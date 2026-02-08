@@ -28,7 +28,8 @@ class _CoreScreenState extends State<CoreScreen> {
         context: context,
         isScrollControlled: true,
         backgroundColor: Color(0xFF111317),
-        builder: (_) => const SizedBox(height: double.infinity, child: CreatePostModal()),
+        builder: (_) =>
+            const SizedBox(height: double.infinity, child: CreatePostModal()),
       );
     } else {
       setState(() {
@@ -60,7 +61,9 @@ class _CoreScreenState extends State<CoreScreen> {
                     children: [
                       Icon(
                         Icons.home_rounded,
-                        color: _selectedIndex == 0 ? const Color(0xFF14B8A6) : Colors.white38,
+                        color: _selectedIndex == 0
+                            ? const Color(0xFF14B8A6)
+                            : Colors.white38,
                         size: 28,
                       ),
                       const SizedBox(height: 2),
@@ -69,7 +72,9 @@ class _CoreScreenState extends State<CoreScreen> {
                         style: GoogleFonts.manrope(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: _selectedIndex == 0 ? const Color(0xFF14B8A6) : Colors.white38,
+                          color: _selectedIndex == 0
+                              ? const Color(0xFF14B8A6)
+                              : Colors.white38,
                         ),
                       ),
                     ],
@@ -88,7 +93,9 @@ class _CoreScreenState extends State<CoreScreen> {
                     children: [
                       Icon(
                         Icons.person_rounded,
-                        color: _selectedIndex == 2 ? const Color(0xFF14B8A6) : Colors.white38,
+                        color: _selectedIndex == 2
+                            ? const Color(0xFF14B8A6)
+                            : Colors.white38,
                         size: 28,
                       ),
                       const SizedBox(height: 2),
@@ -97,7 +104,9 @@ class _CoreScreenState extends State<CoreScreen> {
                         style: GoogleFonts.manrope(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: _selectedIndex == 2 ? const Color(0xFF14B8A6) : Colors.white38,
+                          color: _selectedIndex == 2
+                              ? const Color(0xFF14B8A6)
+                              : Colors.white38,
                         ),
                       ),
                     ],
@@ -137,7 +146,11 @@ class _ProfileScreen extends StatelessWidget {
     return Center(
       child: Text(
         'Profile',
-        style: GoogleFonts.manrope(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+        style: GoogleFonts.manrope(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
     );
   }

@@ -48,7 +48,11 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.lock_outline_rounded, size: 56, color: Colors.white70),
+                          const Icon(
+                            Icons.lock_outline_rounded,
+                            size: 56,
+                            color: Colors.white70,
+                          ),
                           const SizedBox(height: 12),
                           Text(
                             'Welcome Back',
@@ -96,7 +100,9 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                             obscureText: _obscurePassword,
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.white54,
                                 size: 20,
                               ),
@@ -134,7 +140,10 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                                   data: (data) {
                                     if (data != null) {
                                       ref
-                                          .read(fetchProfileViewModelProvider.notifier)
+                                          .read(
+                                            fetchProfileViewModelProvider
+                                                .notifier,
+                                          )
                                           .fetchProfile();
                                     }
                                   },
@@ -142,20 +151,31 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                                     final message = error is Failure
                                         ? error.message
                                         : error.toString();
-                                    Ui.showErrorSnackBar(context, message: message);
+                                    Ui.showErrorSnackBar(
+                                      context,
+                                      message: message,
+                                    );
                                   },
                                 );
                               });
 
                               // Listen to profile state
-                              ref.listen(fetchProfileViewModelProvider, (_, next) {
+                              ref.listen(fetchProfileViewModelProvider, (
+                                _,
+                                next,
+                              ) {
                                 next.whenOrNull(
                                   data: (data) {
                                     if (data != null) {
-                                      if (data.interests != null && data.interests!.isNotEmpty) {
-                                        context.go('/${RouteLocationName.feed}');
+                                      if (data.interests != null &&
+                                          data.interests!.isNotEmpty) {
+                                        context.go(
+                                          '/${RouteLocationName.feed}',
+                                        );
                                       } else {
-                                        context.go('/${RouteLocationName.onboarding}');
+                                        context.go(
+                                          '/${RouteLocationName.onboarding}',
+                                        );
                                       }
                                     }
                                   },
@@ -163,13 +183,20 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                                     final message = error is Failure
                                         ? error.message
                                         : error.toString();
-                                    Ui.showErrorSnackBar(context, message: message);
+                                    Ui.showErrorSnackBar(
+                                      context,
+                                      message: message,
+                                    );
                                   },
                                 );
                               });
 
-                              final notifier = ref.read(loginViewModelProvider.notifier);
-                              final viewModel = ref.watch(loginViewModelProvider);
+                              final notifier = ref.read(
+                                loginViewModelProvider.notifier,
+                              );
+                              final viewModel = ref.watch(
+                                loginViewModelProvider,
+                              );
                               return viewModel.isLoading
                                   ? const CircularProgressIndicator()
                                   : _PrimaryButton(
@@ -192,15 +219,24 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                           /// Divider
                           Row(
                             children: [
-                              const Expanded(child: Divider(color: Colors.white12)),
+                              const Expanded(
+                                child: Divider(color: Colors.white12),
+                              ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
                                 child: Text(
                                   'OR',
-                                  style: GoogleFonts.manrope(fontSize: 12, color: Colors.white38),
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 12,
+                                    color: Colors.white38,
+                                  ),
                                 ),
                               ),
-                              const Expanded(child: Divider(color: Colors.white12)),
+                              const Expanded(
+                                child: Divider(color: Colors.white12),
+                              ),
                             ],
                           ),
 
@@ -208,43 +244,33 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
 
                           /// Social login
                           _SocialButton(
-                            label: 'Continue with Google',
-                            icon: Icons.g_mobiledata_rounded,
-                            onTap: () {},
+                            label: 'Go Back ',
+                            icon: Icons.arrow_back_ios,
+                            onTap: () => context.pop(),
                           ),
-
-                          const SizedBox(height: 12),
-
-                          _SocialButton(
-                            label: 'Continue with Apple',
-                            icon: Icons.apple,
-                            onTap: () {},
-                          ),
-
-                          const SizedBox(height: 28),
 
                           /// Footer
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Don’t have an account?',
-                                style: GoogleFonts.manrope(
-                                  fontSize: 13,
-                                  color: const Color(0xFFB8B9BD),
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                'Sign Up',
-                                style: GoogleFonts.manrope(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF14B8A6),
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     Text(
+                          //       'Don’t have an account?',
+                          //       style: GoogleFonts.manrope(
+                          //         fontSize: 13,
+                          //         color: const Color(0xFFB8B9BD),
+                          //       ),
+                          //     ),
+                          //     const SizedBox(width: 6),
+                          //     Text(
+                          //       'Sign Up',
+                          //       style: GoogleFonts.manrope(
+                          //         fontSize: 13,
+                          //         fontWeight: FontWeight.w600,
+                          //         color: const Color(0xFF14B8A6),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),
@@ -349,10 +375,15 @@ class _PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: background,
           foregroundColor: textColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
-        child: Text(label, style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text(
+          label,
+          style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -363,7 +394,11 @@ class _SocialButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SocialButton({required this.label, required this.icon, required this.onTap});
+  const _SocialButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +418,9 @@ class _SocialButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color(0xFF171A29),
           side: const BorderSide(color: Colors.white10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         onPressed: onTap,
       ),

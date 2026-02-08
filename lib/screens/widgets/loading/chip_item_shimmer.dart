@@ -15,7 +15,10 @@ class ChipItemShimmer extends StatelessWidget {
         height: 36,
         width: width,
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+        ),
       ),
     );
   }

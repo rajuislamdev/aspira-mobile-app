@@ -2,6 +2,7 @@ import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/ui_support.dart';
 import 'package:aspira/models/post_model/post_model.dart';
+import 'package:aspira/view_models/post/bookmark_post_view_model.dart';
 import 'package:aspira/view_models/post/react_post_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +47,11 @@ class CommunityThreadCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF2A4B9E) : Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
+          border: Border.all(
+            color: isDark
+                ? Colors.white.withOpacity(0.06)
+                : Colors.grey.shade200,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -66,9 +71,14 @@ class CommunityThreadCard extends StatelessWidget {
                   width: 40,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFF13B49F).withOpacity(0.3), width: 2),
+                    border: Border.all(
+                      color: const Color(0xFF13B49F).withOpacity(0.3),
+                      width: 2,
+                    ),
                   ),
-                  child: ClipOval(child: Image.network(avatarUrl, fit: BoxFit.cover)),
+                  child: ClipOval(
+                    child: Image.network(avatarUrl, fit: BoxFit.cover),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -76,7 +86,10 @@ class CommunityThreadCard extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: GoogleFonts.manrope(fontSize: 14, fontWeight: FontWeight.w700),
+                      style: GoogleFonts.manrope(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     Text(
                       '$time • $role',
@@ -99,7 +112,10 @@ class CommunityThreadCard extends StatelessWidget {
               title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.w700),
+              style: GoogleFonts.manrope(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
             ),
 
             const SizedBox(height: 8),
@@ -119,12 +135,19 @@ class CommunityThreadCard extends StatelessWidget {
             const SizedBox(height: 14),
 
             /// Footer
-            Divider(color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
+            Divider(
+              color: isDark
+                  ? Colors.white.withOpacity(0.06)
+                  : Colors.grey.shade200,
+            ),
 
             const SizedBox(height: 8),
 
             GestureDetector(
-              onTap: () => context.pushNamed(RouteLocationName.threadDiscussion, extra: post),
+              onTap: () => context.pushNamed(
+                RouteLocationName.threadDiscussion,
+                extra: post,
+              ),
               child: Row(
                 children: [
                   Consumer(
@@ -154,6 +177,30 @@ class CommunityThreadCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
                   _Reaction(icon: Icons.chat_bubble_outline, count: comments),
+                  const SizedBox(width: 16),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      ref.listen(bookmarkPostViewModelProvider, (_, next) {
+                        next.whenOrNull(
+                          error: (error, s) {
+                            final message = error is Failure
+                                ? error.message
+                                : 'Something went wrong';
+                            Ui.showErrorSnackBar(context, message: message);
+                          },
+                        );
+                      });
+                      return _ActionIcon(
+                        icon: Icons.bookmark_border,
+                        onTap: () {
+                          if (post.id == null) return;
+                          ref
+                              .read(bookmarkPostViewModelProvider.notifier)
+                              .bookmarkPost(postId: post.id ?? '');
+                        },
+                      );
+                    },
+                  ),
                   const Spacer(),
                   Text(
                     'VIEW THREAD →',
@@ -180,7 +227,12 @@ class _Reaction extends StatelessWidget {
   final bool active;
   final Function()? onTap;
 
-  const _Reaction({required this.icon, required this.count, this.active = false, this.onTap});
+  const _Reaction({
+    required this.icon,
+    required this.count,
+    this.active = false,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -188,11 +240,33 @@ class _Reaction extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 20, color: active ? const Color(0xFF13B49F) : Colors.grey),
+          Icon(
+            icon,
+            size: 20,
+            color: active ? const Color(0xFF13B49F) : Colors.grey,
+          ),
           const SizedBox(width: 4),
-          Text('$count', style: GoogleFonts.manrope(fontWeight: FontWeight.w600)),
+          Text(
+            '$count',
+            style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _ActionIcon extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  const _ActionIcon({required this.icon, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Icon(icon, size: 20, color: Colors.grey),
     );
   }
 }

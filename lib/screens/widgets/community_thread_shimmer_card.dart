@@ -18,7 +18,11 @@ class CommunityThreadShimmerCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: baseColor,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
+          border: Border.all(
+            color: isDark
+                ? Colors.white.withOpacity(0.06)
+                : Colors.grey.shade200,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -39,7 +43,10 @@ class CommunityThreadShimmerCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: baseColor,
-                    border: Border.all(color: const Color(0xFF13B49F).withOpacity(0.3), width: 2),
+                    border: Border.all(
+                      color: const Color(0xFF13B49F).withOpacity(0.3),
+                      width: 2,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -69,7 +76,10 @@ class CommunityThreadShimmerCard extends StatelessWidget {
                 Container(
                   width: 24,
                   height: 24,
-                  decoration: BoxDecoration(color: highlightColor, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: highlightColor,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ],
             ),
@@ -104,7 +114,11 @@ class CommunityThreadShimmerCard extends StatelessWidget {
             ),
             const SizedBox(height: 14),
             // Footer divider
-            Divider(color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
+            Divider(
+              color: isDark
+                  ? Colors.white.withOpacity(0.06)
+                  : Colors.grey.shade200,
+            ),
             const SizedBox(height: 8),
             // Footer actions
             Row(

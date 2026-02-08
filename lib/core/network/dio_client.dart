@@ -22,7 +22,9 @@ class DioClient {
                 responseType: ResponseType.json,
               ),
             )
-            ..interceptors.add(LogInterceptor(responseBody: true, requestBody: true))
+            ..interceptors.add(
+              LogInterceptor(responseBody: true, requestBody: true),
+            )
             ..interceptors.add(DioInterceptors());
 
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {

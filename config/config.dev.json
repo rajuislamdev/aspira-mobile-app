@@ -1,10 +1,6 @@
 {
-    "API_BASE_URL": "https://selon.mhossain.me/api",
-    "ENV_DEV":"DEV",
-    "CLIENT_ID":
-        "393858821382-7p03uci3d83muo4rqfdovdiha3412463.apps.googleusercontent.com",
-    "SERVER_CLIENT_ID":
-        "393858821382-0dt4trj89bhfe8a6d81vs0im459qm813.apps.googleusercontent.com"
-
-
+  "API_BASE_URL": "https://primary.mhossain.me/api",
+  "ENV_DEV": "DEV",
+  "CLIENT_ID": "393858821382-7p03uci3d83muo4rqfdovdiha3412463.apps.googleusercontent.com",
+  "SERVER_CLIENT_ID": "393858821382-0dt4trj89bhfe8a6d81vs0im459qm813.apps.googleusercontent.com"
 }

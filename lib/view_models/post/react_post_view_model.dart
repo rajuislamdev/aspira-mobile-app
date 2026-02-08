@@ -3,9 +3,10 @@ import 'package:aspira/view_models/post/fetch_posts_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-final reactPostViewModelProvider = StateNotifierProvider<ReactPostViewModel, AsyncValue<String?>>(
-  (ref) => ReactPostViewModel(ref),
-);
+final reactPostViewModelProvider =
+    StateNotifierProvider<ReactPostViewModel, AsyncValue<String?>>(
+      (ref) => ReactPostViewModel(ref),
+    );
 
 class ReactPostViewModel extends StateNotifier<AsyncValue<String?>> {
   final Ref ref;

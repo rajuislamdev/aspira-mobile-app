@@ -7,7 +7,8 @@ class ProfileInformationScreen extends StatefulWidget {
   const ProfileInformationScreen({super.key});
 
   @override
-  State<ProfileInformationScreen> createState() => _ProfileInformationScreenState();
+  State<ProfileInformationScreen> createState() =>
+      _ProfileInformationScreenState();
 }
 
 class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
@@ -48,13 +49,19 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
         appBar: AppBar(
           backgroundColor: const Color(0xFF111214),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
           elevation: 0,
           title: Text(
             'Profile Information',
-            style: GoogleFonts.manrope(fontWeight: FontWeight.bold, color: Colors.white),
+            style: GoogleFonts.manrope(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           centerTitle: true,
         ),
@@ -66,7 +73,8 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
                 _firstName.text = data?.firstName ?? '';
                 _lastName.text = data?.lastName ?? '';
                 _emailController.text = data?.email ?? '';
-                _bioController.text = 'Curious learner. Exploring tech. leadership & growth';
+                _bioController.text =
+                    'Curious learner. Exploring tech. leadership & growth';
                 return SafeArea(
                   child: Center(
                     child: ConstrainedBox(
@@ -82,7 +90,11 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
                                 CircleAvatar(
                                   radius: 48,
                                   backgroundColor: const Color(0xFF1E293B),
-                                  child: const Icon(Icons.person, size: 48, color: Colors.white70),
+                                  child: const Icon(
+                                    Icons.person,
+                                    size: 48,
+                                    color: Colors.white70,
+                                  ),
                                 ),
                                 Container(
                                   decoration: const BoxDecoration(
