@@ -145,7 +145,6 @@ class _DiscussionThreadScreenState
     final isSubmitting = ref.watch(addCommentViewModelProvider).isLoading;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121416),
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: const Color(0xFF121416),

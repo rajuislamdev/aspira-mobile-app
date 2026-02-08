@@ -23,7 +23,6 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111214),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(

@@ -15,7 +15,6 @@ class BookmarkedPostsScreen extends ConsumerWidget {
     final viewModel = ref.watch(fetchBookmarkedPostsViewModelProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF111214),
       appBar: AppBar(
         backgroundColor: const Color(0xFF111214),
         elevation: 0,
@@ -30,7 +29,8 @@ class BookmarkedPostsScreen extends ConsumerWidget {
       body: AnimatedSwitcher(
         duration: AppConstants.switchAnimationDuration,
         child: viewModel.when(
-          loading: () => const BookmarkedPostsShimmerList(),
+          loading: () =>
+              const BookmarkedPostsShimmerList(key: ValueKey('shimmer')),
           error: (error, _) => Center(
             child: Text(
               error.toString(),
@@ -45,11 +45,13 @@ class BookmarkedPostsScreen extends ConsumerWidget {
             },
             child: bookmarks.isEmpty
                 ? ListView(
+                    key: const ValueKey('empty'),
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: [_EmptyState()],
                   )
                 : ListView.separated(
+                    key: const ValueKey('bookmarks'),
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                     physics: const BouncingScrollPhysics(),
                     itemCount: bookmarks.length,

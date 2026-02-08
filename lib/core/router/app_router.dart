@@ -22,13 +22,15 @@ class AppRouter {
       GoRoute(
         path: '/splash',
         name: RouteLocationName.splash,
-        builder: (context, state) => AppLaunchScreen(),
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: AppLaunchScreen()),
       ),
 
       GoRoute(
         path: '/onboarding',
         name: RouteLocationName.onboarding,
-        builder: (context, state) => OnboardingScreen(),
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: OnboardingScreen()),
       ),
 
       ShellRoute(
@@ -38,13 +40,15 @@ class AppRouter {
           GoRoute(
             path: '/feed',
             name: RouteLocationName.feed,
-            builder: (context, state) => FeedScreen(),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(child: FeedScreen()),
           ),
           // Profile Tab
           GoRoute(
             path: '/profile',
             name: RouteLocationName.profile,
-            builder: (context, state) => SizedBox(),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(child: SizedBox()),
           ),
         ],
       ),
@@ -52,45 +56,52 @@ class AppRouter {
       GoRoute(
         path: '/login',
         name: RouteLocationName.login,
-        builder: (context, state) => LoginScreen(),
+        pageBuilder: (context, state) => NoTransitionPage(child: LoginScreen()),
       ),
       // Login With Email
       GoRoute(
         path: '/login_with_email',
         name: RouteLocationName.loginWithEmail,
-        builder: (context, state) => LoginWithEmailScreen(),
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: LoginWithEmailScreen()),
       ),
       // Thread Discussion
       GoRoute(
         path: '/thread_discussion',
         name: RouteLocationName.threadDiscussion,
-        builder: (context, state) =>
-            DiscussionThreadScreen(post: state.extra as PostModel),
+        pageBuilder: (context, state) => NoTransitionPage(
+          child: DiscussionThreadScreen(post: state.extra as PostModel),
+        ),
       ),
       GoRoute(
         path: '/profile-information',
         name: RouteLocationName.profileInformation,
-        builder: (context, state) => ProfileInformationScreen(),
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: ProfileInformationScreen()),
       ),
       GoRoute(
         path: '/help-center-screen',
         name: RouteLocationName.helpCenterScreen,
-        builder: (context, state) => HelpCenterScreen(),
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: HelpCenterScreen()),
       ),
       GoRoute(
         path: '/terms-of-service-scree',
         name: RouteLocationName.termsOfServiceScreen,
-        builder: (context, state) => TermsOfServiceScreen(),
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: TermsOfServiceScreen()),
       ),
       GoRoute(
         path: '/bookmarked-posts',
         name: RouteLocationName.bookmarkedPosts,
-        builder: (context, state) => const BookmarkedPostsScreen(),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: BookmarkedPostsScreen()),
       ),
       GoRoute(
         path: '/notifications',
         name: RouteLocationName.notifications,
-        builder: (context, state) => const NotificationsScreen(),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: NotificationsScreen()),
       ),
     ],
   );

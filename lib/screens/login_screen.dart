@@ -11,10 +11,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      backgroundColor: const Color(0xFF111214),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(

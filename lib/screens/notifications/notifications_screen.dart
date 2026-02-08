@@ -9,7 +9,6 @@ class NotificationsScreen extends StatelessWidget {
     final sections = _demoSections();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF111214),
       appBar: AppBar(
         backgroundColor: const Color(0xFF111214),
         elevation: 0,
@@ -27,10 +26,7 @@ class NotificationsScreen extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 16),
         itemBuilder: (context, index) {
           final section = sections[index];
-          return _Section(
-            title: section.title,
-            items: section.items,
-          );
+          return _Section(title: section.title, items: section.items);
         },
       ),
     );

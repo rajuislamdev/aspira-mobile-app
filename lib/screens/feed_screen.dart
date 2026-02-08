@@ -23,7 +23,6 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111214),
       body: NestedScrollView(
         headerSliverBuilder: (_, __) => const [
           _CollapsingTopBar(),

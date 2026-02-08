@@ -45,7 +45,6 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: const Color(0xFF111214),
         appBar: AppBar(
           backgroundColor: const Color(0xFF111214),
           leading: IconButton(

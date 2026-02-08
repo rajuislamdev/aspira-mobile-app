@@ -20,10 +20,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Demo',
+      darkTheme: ThemeData.dark(),
+
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFF111214),
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: Colors.white),
         ),
+
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: AppRouter.router,
