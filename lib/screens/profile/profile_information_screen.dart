@@ -1,3 +1,6 @@
+import 'package:aspira/core/errors/failure.dart';
+import 'package:aspira/core/utils/ui_support.dart';
+import 'package:aspira/view_models/auth/update_profile_view_model.dart';
 import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +19,7 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
   late TextEditingController _lastName;
   late TextEditingController _emailController;
   late TextEditingController _bioController;
+  late TextEditingController _jobPositionController;
 
   late List<FocusNode> _focusNodes;
 
@@ -25,7 +29,8 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
     _lastName = TextEditingController();
     _emailController = TextEditingController();
     _bioController = TextEditingController();
-    _focusNodes = List.generate(4, (_) => FocusNode());
+    _jobPositionController = TextEditingController();
+    _focusNodes = List.generate(5, (_) => FocusNode());
     super.initState();
   }
 
@@ -66,14 +71,30 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
         ),
         body: Consumer(
           builder: (context, ref, child) {
+            ref.listen(updateProfileViewModelProvider, (previous, next) {
+              if (next is AsyncData) {
+                final message = next.value;
+                if (message != null && message.isNotEmpty) {
+                  ref
+                      .read(fetchProfileViewModelProvider.notifier)
+                      .fetchProfile();
+                  Ui.showSuccessSnackBar(context, message: message);
+                }
+              } else if (next is AsyncError) {
+                final message = next.error is Failure
+                    ? (next.error as Failure).message
+                    : next.error.toString();
+                Ui.showErrorSnackBar(context, message: message);
+              }
+            });
             final viewModel = ref.watch(fetchProfileViewModelProvider);
             return viewModel.when(
               data: (data) {
                 _firstName.text = data?.firstName ?? '';
                 _lastName.text = data?.lastName ?? '';
                 _emailController.text = data?.email ?? '';
-                _bioController.text =
-                    'Curious learner. Exploring tech. leadership & growth';
+                _jobPositionController.text = data?.position ?? '';
+                _bioController.text = data?.bio ?? '';
                 return SafeArea(
                   child: Center(
                     child: ConstrainedBox(
@@ -146,17 +167,28 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
                             /// ================= EMAIL =================
                             _InputField(
                               focusNode: _focusNodes[2],
+                              label: 'Job Position',
+                              hint: 'Your job position',
+                              controller: _jobPositionController,
+                              enabled:
+                                  true, // usually job position is not editable
+                            ),
+
+                            const SizedBox(height: 16),
+                            _InputField(
+                              focusNode: _focusNodes[3],
                               label: 'Email Address',
                               hint: 'you@example.com',
                               controller: _emailController,
                               enabled: false, // usually email is not editable
+                              readOnly: true,
                             ),
 
                             const SizedBox(height: 16),
 
                             /// ================= BIO =================
                             _InputField(
-                              focusNode: _focusNodes[3],
+                              focusNode: _focusNodes[4],
                               label: 'Bio',
                               hint: 'Tell us about yourself',
                               controller: _bioController,
@@ -166,28 +198,104 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
                             const SizedBox(height: 32),
 
                             /// ================= UPDATE BUTTON =================
-                            SizedBox(
-                              height: 56,
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF14B8A6),
-                                  foregroundColor: const Color(0xFF111214),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                            Consumer(
+                              builder: (context, ref, child) {
+                                ref.listen(updateProfileViewModelProvider, (
+                                  _,
+                                  next,
+                                ) {
+                                  next.whenOrNull(
+                                    data: (message) {
+                                      if (message != null &&
+                                          message.isNotEmpty) {
+                                        ref
+                                            .read(
+                                              fetchProfileViewModelProvider
+                                                  .notifier,
+                                            )
+                                            .fetchProfile();
+                                      }
+                                    },
+                                  );
+                                });
+                                final updateState = ref.watch(
+                                  updateProfileViewModelProvider,
+                                );
+                                return SizedBox(
+                                  height: 52,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF14B8A6),
+                                      foregroundColor: const Color(0xFF111214),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: updateState.isLoading
+                                        ? null
+                                        : () {
+                                            final payload = <String, dynamic>{};
+                                            final firstName = _firstName.text
+                                                .trim();
+                                            final lastName = _lastName.text
+                                                .trim();
+                                            final position =
+                                                _jobPositionController.text
+                                                    .trim();
+                                            final bio = _bioController.text
+                                                .trim();
+
+                                            if (firstName.isNotEmpty) {
+                                              payload['firstName'] = firstName;
+                                            }
+                                            if (lastName.isNotEmpty) {
+                                              payload['lastName'] = lastName;
+                                            }
+                                            if (position.isNotEmpty) {
+                                              payload['position'] = position;
+                                            }
+                                            if (bio.isNotEmpty) {
+                                              payload['bio'] = bio;
+                                            }
+
+                                            if (payload.isEmpty) {
+                                              Ui.showErrorSnackBar(
+                                                context,
+                                                message:
+                                                    'Please update at least one field',
+                                              );
+                                              return;
+                                            }
+
+                                            ref
+                                                .read(
+                                                  updateProfileViewModelProvider
+                                                      .notifier,
+                                                )
+                                                .updateProfile(
+                                                  payload: payload,
+                                                );
+                                          },
+                                    child: updateState.isLoading
+                                        ? const SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              color: Color(0xFF111214),
+                                            ),
+                                          )
+                                        : Text(
+                                            'Update Profile',
+                                            style: GoogleFonts.manrope(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                   ),
-                                ),
-                                onPressed: () {
-                                  // TODO: call update profile API
-                                },
-                                child: Text(
-                                  'Update Profile',
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
 
                             const SizedBox(height: 16),
@@ -225,6 +333,7 @@ class _InputField extends StatelessWidget {
   final bool enabled;
   final int maxLines;
   final FocusNode focusNode;
+  final bool readOnly;
 
   const _InputField({
     required this.label,
@@ -232,6 +341,7 @@ class _InputField extends StatelessWidget {
     required this.controller,
     this.enabled = true,
     this.maxLines = 1,
+    this.readOnly = false,
     required this.focusNode,
   });
 
@@ -250,6 +360,7 @@ class _InputField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextField(
+          readOnly: readOnly,
           focusNode: focusNode,
           controller: controller,
           enabled: enabled,

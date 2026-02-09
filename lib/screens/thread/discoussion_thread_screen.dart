@@ -418,103 +418,109 @@ class _DiscussionThreadScreenState
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-          decoration: BoxDecoration(
-            color: const Color(0xFF121416).withOpacity(0.95),
-            border: const Border(
-              top: BorderSide(color: Colors.grey, width: 0.3),
+      bottomNavigationBar: AnimatedPadding(
+        duration: AppConstants.switchAnimationDuration,
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF121416).withOpacity(0.95),
+              border: const Border(
+                top: BorderSide(color: Colors.grey, width: 0.3),
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (_replyParentId != null &&
-                  _replyParentName != null &&
-                  _replyParentName!.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1C1F24),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Replying to ${_replyParentName ?? 'this comment'}',
-                          style: const TextStyle(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_replyParentId != null &&
+                    _replyParentName != null &&
+                    _replyParentName!.isNotEmpty)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1C1F24),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Replying to ${_replyParentName ?? 'this comment'}',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: _clearReplyTarget,
+                          child: const Icon(
+                            Icons.close,
                             color: Colors.grey,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+                            size: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _commentController,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: _replyParentId == null
+                              ? 'Write a reply...'
+                              : 'Write a reply to ${_replyParentName ?? 'this comment'}...',
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: const Color(0xFF1C1F24),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 14,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: _clearReplyTarget,
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.grey,
-                          size: 18,
-                        ),
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: isSubmitting
+                          ? null
+                          : () => _handleAddComment(parentId: _replyParentId),
+                      child: CircleAvatar(
+                        radius: 22,
+                        backgroundColor: isSubmitting
+                            ? const Color(0xFF14B8A2).withOpacity(0.5)
+                            : const Color(0xFF14B8A2),
+                        child: isSubmitting
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Icon(Icons.send, color: Colors.white),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _commentController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: _replyParentId == null
-                            ? 'Write a reply...'
-                            : 'Write a reply to ${_replyParentName ?? 'this comment'}...',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        filled: true,
-                        fillColor: const Color(0xFF1C1F24),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 14,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  GestureDetector(
-                    onTap: isSubmitting
-                        ? null
-                        : () => _handleAddComment(parentId: _replyParentId),
-                    child: CircleAvatar(
-                      radius: 22,
-                      backgroundColor: isSubmitting
-                          ? const Color(0xFF14B8A2).withOpacity(0.5)
-                          : const Color(0xFF14B8A2),
-                      child: isSubmitting
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Icon(Icons.send, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -14,6 +14,7 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
   position: json['position'] as String?,
   activeStatus: json['activeStatus'] as bool?,
   profilePicture: json['profilePicture'],
+  bio: json['bio'] as String?,
   experience: (json['experience'] as num?)?.toInt(),
   goal: (json['goal'] as num?)?.toInt(),
   interests: (json['interests'] as List<dynamic>?)
@@ -35,6 +36,7 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'email': instance.email,
       'position': instance.position,
       'activeStatus': instance.activeStatus,
+      'bio': instance.bio,
       'profilePicture': instance.profilePicture,
       'experience': instance.experience,
       'goal': instance.goal,

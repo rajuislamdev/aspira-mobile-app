@@ -59,7 +59,7 @@ class BookmarkedPostsScreen extends ConsumerWidget {
                     itemBuilder: (_, index) {
                       final post = bookmarks[index];
                       return CommunityThreadCard(
-                        avatarUrl: 'https://i.pravatar.cc/150?img=47',
+                        avatarUrl: post.author?.profilePicture ?? '',
                         name:
                             '${post.author?.firstName} ${post.author?.lastName}',
                         role: 'Product Director',

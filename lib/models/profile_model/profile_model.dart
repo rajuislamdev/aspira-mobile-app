@@ -13,6 +13,7 @@ class ProfileModel extends Equatable {
   final String? email;
   final String? position;
   final bool? activeStatus;
+  final String? bio;
   final dynamic profilePicture;
   final int? experience;
   final int? goal;
@@ -28,6 +29,7 @@ class ProfileModel extends Equatable {
     this.position,
     this.activeStatus,
     this.profilePicture,
+    this.bio,
     this.experience,
     this.goal,
     this.interests,
@@ -49,6 +51,7 @@ class ProfileModel extends Equatable {
     String? position,
     bool? activeStatus,
     dynamic profilePicture,
+    String? bio,
     int? experience,
     int? goal,
     List<Interest>? interests,
@@ -61,6 +64,7 @@ class ProfileModel extends Equatable {
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       position: position ?? this.position,
+      bio: bio ?? this.bio,
       activeStatus: activeStatus ?? this.activeStatus,
       profilePicture: profilePicture ?? this.profilePicture,
       experience: experience ?? this.experience,
