@@ -58,6 +58,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             subtitle: '2FA and login history',
                             onTap: () {},
                           ),
+                          _buildListItem(
+                            icon: Icons.article_outlined,
+                            title: 'My Posts',
+                            subtitle: 'Threads and posts you created',
+                            onTap: () {},
+                          ),
                           // _buildListItem(
                           //   icon: Icons.payments,
                           //   title: 'Subscription Plan',

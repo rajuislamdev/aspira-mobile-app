@@ -126,7 +126,7 @@ class _TopAppBarContent extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'MEMBER PRO',
+                                profile?.position ?? 'Update your job title',
                                 style: GoogleFonts.manrope(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
