@@ -1,7 +1,6 @@
 import 'package:aspira/screens/profile/profile_screen.dart';
 import 'package:aspira/screens/widgets/create_post_model.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'feed_screen.dart';
 
@@ -44,11 +43,12 @@ class _CoreScreenState extends State<CoreScreen> {
       backgroundColor: const Color(0xFF111214),
       body: SafeArea(child: _pages[_selectedIndex]),
       bottomNavigationBar: BottomAppBar(
+        height: 66,
         color: const Color(0xFF171A29),
         shape: const CircularNotchedRectangle(),
         notchMargin: 8,
         child: SizedBox(
-          height: 72,
+          height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -66,17 +66,27 @@ class _CoreScreenState extends State<CoreScreen> {
                             : Colors.white38,
                         size: 28,
                       ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Feed',
-                        style: GoogleFonts.manrope(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: _selectedIndex == 0
-                              ? const Color(0xFF14B8A6)
-                              : Colors.white38,
+                      if (_selectedIndex == 0)
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          width: 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF14B8A6),
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
+                      // const SizedBox(height: 2),
+                      // Text(
+                      //   'Feed',
+                      //   style: GoogleFonts.manrope(
+                      //     fontSize: 12,
+                      //     fontWeight: FontWeight.w600,
+                      //     color: _selectedIndex == 0
+                      //         ? const Color(0xFF14B8A6)
+                      //         : Colors.white38,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -98,17 +108,28 @@ class _CoreScreenState extends State<CoreScreen> {
                             : Colors.white38,
                         size: 28,
                       ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Profile',
-                        style: GoogleFonts.manrope(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: _selectedIndex == 2
-                              ? const Color(0xFF14B8A6)
-                              : Colors.white38,
+                      // dot indicator for profile tab
+                      if (_selectedIndex == 2)
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          width: 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF14B8A6),
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
+                      // const SizedBox(height: 2),
+                      // Text(
+                      //   'Profile',
+                      //   style: GoogleFonts.manrope(
+                      //     fontSize: 12,
+                      //     fontWeight: FontWeight.w600,
+                      //     color: _selectedIndex == 2
+                      //         ? const Color(0xFF14B8A6)
+                      //         : Colors.white38,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -119,8 +140,8 @@ class _CoreScreenState extends State<CoreScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SizedBox(
-        height: 64,
-        width: 64,
+        height: 55,
+        width: 55,
         child: PhysicalModel(
           color: Colors.transparent,
           elevation: 16,
@@ -134,22 +155,6 @@ class _CoreScreenState extends State<CoreScreen> {
             onPressed: () => _onItemTapped(1),
             child: const Icon(Icons.add, size: 32),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Profile',
-        style: GoogleFonts.manrope(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
         ),
       ),
     );

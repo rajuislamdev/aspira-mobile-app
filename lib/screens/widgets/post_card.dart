@@ -3,6 +3,7 @@ import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/ui_support.dart';
 import 'package:aspira/models/post_model/post_model.dart';
 import 'package:aspira/screens/widgets/comments_bottom_sheet.dart';
+import 'package:aspira/screens/widgets/full_screen_image_viewer.dart';
 import 'package:aspira/view_models/post/bookmark_post_view_model.dart';
 import 'package:aspira/view_models/post/react_post_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart'
@@ -147,36 +148,53 @@ class CommunityThreadCard extends StatelessWidget {
 
             // Image
             /// Modern Image Loader
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: CachedNetworkImage(
-                imageUrl:
-                    "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=1470",
-                fit: BoxFit.cover,
-
-                /// Smooth fade animation
-                fadeInDuration: const Duration(milliseconds: 300),
-
-                /// Modern shimmer placeholder
-                placeholder: (context, url) => Container(
-                  color: Colors.grey.shade300,
-                  child: const Center(
-                    child: SizedBox(
-                      height: 26,
-                      width: 26,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
+            GestureDetector(
+              onTap: () {
+                context.pushNamed(
+                  RouteLocationName.imageViewer,
+                  extra: ImageViewerData(
+                    imageUrl:
+                        "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=1470",
+                    title: title,
+                    authorName: name,
+                    heroTag: "post-image-${post.id}",
                   ),
-                ),
+                );
+              },
+              child: Hero(
+                tag: "post-image-${post.id}",
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=1470",
+                    fit: BoxFit.cover,
 
-                /// Clean error UI
-                errorWidget: (context, url, error) => Container(
-                  color: Colors.grey.shade200,
-                  child: const Center(
-                    child: Icon(
-                      Icons.broken_image_outlined,
-                      size: 28,
-                      color: Colors.grey,
+                    /// Smooth fade animation
+                    fadeInDuration: const Duration(milliseconds: 300),
+
+                    /// Modern shimmer placeholder
+                    placeholder: (context, url) => Container(
+                      color: Colors.grey.shade300,
+                      child: const Center(
+                        child: SizedBox(
+                          height: 26,
+                          width: 26,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ),
+                    ),
+
+                    /// Clean error UI
+                    errorWidget: (context, url, error) => Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(
+                        child: Icon(
+                          Icons.broken_image_outlined,
+                          size: 28,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -186,7 +204,7 @@ class CommunityThreadCard extends StatelessWidget {
             /// Footer
             Divider(
               color: isDark
-                  ? Colors.white.withOpacity(0.06)
+                  ? Colors.white.withValues(alpha: 0.06)
                   : Colors.grey.shade200,
             ),
 

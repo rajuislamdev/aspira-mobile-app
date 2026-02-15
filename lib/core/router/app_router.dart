@@ -12,6 +12,7 @@ import 'package:aspira/screens/profile/profile_information_screen.dart';
 import 'package:aspira/screens/support/help_center_screen.dart';
 import 'package:aspira/screens/support/terms_of_service_screen.dart';
 import 'package:aspira/screens/thread/discoussion_thread_screen.dart';
+import 'package:aspira/screens/widgets/full_screen_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -102,6 +103,13 @@ class AppRouter {
         name: RouteLocationName.notifications,
         pageBuilder: (context, state) =>
             const NoTransitionPage(child: NotificationsScreen()),
+      ),
+      GoRoute(
+        path: '/image-viewer',
+        name: RouteLocationName.imageViewer,
+        pageBuilder: (context, state) => NoTransitionPage(
+          child: FullScreenImageViewer(data: state.extra as ImageViewerData),
+        ),
       ),
     ],
   );

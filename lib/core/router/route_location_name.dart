@@ -13,4 +13,5 @@ class RouteLocationName {
   static const String termsOfServiceScreen = 'terms-of-service-screen';
   static const String bookmarkedPosts = 'bookmarked-posts';
   static const String notifications = 'notifications';
+  static const String imageViewer = 'image-viewer';
 }
