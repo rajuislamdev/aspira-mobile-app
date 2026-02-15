@@ -12,10 +12,8 @@ class CommunityThreadCardShimmer extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF2A4B9E) : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200,
-        ),
+        // borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
       ),
       child: Shimmer.fromColors(
         baseColor: isDark ? const Color(0xFF3A4F8F) : Colors.grey.shade300,
@@ -29,10 +27,7 @@ class CommunityThreadCardShimmer extends StatelessWidget {
                 Container(
                   height: 40,
                   width: 40,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
+                  decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -64,11 +59,7 @@ class CommunityThreadCardShimmer extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            Divider(
-              color: isDark
-                  ? Colors.white.withOpacity(0.06)
-                  : Colors.grey.shade200,
-            ),
+            Divider(color: isDark ? Colors.white.withOpacity(0.06) : Colors.grey.shade200),
 
             const SizedBox(height: 10),
 
@@ -92,10 +83,7 @@ class CommunityThreadCardShimmer extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
-      ),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6)),
     );
   }
 
@@ -103,20 +91,13 @@ class CommunityThreadCardShimmer extends StatelessWidget {
     return Container(
       height: size,
       width: size,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
+      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
     );
   }
 
   Widget _reactionPlaceholder() {
     return Row(
-      children: [
-        _circle(size: 20),
-        const SizedBox(width: 6),
-        _line(width: 20, height: 12),
-      ],
+      children: [_circle(size: 20), const SizedBox(width: 6), _line(width: 20, height: 12)],
     );
   }
 }

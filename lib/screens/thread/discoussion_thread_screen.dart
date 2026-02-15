@@ -7,9 +7,9 @@ import 'package:aspira/screens/widgets/loading/comment_card_shimmer.dart';
 import 'package:aspira/view_models/post/add_comment_view_model.dart';
 import 'package:aspira/view_models/post/fetch_threads_view_model.dart';
 import 'package:aspira/view_models/post/react_post_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DiscussionThreadScreen extends ConsumerStatefulWidget {
@@ -17,12 +17,10 @@ class DiscussionThreadScreen extends ConsumerStatefulWidget {
   const DiscussionThreadScreen({super.key, required this.post});
 
   @override
-  ConsumerState<DiscussionThreadScreen> createState() =>
-      _DiscussionThreadScreenState();
+  ConsumerState<DiscussionThreadScreen> createState() => _DiscussionThreadScreenState();
 }
 
-class _DiscussionThreadScreenState
-    extends ConsumerState<DiscussionThreadScreen> {
+class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen> {
   late final TextEditingController _commentController;
   String? _replyParentId;
   String? _replyParentName;
@@ -42,9 +40,7 @@ class _DiscussionThreadScreenState
   void _refreshThreads() {
     final postId = widget.post.id;
     if (postId == null || postId.isEmpty) return;
-    ref
-        .read(fetchThreadsViewModelProvider(postId).notifier)
-        .fetchThreads(postId: postId);
+    ref.read(fetchThreadsViewModelProvider(postId).notifier).fetchThreads(postId: postId);
   }
 
   void _setReplyTarget({required String? parentId, required String name}) {
@@ -74,14 +70,11 @@ class _DiscussionThreadScreenState
       );
       final widgets = <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: indent, bottom: 8),
+          padding: EdgeInsets.only(left: indent, bottom: 0),
           child: Container(
             decoration: BoxDecoration(
               border: Border(
-                left: BorderSide(
-                  color: const Color(0xFF14B8A2).withOpacity(0.35),
-                  width: 2,
-                ),
+                left: BorderSide(color: const Color(0xFF14B8A2).withOpacity(0.35), width: 2),
               ),
             ),
             child: Padding(
@@ -93,8 +86,7 @@ class _DiscussionThreadScreenState
                 text: child.content ?? '',
                 likes: 0,
                 isChild: true,
-                onReply: () =>
-                    _setReplyTarget(parentId: child.id, name: childName),
+                onReply: () => _setReplyTarget(parentId: child.id, name: childName),
               ),
             ),
           ),
@@ -146,40 +138,21 @@ class _DiscussionThreadScreenState
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF121416),
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Discussion Thread',
-          style: GoogleFonts.manrope(
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.5,
-            color: Colors.grey[400],
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_horiz, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
-      ),
+
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  child: Row(
                     children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                      ),
                       Stack(
                         children: [
                           CircleAvatar(
@@ -196,10 +169,7 @@ class _DiscussionThreadScreenState
                               height: 10,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF14B8A2),
-                                border: Border.all(
-                                  color: const Color(0xFF121416),
-                                  width: 1.5,
-                                ),
+                                border: Border.all(color: const Color(0xFF121416), width: 1.5),
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -228,65 +198,85 @@ class _DiscussionThreadScreenState
                           ),
                         ],
                       ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.more_horiz, color: Colors.white),
+                        onPressed: () {},
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  child: Text(
                     widget.post.title ?? '',
                     style: GoogleFonts.manrope(
-                      fontSize: 22,
+                      fontSize: 20,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  child: Text(
                     widget.post.content ?? '',
                     style: GoogleFonts.manrope(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Consumer(
-                        builder: (context, ref, child) {
-                          final reactPostViewModel = ref.watch(
-                            reactPostViewModelProvider,
-                          );
-                          if (reactPostViewModel.isLoading) {
-                            return _PostAction(
-                              icon: Icons.favorite,
-                              count: widget.post.count?.reactions ?? 0,
-                              active: widget.post.hasReacted,
-                              onTap: () {},
-                            );
-                          }
+                ),
+                const SizedBox(height: 16),
+                // Image
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                ),
+
+                Row(
+                  children: [
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final reactPostViewModel = ref.watch(reactPostViewModelProvider);
+                        if (reactPostViewModel.isLoading) {
                           return _PostAction(
                             icon: Icons.favorite,
                             count: widget.post.count?.reactions ?? 0,
                             active: widget.post.hasReacted,
-                            onTap: () {
-                              ref
-                                  .read(reactPostViewModelProvider.notifier)
-                                  .reactPost(postId: widget.post.id!);
-                            },
+                            onTap: () {},
                           );
-                        },
-                      ),
-                      const SizedBox(width: 24),
-                      _PostAction(
-                        icon: Icons.chat_bubble_outline,
-                        count: widget.post.count?.replies ?? 0,
-                      ),
-                      const SizedBox(width: 24),
-                      _PostAction(icon: Icons.share, count: 0),
-                    ],
-                  ),
-                ],
-              ),
+                        }
+                        return _PostAction(
+                          icon: Icons.favorite,
+                          count: widget.post.count?.reactions ?? 0,
+                          active: widget.post.hasReacted,
+                          onTap: () {
+                            ref
+                                .read(reactPostViewModelProvider.notifier)
+                                .reactPost(postId: widget.post.id!);
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 24),
+                    _PostAction(
+                      icon: Icons.chat_bubble_outline,
+                      count: widget.post.count?.replies ?? 0,
+                    ),
+                    const SizedBox(width: 24),
+                    _PostAction(icon: Icons.share, count: 0),
+                  ],
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -350,10 +340,7 @@ class _DiscussionThreadScreenState
                   error: (error, _) => KeyedSubtree(
                     key: const ValueKey('threads-error'),
                     child: Center(
-                      child: Text(
-                        error.toString(),
-                        style: const TextStyle(color: Colors.grey),
-                      ),
+                      child: Text(error.toString(), style: const TextStyle(color: Colors.grey)),
                     ),
                   ),
                   data: (threads) {
@@ -381,14 +368,12 @@ class _DiscussionThreadScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CommentCard(
-                                  avatar: thread.author?.profilePicture
-                                      ?.toString(),
+                                  avatar: thread.author?.profilePicture?.toString(),
                                   name: _authorName(
                                     firstName: thread.author?.firstName,
                                     lastName: thread.author?.lastName,
                                   ),
-                                  time:
-                                      thread.createdAt?.postTime ?? 'Just now',
+                                  time: thread.createdAt?.postTime ?? 'Just now',
                                   text: thread.content ?? '',
                                   likes: thread.count?.reactions ?? 0,
                                   onReply: () => _setReplyTarget(
@@ -399,12 +384,8 @@ class _DiscussionThreadScreenState
                                     ),
                                   ),
                                 ),
-                                if (thread.children != null &&
-                                    thread.children!.isNotEmpty)
-                                  ..._buildChildComments(
-                                    thread.children!,
-                                    indent: 20,
-                                  ),
+                                if (thread.children != null && thread.children!.isNotEmpty)
+                                  ..._buildChildComments(thread.children!, indent: 20),
                               ],
                             ),
                           );
@@ -420,17 +401,13 @@ class _DiscussionThreadScreenState
       ),
       bottomNavigationBar: AnimatedPadding(
         duration: AppConstants.switchAnimationDuration,
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: SafeArea(
           child: Container(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
             decoration: BoxDecoration(
               color: const Color(0xFF121416).withOpacity(0.95),
-              border: const Border(
-                top: BorderSide(color: Colors.grey, width: 0.3),
-              ),
+              border: const Border(top: BorderSide(color: Colors.grey, width: 0.3)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -440,10 +417,7 @@ class _DiscussionThreadScreenState
                     _replyParentName!.isNotEmpty)
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: const Color(0xFF1C1F24),
                       borderRadius: BorderRadius.circular(12),
@@ -462,11 +436,7 @@ class _DiscussionThreadScreenState
                         ),
                         GestureDetector(
                           onTap: _clearReplyTarget,
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.grey,
-                            size: 18,
-                          ),
+                          child: const Icon(Icons.close, color: Colors.grey, size: 18),
                         ),
                       ],
                     ),
@@ -484,10 +454,7 @@ class _DiscussionThreadScreenState
                           hintStyle: const TextStyle(color: Colors.grey),
                           filled: true,
                           fillColor: const Color(0xFF1C1F24),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 14,
-                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25),
                             borderSide: BorderSide.none,
@@ -556,12 +523,7 @@ class _PostAction extends StatelessWidget {
   final int count;
   final bool active;
   final Function? onTap;
-  const _PostAction({
-    required this.icon,
-    required this.count,
-    this.active = false,
-    this.onTap,
-  });
+  const _PostAction({required this.icon, required this.count, this.active = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -569,11 +531,7 @@ class _PostAction extends StatelessWidget {
       onTap: () => onTap?.call(),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: active ? const Color(0xFF14B8A2) : Colors.grey,
-          ),
+          Icon(icon, size: 20, color: active ? const Color(0xFF14B8A2) : Colors.grey),
           const SizedBox(width: 4),
           Text(
             count.toString(),
@@ -624,7 +582,7 @@ class CommentCard extends StatelessWidget {
       padding: EdgeInsets.all(isChild ? 10 : 12),
       decoration: BoxDecoration(
         color: isChild ? const Color(0xFF23272D) : const Color(0xFF272B31),
-        borderRadius: BorderRadius.circular(isChild ? 14 : 16),
+        borderRadius: BorderRadius.circular(isChild ? 4 : 6),
         border: Border.all(color: const Color(0xFF1C1F24)),
       ),
       child: Column(
@@ -653,17 +611,11 @@ class CommentCard extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     time,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: isChild ? 9 : 10,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: isChild ? 9 : 10),
                   ),
                 ],
               ),
@@ -674,11 +626,7 @@ class CommentCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             text,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: isChild ? 13 : 14,
-              height: 1.4,
-            ),
+            style: TextStyle(color: Colors.grey, fontSize: isChild ? 13 : 14, height: 1.4),
           ),
           const SizedBox(height: 8),
           Row(
@@ -702,11 +650,7 @@ class CommentCard extends StatelessWidget {
                 onTap: onReply,
                 child: const Text(
                   'Reply',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
             ],

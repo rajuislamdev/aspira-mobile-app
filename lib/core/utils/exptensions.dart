@@ -40,18 +40,25 @@ extension DateTimeExtension on DateTime {
 
   String get postTime {
     final difference = DateTime.now().difference(this);
+
     if (difference.inMinutes < 60) {
-      return '${difference.inMinutes} min ago';
+      final m = difference.inMinutes;
+      return '$m min${m > 1 ? 's' : ''} ago';
     } else if (difference.inHours < 24) {
-      return '${difference.inHours} hour ago';
+      final h = difference.inHours;
+      return '$h hour${h > 1 ? 's' : ''} ago';
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} day ago';
+      final d = difference.inDays;
+      return '$d day${d > 1 ? 's' : ''} ago';
     } else if (difference.inDays < 30) {
-      return '${difference.inDays / 7} week ago';
+      final w = difference.inDays ~/ 7;
+      return '$w week${w > 1 ? 's' : ''} ago';
     } else if (difference.inDays < 365) {
-      return '${difference.inDays / 30} month ago';
+      final mo = difference.inDays ~/ 30;
+      return '$mo month${mo > 1 ? 's' : ''} ago';
     } else {
-      return '${difference.inDays / 365} year ago';
+      final y = difference.inDays ~/ 365;
+      return '$y year${y > 1 ? 's' : ''} ago';
     }
   }
 }
