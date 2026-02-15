@@ -43,6 +43,7 @@ extension DateTimeExtension on DateTime {
 
     if (difference.inMinutes < 60) {
       final m = difference.inMinutes;
+      if (m == 0) return 'Just now';
       return '$m min${m > 1 ? 's' : ''} ago';
     } else if (difference.inHours < 24) {
       final h = difference.inHours;
