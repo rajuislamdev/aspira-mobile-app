@@ -4,6 +4,7 @@ import 'package:aspira/core/network/dio_client.dart';
 import 'package:aspira/core/type_def/type_def.dart';
 import 'package:aspira/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:aspira/features/profile/data/models/profile_model/profile_model.dart';
+import 'package:aspira/features/profile/data/models/profile_option_model/profile_option_model.dart';
 import 'package:aspira/features/profile/domain/repositories/i_profile_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,5 +45,21 @@ class ProfileRepoImpl extends IProfileRepo {
       userId: userId,
       payload: profileData.toJson(),
     );
+  }
+
+  @override
+  Result<ProfileOptionModel> fetchInterest() async {
+    try {
+      final response = await profileRemoteDataSource.fetchInterest();
+      final profileOption = ProfileOptionModel.fromJson(
+        (response.data['payload']),
+      );
+
+      return Right(profileOption);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

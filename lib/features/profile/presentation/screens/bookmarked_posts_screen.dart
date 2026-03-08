@@ -1,8 +1,8 @@
 import 'package:aspira/core/utils/app_constants.dart';
 import 'package:aspira/core/utils/exptensions.dart';
-import 'package:aspira/screens/widgets/loading/cummunity_thread_card_shimmer.dart';
-import 'package:aspira/screens/widgets/post_card.dart';
-import 'package:aspira/view_models/post/fetch_bookmarked_posts_view_model.dart';
+import 'package:aspira/core/widgets/loading/cummunity_thread_card_shimmer.dart';
+import 'package:aspira/features/feed/presentation/viewmodels/fetch_bookmarked_posts_view_model.dart';
+import 'package:aspira/features/feed/presentation/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';

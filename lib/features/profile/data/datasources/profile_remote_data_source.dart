@@ -8,6 +8,8 @@ abstract class ProfileRemoteDataSource {
     required String userId,
     required Map<String, dynamic> payload,
   });
+
+  Future<Response> fetchInterest();
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -26,5 +28,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     required Map<String, dynamic> payload,
   }) async {
     return await dioClient.patch(ApiEndpoints.user, data: payload);
+  }
+
+  @override
+  Future<Response> fetchInterest() async {
+    return await dioClient.get(ApiEndpoints.fetchProfileOptions);
   }
 }
