@@ -6,7 +6,7 @@ import 'package:aspira/core/utils/exptensions.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/fetch_posts_view_model.dart';
 import 'package:aspira/features/feed/presentation/widgets/create_post_modal.dart';
 import 'package:aspira/features/feed/presentation/widgets/post_card.dart';
-import 'package:aspira/models/profile_model/interest.dart';
+import 'package:aspira/features/profile/data/models/profile_model/interest.dart';
 import 'package:aspira/screens/widgets/loading/chip_item_shimmer.dart';
 import 'package:aspira/screens/widgets/loading/cummunity_thread_card_shimmer.dart';
 import 'package:aspira/screens/widgets/loading/top_appbar_shimmer_feed.dart';
