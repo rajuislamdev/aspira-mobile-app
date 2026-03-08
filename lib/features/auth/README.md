@@ -41,16 +41,19 @@ lib/features/auth/
 ## Layer Responsibilities
 
 ### Domain Layer ✨
+
 - **Entities**: Pure Dart objects representing core business concepts (UserEntity)
 - **Repositories**: Abstract interfaces defining what data operations are needed
 - **Use Cases**: Encapsulate specific business rules and logic
 
 ### Data Layer 🔌
+
 - **Data Sources**: Handle communication with external services (APIs, local storage)
 - **Models**: Convert API responses to domain entities (UserResponseModel)
 - **Repositories**: Implement the domain repository interfaces, handling error mapping
 
 ### Presentation Layer 🎨
+
 - **Providers**: Riverpod setup for dependency injection
 - **View Models**: Manage UI state using Riverpod providers
 - **Screens**: UI widgets that consume and react to view model state
@@ -88,6 +91,7 @@ Server
 ## Backward Compatibility
 
 Old import paths are maintained as re-exports for gradual migration:
+
 - `lib/view_models/auth/` → re-exports from `lib/features/auth/presentation/viewmodels/`
 - `lib/screens/login_screen.dart` → re-exports from new location
 - `lib/repositories/auth_repo/` → re-exports from new structure
@@ -97,6 +101,7 @@ Old import paths are maintained as re-exports for gradual migration:
 When updating existing code:
 
 **Old way:**
+
 ```dart
 import 'package:aspira/view_models/auth/login_view_model.dart';
 import 'package:aspira/repositories/auth_repo/auth_repo_impl.dart';
@@ -104,6 +109,7 @@ import 'package:aspira/screens/login_screen.dart';
 ```
 
 **New way:**
+
 ```dart
 import 'package:aspira/features/auth/presentation/viewmodels/login_view_model.dart';
 import 'package:aspira/features/auth/presentation/providers/auth_providers.dart';

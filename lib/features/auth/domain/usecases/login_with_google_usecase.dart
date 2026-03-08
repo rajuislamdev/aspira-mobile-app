@@ -8,9 +8,7 @@ class LoginWithGoogleUseCase {
 
   LoginWithGoogleUseCase({required this.repository});
 
-  Result<Tuple2<String, UserEntity>> call({
-    required String idToken,
-  }) {
+  Result<Tuple2<String, UserEntity>> call({required String idToken}) {
     return repository.loginWithGoogle(idToken: idToken);
   }
 }

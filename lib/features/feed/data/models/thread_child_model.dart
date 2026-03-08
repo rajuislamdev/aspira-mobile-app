@@ -8,7 +8,7 @@ part 'thread_child_model.g.dart';
 class ThreadChildModel extends ThreadChildEntity {
   @override
   final ThreadAuthorModel? author;
-  
+
   @override
   final List<ThreadChildModel>? children;
 

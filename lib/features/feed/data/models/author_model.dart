@@ -5,11 +5,7 @@ part 'author_model.g.dart';
 
 @JsonSerializable()
 class AuthorModel extends AuthorEntity {
-  const AuthorModel({
-    super.firstName,
-    super.lastName,
-    super.profilePicture,
-  });
+  const AuthorModel({super.firstName, super.lastName, super.profilePicture});
 
   factory AuthorModel.fromJson(Map<String, dynamic> json) {
     return _$AuthorModelFromJson(json);

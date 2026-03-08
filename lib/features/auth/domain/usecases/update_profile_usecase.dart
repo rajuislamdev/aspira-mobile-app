@@ -6,9 +6,7 @@ class UpdateProfileUseCase {
 
   UpdateProfileUseCase({required this.repository});
 
-  Result<String> call({
-    required Map<String, dynamic> payload,
-  }) {
+  Result<String> call({required Map<String, dynamic> payload}) {
     return repository.updateProfile(payload: payload);
   }
 }

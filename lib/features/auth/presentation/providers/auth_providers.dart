@@ -11,9 +11,7 @@ import 'package:aspira/features/auth/domain/usecases/update_profile_usecase.dart
 
 // Data source providers
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(
-  (ref) => AuthRemoteDataSourceImpl(
-    dioClient: ref.watch(dioClientProvider),
-  ),
+  (ref) => AuthRemoteDataSourceImpl(dioClient: ref.watch(dioClientProvider)),
 );
 
 // Repository provider
@@ -33,11 +31,13 @@ final registerUseCaseProvider = Provider(
 );
 
 final loginWithGoogleUseCaseProvider = Provider(
-  (ref) => LoginWithGoogleUseCase(repository: ref.watch(authRepositoryProvider)),
+  (ref) =>
+      LoginWithGoogleUseCase(repository: ref.watch(authRepositoryProvider)),
 );
 
 final getGoogleIdTokenUseCaseProvider = Provider(
-  (ref) => GetGoogleIdTokenUseCase(repository: ref.watch(authRepositoryProvider)),
+  (ref) =>
+      GetGoogleIdTokenUseCase(repository: ref.watch(authRepositoryProvider)),
 );
 
 final updateProfileUseCaseProvider = Provider(

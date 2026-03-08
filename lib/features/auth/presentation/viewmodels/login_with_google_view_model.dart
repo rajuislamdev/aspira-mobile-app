@@ -56,7 +56,9 @@ class LoginWithGoogleViewModel extends StateNotifier<LoginWithGoogleState> {
       },
       (profile) async {
         LocalStorageService().saveToken(profile.value1);
-        final profileResult = await ref.read(profileRepoProvider).fetchUserProfile();
+        final profileResult = await ref
+            .read(profileRepoProvider)
+            .fetchUserProfile();
         profileResult.fold(
           (ifLeft) {
             state = Error(ifLeft);

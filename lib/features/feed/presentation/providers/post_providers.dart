@@ -13,9 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Data Source Provider
 final postRemoteDataSourceProvider = Provider<PostRemoteDataSource>((ref) {
-  return PostRemoteDataSourceImpl(
-    dioClient: ref.read(dioClientProvider),
-  );
+  return PostRemoteDataSourceImpl(dioClient: ref.read(dioClientProvider));
 });
 
 /// Repository Provider
@@ -34,9 +32,10 @@ final fetchPostsUseCaseProvider = Provider<FetchPostsUseCase>((ref) {
   return FetchPostsUseCase(ref.read(postRepositoryProvider));
 });
 
-final fetchBookmarkedPostsUseCaseProvider = Provider<FetchBookmarkedPostsUseCase>((ref) {
-  return FetchBookmarkedPostsUseCase(ref.read(postRepositoryProvider));
-});
+final fetchBookmarkedPostsUseCaseProvider =
+    Provider<FetchBookmarkedPostsUseCase>((ref) {
+      return FetchBookmarkedPostsUseCase(ref.read(postRepositoryProvider));
+    });
 
 final reactPostUseCaseProvider = Provider<ReactPostUseCase>((ref) {
   return ReactPostUseCase(ref.read(postRepositoryProvider));

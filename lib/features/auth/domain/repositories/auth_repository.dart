@@ -11,13 +11,9 @@ abstract class AuthRepository {
     required Map<String, dynamic> payload,
   });
 
-  Result<String> updateProfile({
-    required Map<String, dynamic> payload,
-  });
+  Result<String> updateProfile({required Map<String, dynamic> payload});
 
   Result<String?> getGoogleIdToken();
 
-  Result<Tuple2<String, UserEntity>> loginWithGoogle({
-    required String idToken,
-  });
+  Result<Tuple2<String, UserEntity>> loginWithGoogle({required String idToken});
 }

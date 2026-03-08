@@ -29,7 +29,9 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Result<List<PostEntity>> fetchPosts({required String? interestId}) async {
     try {
-      final response = await remoteDataSource.fetchPosts(interestId: interestId);
+      final response = await remoteDataSource.fetchPosts(
+        interestId: interestId,
+      );
       final data = response.data['payload'];
       final posts = (data as List).map((e) => PostModel.fromJson(e)).toList();
       return Right(posts);
@@ -83,7 +85,9 @@ class PostRepositoryImpl implements PostRepository {
     try {
       final response = await remoteDataSource.fetchPostsThread(postId: postId);
       final data = response.data['payload'];
-      final threads = (data as List).map((e) => ThreadModel.fromJson(e)).toList();
+      final threads = (data as List)
+          .map((e) => ThreadModel.fromJson(e))
+          .toList();
       return Right(threads);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

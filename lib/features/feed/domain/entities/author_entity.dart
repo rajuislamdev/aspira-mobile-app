@@ -5,11 +5,7 @@ class AuthorEntity extends Equatable {
   final String? lastName;
   final dynamic profilePicture;
 
-  const AuthorEntity({
-    this.firstName,
-    this.lastName,
-    this.profilePicture,
-  });
+  const AuthorEntity({this.firstName, this.lastName, this.profilePicture});
 
   AuthorEntity copyWith({
     String? firstName,

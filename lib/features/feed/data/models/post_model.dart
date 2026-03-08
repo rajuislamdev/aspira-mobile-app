@@ -9,12 +9,12 @@ part 'post_model.g.dart';
 class PostModel extends PostEntity {
   @override
   final AuthorModel? author;
-  
+
   @override
   @JsonKey(name: '_count')
   final CountModel? count;
 
-  PostModel({
+  const PostModel({
     super.id,
     super.title,
     super.content,

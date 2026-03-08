@@ -18,7 +18,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final GoogleSignIn _googleSignIn;
 
   AuthRemoteDataSourceImpl({required this.dioClient})
-      : _googleSignIn = GoogleSignIn.instance {
+    : _googleSignIn = GoogleSignIn.instance {
     _googleSignIn.initialize(
       clientId: EnvironmentConfig.clientId,
       serverClientId: EnvironmentConfig.serverClientId,
@@ -36,7 +36,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Response> updateProfile({required Map<String, dynamic> payload}) async {
+  Future<Response> updateProfile({
+    required Map<String, dynamic> payload,
+  }) async {
     return await dioClient.patch(ApiEndpoints.user, data: payload);
   }
 

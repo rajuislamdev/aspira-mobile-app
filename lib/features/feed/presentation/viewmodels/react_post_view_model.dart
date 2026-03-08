@@ -16,7 +16,9 @@ class ReactPostViewModel extends StateNotifier<AsyncValue<String?>> {
   Future<void> reactPost({required String postId}) async {
     state = const AsyncValue.loading();
     ref.read(fetchPostsViewModelProvider.notifier).reactPost(postId: postId);
-    final result = await ref.read(reactPostUseCaseProvider).call(postId: postId);
+    final result = await ref
+        .read(reactPostUseCaseProvider)
+        .call(postId: postId);
     result.fold((ifLeft) {
       ref.read(fetchPostsViewModelProvider.notifier).reactPost(postId: postId);
       state = AsyncValue.error(ifLeft, StackTrace.current);

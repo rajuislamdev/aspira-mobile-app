@@ -29,10 +29,10 @@ class FetchPostsViewModel extends StateNotifier<AsyncValue<List<PostEntity>>> {
   void reactPost({required String postId}) {
     final posts = state.value;
     if (posts == null) return;
-    
+
     final index = posts.indexWhere((element) => element.id == postId);
     if (index == -1) return;
-    
+
     final updatedPost = posts[index].copyWith(
       hasReacted: !posts[index].hasReacted,
       count: posts[index].count?.copyWith(
@@ -41,7 +41,7 @@ class FetchPostsViewModel extends StateNotifier<AsyncValue<List<PostEntity>>> {
             : (posts[index].count!.reactions ?? 0) + 1,
       ),
     );
-    
+
     final updatedPosts = List<PostEntity>.from(posts);
     updatedPosts[index] = updatedPost;
     state = AsyncValue.data(updatedPosts);

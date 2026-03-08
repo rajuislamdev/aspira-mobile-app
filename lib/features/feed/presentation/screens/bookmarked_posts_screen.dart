@@ -20,19 +20,28 @@ class BookmarkedPostsScreen extends ConsumerWidget {
         elevation: 0,
         title: Text(
           'Bookmarked Posts',
-          style: GoogleFonts.manrope(color: Colors.white, fontWeight: FontWeight.w700),
+          style: GoogleFonts.manrope(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       body: AnimatedSwitcher(
         duration: AppConstants.switchAnimationDuration,
         child: viewModel.when(
-          loading: () => const BookmarkedPostsShimmerList(key: ValueKey('shimmer')),
+          loading: () =>
+              const BookmarkedPostsShimmerList(key: ValueKey('shimmer')),
           error: (error, _) => Center(
-            child: Text(error.toString(), style: const TextStyle(color: Colors.white54)),
+            child: Text(
+              error.toString(),
+              style: const TextStyle(color: Colors.white54),
+            ),
           ),
           data: (bookmarks) => RefreshIndicator(
             onRefresh: () async {
-              await ref.read(fetchBookmarkedPostsViewModelProvider.notifier).fetchBookmarkedPosts();
+              await ref
+                  .read(fetchBookmarkedPostsViewModelProvider.notifier)
+                  .fetchBookmarkedPosts();
             },
             child: bookmarks.isEmpty
                 ? ListView(
@@ -50,7 +59,8 @@ class BookmarkedPostsScreen extends ConsumerWidget {
                       final post = bookmarks[index];
                       return CommunityThreadCard(
                         avatarUrl: post.author?.profilePicture ?? '',
-                        name: '${post.author?.firstName} ${post.author?.lastName}',
+                        name:
+                            '${post.author?.firstName} ${post.author?.lastName}',
                         role: 'Product Director',
                         time: post.createdAt?.postTime ?? '',
                         title: post.title ?? '',
@@ -78,7 +88,11 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.bookmark_border, size: 64, color: const Color(0xFF14B8A6).withOpacity(0.18)),
+            Icon(
+              Icons.bookmark_border,
+              size: 64,
+              color: const Color(0xFF14B8A6).withOpacity(0.18),
+            ),
             const SizedBox(height: 24),
             Text(
               'No Bookmarks Yet',
@@ -92,7 +106,11 @@ class _EmptyState extends StatelessWidget {
             Text(
               'Save posts you want to revisit. Bookmarked threads will show up here.',
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(fontSize: 15, color: Colors.white54, height: 1.5),
+              style: GoogleFonts.manrope(
+                fontSize: 15,
+                color: Colors.white54,
+                height: 1.5,
+              ),
             ),
           ],
         ),

@@ -68,7 +68,10 @@ class _CommentsBottomSheetState extends ConsumerState<CommentsBottomSheet> {
     return name.isEmpty ? 'Unknown' : name;
   }
 
-  List<Widget> _buildChildComments(List<ThreadChildEntity> children, {double indent = 16}) {
+  List<Widget> _buildChildComments(
+    List<ThreadChildEntity> children, {
+    double indent = 16,
+  }) {
     return children.expand((child) {
       final childName = _authorName(
         firstName: child.author?.firstName,

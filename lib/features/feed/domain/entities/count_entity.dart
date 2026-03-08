@@ -4,15 +4,9 @@ class CountEntity extends Equatable {
   final int? reactions;
   final int? replies;
 
-  const CountEntity({
-    this.reactions,
-    this.replies,
-  });
+  const CountEntity({this.reactions, this.replies});
 
-  CountEntity copyWith({
-    int? reactions,
-    int? replies,
-  }) {
+  CountEntity copyWith({int? reactions, int? replies}) {
     return CountEntity(
       reactions: reactions ?? this.reactions,
       replies: replies ?? this.replies,

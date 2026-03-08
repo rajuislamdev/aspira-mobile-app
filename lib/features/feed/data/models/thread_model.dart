@@ -10,10 +10,10 @@ part 'thread_model.g.dart';
 class ThreadModel extends ThreadEntity {
   @override
   final ThreadAuthorModel? author;
-  
+
   @override
   final List<ThreadChildModel>? children;
-  
+
   @override
   @JsonKey(name: '_count')
   final ThreadCountModel? count;

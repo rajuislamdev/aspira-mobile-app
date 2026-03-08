@@ -17,10 +17,12 @@ class DiscussionThreadScreen extends ConsumerStatefulWidget {
   const DiscussionThreadScreen({super.key, required this.post});
 
   @override
-  ConsumerState<DiscussionThreadScreen> createState() => _DiscussionThreadScreenState();
+  ConsumerState<DiscussionThreadScreen> createState() =>
+      _DiscussionThreadScreenState();
 }
 
-class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen> {
+class _DiscussionThreadScreenState
+    extends ConsumerState<DiscussionThreadScreen> {
   late final TextEditingController _commentController;
   String? _replyParentId;
   String? _replyParentName;
@@ -40,7 +42,9 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
   void _refreshThreads() {
     final postId = widget.post.id;
     if (postId == null || postId.isEmpty) return;
-    ref.read(fetchThreadsViewModelProvider(postId).notifier).fetchThreads(postId: postId);
+    ref
+        .read(fetchThreadsViewModelProvider(postId).notifier)
+        .fetchThreads(postId: postId);
   }
 
   void _setReplyTarget({required String? parentId, required String name}) {
@@ -62,7 +66,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
     return name.isEmpty ? 'Unknown' : name;
   }
 
-  List<Widget> _buildChildComments(List<ThreadChildEntity> children, {double indent = 16}) {
+  List<Widget> _buildChildComments(
+    List<ThreadChildEntity> children, {
+    double indent = 16,
+  }) {
     return children.expand((child) {
       final childName = _authorName(
         firstName: child.author?.firstName,
@@ -74,7 +81,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
           child: Container(
             decoration: BoxDecoration(
               border: Border(
-                left: BorderSide(color: const Color(0xFF14B8A2).withOpacity(0.35), width: 2),
+                left: BorderSide(
+                  color: const Color(0xFF14B8A2).withOpacity(0.35),
+                  width: 2,
+                ),
               ),
             ),
             child: Padding(
@@ -86,7 +96,8 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                 text: child.content ?? '',
                 likes: 0,
                 isChild: true,
-                onReply: () => _setReplyTarget(parentId: child.id, name: childName),
+                onReply: () =>
+                    _setReplyTarget(parentId: child.id, name: childName),
               ),
             ),
           ),
@@ -150,7 +161,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                   child: Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
                         onPressed: () => Navigator.pop(context),
                       ),
                       Stack(
@@ -169,7 +183,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                               height: 10,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF14B8A2),
-                                border: Border.all(color: const Color(0xFF121416), width: 1.5),
+                                border: Border.all(
+                                  color: const Color(0xFF121416),
+                                  width: 1.5,
+                                ),
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -246,7 +263,9 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                   children: [
                     Consumer(
                       builder: (context, ref, child) {
-                        final reactPostViewModel = ref.watch(reactPostViewModelProvider);
+                        final reactPostViewModel = ref.watch(
+                          reactPostViewModelProvider,
+                        );
                         if (reactPostViewModel.isLoading) {
                           return _PostAction(
                             icon: Icons.favorite,
@@ -340,7 +359,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                   error: (error, _) => KeyedSubtree(
                     key: const ValueKey('threads-error'),
                     child: Center(
-                      child: Text(error.toString(), style: const TextStyle(color: Colors.grey)),
+                      child: Text(
+                        error.toString(),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
                     ),
                   ),
                   data: (threads) {
@@ -368,12 +390,14 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CommentCard(
-                                  avatar: thread.author?.profilePicture?.toString(),
+                                  avatar: thread.author?.profilePicture
+                                      ?.toString(),
                                   name: _authorName(
                                     firstName: thread.author?.firstName,
                                     lastName: thread.author?.lastName,
                                   ),
-                                  time: thread.createdAt?.postTime ?? 'Just now',
+                                  time:
+                                      thread.createdAt?.postTime ?? 'Just now',
                                   text: thread.content ?? '',
                                   likes: thread.count?.reactions ?? 0,
                                   onReply: () => _setReplyTarget(
@@ -384,8 +408,12 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                                     ),
                                   ),
                                 ),
-                                if (thread.children != null && thread.children!.isNotEmpty)
-                                  ..._buildChildComments(thread.children!, indent: 20),
+                                if (thread.children != null &&
+                                    thread.children!.isNotEmpty)
+                                  ..._buildChildComments(
+                                    thread.children!,
+                                    indent: 20,
+                                  ),
                               ],
                             ),
                           );
@@ -401,13 +429,17 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
       ),
       bottomNavigationBar: AnimatedPadding(
         duration: AppConstants.switchAnimationDuration,
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: SafeArea(
           child: Container(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
             decoration: BoxDecoration(
               color: const Color(0xFF121416).withOpacity(0.95),
-              border: const Border(top: BorderSide(color: Colors.grey, width: 0.3)),
+              border: const Border(
+                top: BorderSide(color: Colors.grey, width: 0.3),
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -417,7 +449,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                     _replyParentName!.isNotEmpty)
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF1C1F24),
                       borderRadius: BorderRadius.circular(12),
@@ -436,7 +471,11 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                         ),
                         GestureDetector(
                           onTap: _clearReplyTarget,
-                          child: const Icon(Icons.close, color: Colors.grey, size: 18),
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.grey,
+                            size: 18,
+                          ),
                         ),
                       ],
                     ),
@@ -454,7 +493,10 @@ class _DiscussionThreadScreenState extends ConsumerState<DiscussionThreadScreen>
                           hintStyle: const TextStyle(color: Colors.grey),
                           filled: true,
                           fillColor: const Color(0xFF1C1F24),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 14,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25),
                             borderSide: BorderSide.none,
@@ -523,7 +565,12 @@ class _PostAction extends StatelessWidget {
   final int count;
   final bool active;
   final Function? onTap;
-  const _PostAction({required this.icon, required this.count, this.active = false, this.onTap});
+  const _PostAction({
+    required this.icon,
+    required this.count,
+    this.active = false,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -531,7 +578,11 @@ class _PostAction extends StatelessWidget {
       onTap: () => onTap?.call(),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: active ? const Color(0xFF14B8A2) : Colors.grey),
+          Icon(
+            icon,
+            size: 20,
+            color: active ? const Color(0xFF14B8A2) : Colors.grey,
+          ),
           const SizedBox(width: 4),
           Text(
             count.toString(),
@@ -611,11 +662,17 @@ class CommentCard extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     time,
-                    style: TextStyle(color: Colors.grey, fontSize: isChild ? 9 : 10),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: isChild ? 9 : 10,
+                    ),
                   ),
                 ],
               ),
@@ -626,7 +683,11 @@ class CommentCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             text,
-            style: TextStyle(color: Colors.grey, fontSize: isChild ? 13 : 14, height: 1.4),
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: isChild ? 13 : 14,
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 8),
           Row(
@@ -650,7 +711,11 @@ class CommentCard extends StatelessWidget {
                 onTap: onReply,
                 child: const Text(
                   'Reply',
-                  style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ],

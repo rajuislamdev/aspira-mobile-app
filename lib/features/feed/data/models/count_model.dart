@@ -5,10 +5,7 @@ part 'count_model.g.dart';
 
 @JsonSerializable()
 class CountModel extends CountEntity {
-  const CountModel({
-    super.reactions,
-    super.replies,
-  });
+  const CountModel({super.reactions, super.replies});
 
   factory CountModel.fromJson(Map<String, dynamic> json) {
     return _$CountModelFromJson(json);
@@ -17,10 +14,7 @@ class CountModel extends CountEntity {
   Map<String, dynamic> toJson() => _$CountModelToJson(this);
 
   @override
-  CountModel copyWith({
-    int? reactions,
-    int? replies,
-  }) {
+  CountModel copyWith({int? reactions, int? replies}) {
     return CountModel(
       reactions: reactions ?? this.reactions,
       replies: replies ?? this.replies,
