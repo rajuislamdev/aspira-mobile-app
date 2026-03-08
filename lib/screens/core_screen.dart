@@ -1,8 +1,7 @@
+import 'package:aspira/features/feed/presentation/screens/feed_screen.dart';
+import 'package:aspira/features/feed/presentation/widgets/create_post_modal.dart';
 import 'package:aspira/screens/profile/profile_screen.dart';
-import 'package:aspira/screens/widgets/create_post_model.dart';
 import 'package:flutter/material.dart';
-
-import 'feed_screen.dart';
 
 class CoreScreen extends StatefulWidget {
   const CoreScreen({super.key});

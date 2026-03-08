@@ -1,6 +1,6 @@
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/utils/ui_support.dart';
-import 'package:aspira/view_models/auth/update_profile_view_model.dart';
+import 'package:aspira/features/auth/presentation/viewmodels/update_profile_view_model.dart';
 import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

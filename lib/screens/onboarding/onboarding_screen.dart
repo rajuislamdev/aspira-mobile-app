@@ -7,7 +7,7 @@ import 'package:aspira/screens/onboarding/widgets/step_one_widget.dart';
 import 'package:aspira/screens/onboarding/widgets/step_three_widget.dart';
 import 'package:aspira/screens/onboarding/widgets/step_two_widget.dart';
 import 'package:aspira/services/local_store_service.dart';
-import 'package:aspira/view_models/auth/update_profile_view_model.dart';
+import 'package:aspira/features/auth/presentation/viewmodels/update_profile_view_model.dart';
 import 'package:aspira/view_models/profile_option_service_view_model/selected_profile_option_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

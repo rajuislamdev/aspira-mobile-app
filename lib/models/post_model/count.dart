@@ -1,26 +1,7 @@
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
+// Backward compatibility file
+// This file re-exports the CountModel from the new location
+// TODO: Update imports to use aspira/features/feed/data/models/count_model.dart
 
-part 'count.g.dart';
+import 'package:aspira/features/feed/data/models/count_model.dart';
 
-@JsonSerializable()
-class Count extends Equatable {
-  int? reactions;
-  final int? replies;
-
-  Count({this.reactions, this.replies});
-
-  factory Count.fromJson(Map<String, dynamic> json) => _$CountFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CountToJson(this);
-
-  Count copyWith({int? reactions, int? replies}) {
-    return Count(
-      reactions: reactions ?? this.reactions,
-      replies: replies ?? this.replies,
-    );
-  }
-
-  @override
-  List<Object?> get props => [reactions, replies];
-}
+typedef Count = CountModel;

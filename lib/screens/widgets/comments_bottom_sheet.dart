@@ -1,17 +1,17 @@
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/utils/exptensions.dart';
 import 'package:aspira/core/utils/ui_support.dart';
-import 'package:aspira/models/post_model/post_model.dart';
-import 'package:aspira/models/thread_model/child.dart';
+import 'package:aspira/features/feed/domain/entities/post_entity.dart';
+import 'package:aspira/features/feed/domain/entities/thread_child_entity.dart';
+import 'package:aspira/features/feed/presentation/viewmodels/add_comment_view_model.dart';
+import 'package:aspira/features/feed/presentation/viewmodels/fetch_threads_view_model.dart';
 import 'package:aspira/screens/widgets/loading/comment_card_shimmer.dart';
-import 'package:aspira/view_models/post/add_comment_view_model.dart';
-import 'package:aspira/view_models/post/fetch_threads_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CommentsBottomSheet extends ConsumerStatefulWidget {
-  final PostModel post;
+  final PostEntity post;
 
   const CommentsBottomSheet({super.key, required this.post});
 
@@ -68,7 +68,7 @@ class _CommentsBottomSheetState extends ConsumerState<CommentsBottomSheet> {
     return name.isEmpty ? 'Unknown' : name;
   }
 
-  List<Widget> _buildChildComments(List<Child> children, {double indent = 16}) {
+  List<Widget> _buildChildComments(List<ThreadChildEntity> children, {double indent = 16}) {
     return children.expand((child) {
       final childName = _authorName(
         firstName: child.author?.firstName,

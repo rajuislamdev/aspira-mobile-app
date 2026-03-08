@@ -1,6 +1,6 @@
-import 'package:aspira/repositories/auth_repo/auth_repo_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:aspira/features/auth/presentation/providers/auth_providers.dart';
 
 final updateProfileViewModelProvider =
     StateNotifierProvider.autoDispose<
@@ -17,9 +17,9 @@ class UpdateProfileViewModel extends StateNotifier<AsyncValue<String?>> {
   Future<void> updateProfile({required Map<String, dynamic> payload}) async {
     state = const AsyncValue.loading();
     try {
-      final result = await ref
-          .read(authRepoProvider)
-          .updateProfile(payload: payload);
+      final updateProfileUseCase = ref.read(updateProfileUseCaseProvider);
+      final result = await updateProfileUseCase(payload: payload);
+
       result.fold(
         (ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current),
         (ifRight) => state = AsyncValue.data(ifRight),

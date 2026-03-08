@@ -1,25 +1,5 @@
-import 'package:aspira/repositories/post/post_repo_impl.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
+// Backward compatibility file
+// This file re-exports from the new location
+// TODO: Update imports to use aspira/features/feed/presentation/viewmodels/create_post_view_model.dart
 
-final createPostViewModelProvider =
-    StateNotifierProvider<CreatePostViewModel, AsyncValue<String?>>(
-      (ref) => CreatePostViewModel(ref),
-    );
-
-class CreatePostViewModel extends StateNotifier<AsyncValue<String?>> {
-  final Ref ref;
-  CreatePostViewModel(this.ref) : super(const AsyncValue.data(null));
-
-  Future<void> createPost({required Map<String, dynamic> payload}) async {
-    state = const AsyncValue.loading();
-    final result = await ref
-        .read(postRepoProvider)
-        .createPost(payload: payload);
-
-    result.fold(
-      (ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current),
-      (ifRight) => state = AsyncValue.data(ifRight),
-    );
-  }
-}
+export 'package:aspira/features/feed/presentation/viewmodels/create_post_view_model.dart';

@@ -1,22 +1,7 @@
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
+// Backward compatibility file
+// This file re-exports the ThreadCountModel from the new location
+// TODO: Update imports to use aspira/features/feed/data/models/thread_count_model.dart
 
-part 'count.g.dart';
+import 'package:aspira/features/feed/data/models/thread_count_model.dart';
 
-@JsonSerializable()
-class Count extends Equatable {
-  final int? reactions;
-
-  const Count({this.reactions});
-
-  factory Count.fromJson(Map<String, dynamic> json) => _$CountFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CountToJson(this);
-
-  Count copyWith({int? reactions}) {
-    return Count(reactions: reactions ?? this.reactions);
-  }
-
-  @override
-  List<Object?> get props => [reactions];
-}
+typedef Count = ThreadCountModel;
