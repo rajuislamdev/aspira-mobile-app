@@ -1,11 +1,11 @@
+import 'package:aspira/core/errors/failure.dart';
+import 'package:aspira/features/auth/domain/entities/user_entity.dart';
+import 'package:aspira/features/auth/presentation/providers/auth_providers.dart';
+import 'package:aspira/features/profile/data/models/profile_model/profile_model.dart';
+import 'package:aspira/features/profile/data/repositories/profile_repo_impl.dart';
+import 'package:aspira/services/local_store_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:aspira/core/errors/failure.dart';
-import 'package:aspira/features/auth/presentation/providers/auth_providers.dart';
-import 'package:aspira/models/profile_model/profile_model.dart';
-import 'package:aspira/features/auth/domain/entities/user_entity.dart';
-import 'package:aspira/repositories/profile/profile_repo_impl.dart';
-import 'package:aspira/services/local_store_service.dart';
 
 sealed class LoginWithGoogleState {}
 
