@@ -4,7 +4,10 @@ import 'package:aspira/features/feed/domain/entities/thread_entity.dart';
 
 abstract class PostRepository {
   Result<String> createPost({required Map<String, dynamic> payload});
-  Result<List<PostEntity>> fetchPosts({required String? interestId});
+  Result<List<PostEntity>> fetchPosts({
+    required String? interestId,
+    required int page,
+  });
   Result<List<PostEntity>> fetchBookmarkedPosts();
   Result<String> reactPost({required String postId});
   Result<String> bookmarkPost({required String postId});

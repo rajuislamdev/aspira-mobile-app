@@ -3,7 +3,7 @@ import 'package:aspira/core/utils/app_constants.dart';
 import 'package:aspira/core/utils/ui_support.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/create_post_view_model.dart';
 import 'package:aspira/features/profile/data/models/profile_model/interest.dart';
-import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
+import 'package:aspira/features/profile/presentation/viewmodels/fetch_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';

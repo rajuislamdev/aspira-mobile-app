@@ -1,11 +1,11 @@
 import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/ui_support.dart';
+import 'package:aspira/core/widgets/full_screen_image_viewer.dart';
 import 'package:aspira/features/feed/domain/entities/post_entity.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/bookmark_post_view_model.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/react_post_view_model.dart';
-import 'package:aspira/screens/widgets/comments_bottom_sheet.dart';
-import 'package:aspira/screens/widgets/full_screen_image_viewer.dart';
+import 'package:aspira/features/feed/presentation/widgets/comments_bottom_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImage;
 import 'package:flutter/material.dart';

@@ -3,15 +3,14 @@ import 'dart:ui';
 import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/app_constants.dart';
 import 'package:aspira/core/utils/exptensions.dart';
+import 'package:aspira/core/widgets/loading/chip_item_shimmer.dart';
+import 'package:aspira/core/widgets/loading/cummunity_thread_card_shimmer.dart';
+import 'package:aspira/core/widgets/loading/top_appbar_shimmer_feed.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/fetch_posts_view_model.dart';
 import 'package:aspira/features/feed/presentation/widgets/create_post_modal.dart';
 import 'package:aspira/features/feed/presentation/widgets/post_card.dart';
 import 'package:aspira/features/profile/data/models/profile_model/interest.dart';
-import 'package:aspira/screens/widgets/loading/chip_item_shimmer.dart';
-import 'package:aspira/screens/widgets/loading/cummunity_thread_card_shimmer.dart';
-import 'package:aspira/screens/widgets/loading/top_appbar_shimmer_feed.dart';
-import 'package:aspira/view_models/profile/fetch_profile_view_model.dart'
-    show fetchProfileViewModelProvider;
+import 'package:aspira/features/profile/presentation/viewmodels/fetch_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -264,6 +263,7 @@ class _CategoryChipsState extends ConsumerState<_CategoryChips> {
   Widget build(BuildContext context) {
     final selectedIndex = ref.watch(selectedCategoryIndex);
     final viewModel = ref.watch(fetchProfileViewModelProvider);
+    final notifier = ref.watch(fetchPostsViewModelProvider.notifier);
 
     return SizedBox(
       height: 48,
@@ -279,44 +279,70 @@ class _CategoryChipsState extends ConsumerState<_CategoryChips> {
               _scrollToIndex(selectedIndex, itemCount);
             });
 
-            return ListView.separated(
-              controller: _scrollController,
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: itemCount,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (_, index) {
-                final isActive = selectedIndex == index;
-                if (index == 0) {
-                  return _ChipItem(
-                    label: 'For you',
-                    active: isActive,
-                    onTap: () {
-                      if (ref.read(selectedCategoryIndex.notifier).state == 0)
-                        return;
-                      ref.read(selectedCategoryIndex.notifier).state = 0;
-                      ref
-                          .read(fetchPostsViewModelProvider.notifier)
-                          .fetchPosts(interestId: null);
-                    },
-                  );
-                }
-                return _ChipItem(
-                  label: interests[index - 1].name ?? '',
-                  active: isActive,
-                  onTap: () {
-                    if (ref.read(selectedCategoryIndex.notifier).state == index)
-                      return;
-                    ref.read(selectedCategoryIndex.notifier).state = index;
-                    final interest = interests[index - 1];
-                    ref.read(selectedInterestProvider.notifier).state =
-                        interest;
-                    ref
-                        .read(fetchPostsViewModelProvider.notifier)
-                        .fetchPosts(interestId: interest.id);
-                  },
+            return RefreshIndicator(
+              onRefresh: () {
+                final selectedInterest = ref.read(selectedInterestProvider);
+                return notifier.fetchPosts(
+                  interestId: selectedInterest?.id,
+                  isReset: true,
                 );
               },
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollInfo) {
+                  if (scrollInfo.metrics.pixels ==
+                          scrollInfo.metrics.maxScrollExtent &&
+                      notifier.hasMore &&
+                      !notifier.isFetching) {
+                    final selectedInterest = ref.read(selectedInterestProvider);
+                    notifier.fetchPosts(
+                      interestId: selectedInterest?.id,
+                      isReset: false,
+                    );
+                  }
+                  return false;
+                },
+                child: ListView.separated(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: itemCount,
+                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  itemBuilder: (_, index) {
+                    final isActive = selectedIndex == index;
+                    if (index == 0) {
+                      return _ChipItem(
+                        label: 'For you',
+                        active: isActive,
+                        onTap: () {
+                          if (ref.read(selectedCategoryIndex.notifier).state ==
+                              0)
+                            return;
+                          ref.read(selectedCategoryIndex.notifier).state = 0;
+                          ref
+                              .read(fetchPostsViewModelProvider.notifier)
+                              .fetchPosts(interestId: null, isReset: true);
+                        },
+                      );
+                    }
+                    return _ChipItem(
+                      label: interests[index - 1].name ?? '',
+                      active: isActive,
+                      onTap: () {
+                        if (ref.read(selectedCategoryIndex.notifier).state ==
+                            index)
+                          return;
+                        ref.read(selectedCategoryIndex.notifier).state = index;
+                        final interest = interests[index - 1];
+                        ref.read(selectedInterestProvider.notifier).state =
+                            interest;
+                        ref
+                            .read(fetchPostsViewModelProvider.notifier)
+                            .fetchPosts(interestId: interest.id, isReset: true);
+                      },
+                    );
+                  },
+                ),
+              ),
             );
           },
           loading: () => SizedBox(

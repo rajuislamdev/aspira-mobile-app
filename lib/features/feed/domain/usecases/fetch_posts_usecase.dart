@@ -7,7 +7,10 @@ class FetchPostsUseCase {
 
   FetchPostsUseCase(this.repository);
 
-  Result<List<PostEntity>> call({required String? interestId}) {
-    return repository.fetchPosts(interestId: interestId);
+  Result<List<PostEntity>> call({
+    required String? interestId,
+    required int page,
+  }) {
+    return repository.fetchPosts(interestId: interestId, page: page);
   }
 }

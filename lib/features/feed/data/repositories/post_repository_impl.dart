@@ -27,10 +27,14 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Result<List<PostEntity>> fetchPosts({required String? interestId}) async {
+  Result<List<PostEntity>> fetchPosts({
+    required String? interestId,
+    required int page,
+  }) async {
     try {
       final response = await remoteDataSource.fetchPosts(
         interestId: interestId,
+        page: page,
       );
       final data = response.data['payload'];
       final posts = (data as List).map((e) => PostModel.fromJson(e)).toList();

@@ -1,9 +1,9 @@
+import 'package:aspira/features/profile/presentation/viewmodels/fetch_profile_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:aspira/features/auth/domain/entities/user_entity.dart';
 import 'package:aspira/features/auth/presentation/providers/auth_providers.dart';
 import 'package:aspira/services/local_store_service.dart';
-import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
 
 final loginViewModelProvider =
     StateNotifierProvider<LoginViewModel, AsyncValue<UserEntity?>>(

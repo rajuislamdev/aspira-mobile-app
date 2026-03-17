@@ -6,7 +6,7 @@ import 'package:aspira/features/feed/domain/entities/thread_child_entity.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/add_comment_view_model.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/fetch_threads_view_model.dart';
 import 'package:aspira/features/feed/presentation/viewmodels/react_post_view_model.dart';
-import 'package:aspira/screens/widgets/loading/comment_card_shimmer.dart';
+import 'package:aspira/core/widgets/loading/comment_card_shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

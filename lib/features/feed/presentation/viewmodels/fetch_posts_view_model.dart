@@ -1,3 +1,4 @@
+import 'package:aspira/core/utils/app_constants.dart';
 import 'package:aspira/features/feed/domain/entities/post_entity.dart';
 import 'package:aspira/features/feed/presentation/providers/post_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,19 +11,52 @@ final fetchPostsViewModelProvider =
 
 class FetchPostsViewModel extends StateNotifier<AsyncValue<List<PostEntity>>> {
   final Ref ref;
+  int _page = 1;
+  bool _isFetching = false;
+  bool _hasMore = true;
+
+  bool get isFetching => _isFetching;
+  bool get hasMore => _hasMore;
 
   FetchPostsViewModel(this.ref) : super(const AsyncValue.loading()) {
     fetchPosts(interestId: null);
   }
 
-  Future<void> fetchPosts({required String? interestId}) async {
+  Future<void> fetchPosts({
+    required String? interestId,
+    bool isReset = false,
+  }) async {
+    if (_isFetching || (!_hasMore && !isReset)) return;
+
+    _isFetching = true;
+
+    if (isReset) {
+      _page = 1;
+      _hasMore = true;
+      state = const AsyncValue.loading();
+    }
+
     state = const AsyncValue.loading();
     final result = await ref
         .read(fetchPostsUseCaseProvider)
-        .call(interestId: interestId);
+        .call(interestId: interestId, page: _page);
     result.fold(
-      (ifLeft) => state = AsyncValue.error(ifLeft, StackTrace.current),
-      (ifRight) => state = AsyncValue.data(ifRight),
+      (ifLeft) {
+        _isFetching = false;
+        state = AsyncValue.error(ifLeft, StackTrace.current);
+      },
+      (ifRight) {
+        _isFetching = false;
+        final hasFullPage = ifRight.length >= AppConstants.perPage;
+        _hasMore = hasFullPage;
+
+        if (hasFullPage) {
+          _page++;
+        }
+        state = AsyncValue.data(
+          isReset ? ifRight : [...?state.value, ...ifRight],
+        );
+      },
     );
   }
 

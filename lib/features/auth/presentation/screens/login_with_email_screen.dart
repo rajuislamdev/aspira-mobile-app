@@ -2,7 +2,7 @@ import 'package:aspira/core/errors/failure.dart';
 import 'package:aspira/core/router/route_location_name.dart';
 import 'package:aspira/core/utils/ui_support.dart';
 import 'package:aspira/features/auth/presentation/viewmodels/login_view_model.dart';
-import 'package:aspira/view_models/profile/fetch_profile_view_model.dart';
+import 'package:aspira/features/profile/presentation/viewmodels/fetch_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
